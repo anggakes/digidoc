@@ -46,7 +46,9 @@
                         <x-adminlte-select2 name="to_id" class="form-control" data-placeholder="Select Recipient...">
                             <option value="">Select Recipient...</option>
                             @foreach ($users as $user)
+                                @if($user->attr)
                             <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->attr->position }}</option>
+                                @endif
                             @endforeach
                         </x-adminlte-select2>
                     </div>
@@ -57,7 +59,9 @@
                                             data-placeholder="Select draft will sent to...">
                             <option value="">Select draft will sent to...</option>
                             @foreach ($users as $user)
+                            @if($user->attr)
                             <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->attr->position }}</option>
+                            @endif
                             @endforeach
                         </x-adminlte-select2>
                     </div>
