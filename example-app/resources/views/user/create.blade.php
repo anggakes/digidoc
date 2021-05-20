@@ -40,7 +40,7 @@
                         <input type="password" name="password" class="form-control" id="password" aria-describedby="password" >
                     </div>
                     <div class="form-group">
-                        <label for="position">Classification</label>
+                        <label for="position">Department</label>
                         <select name="position"  class="form-control" id="position" aria-describedby="position">
                             <option value="Head Of Finance">Head Of Finance</option>
                             <option value="Staff Finance">Staff Finance</option>
