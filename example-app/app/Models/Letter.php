@@ -26,5 +26,9 @@ class Letter extends Model
         return $this->belongsTo(User::class, "from_id", "id");
     }
 
+    public function officialMemo(){
+        return $this->hasOne(OfficialMemo::class, "letter_id", "id");
+    }
+
 
 }

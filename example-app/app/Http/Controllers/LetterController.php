@@ -76,10 +76,44 @@ class LetterController extends Controller
             ->with("from.attr")
             ->with("to.attr")
             ->with("draftTo.attr")
-            ->where("to_id", "=", Auth::user()->id)
+            ->where(function($query){
+                $query->where("to_id", "=", Auth::user()->id)
+                    ->where("status", "=", "sent");
+            })
+            ->orWhere("draft_to_id", "=", Auth::user()->id)
             ->latest()->simplePaginate(5);
         return view('letter.index', compact('letters'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function approve($id){
+        $letter = Letter::find($id);
+        if ($letter->draft_to_id != Auth::user()->id){
+            return redirect()->route("letter.index")->with('error', 'You cannot approve this document');
+        }
+
+        $letter->status = "sent";
+        $letter->save();
+
+        return redirect()->route('letter.index')
+            ->with('success', 'Document Approved');
+
+    }
+
+    public function officialMemo($id){
+
+        $letter = Letter::with("officialMemo")
+            ->with("from")
+            ->with("to")
+            ->with("draftTo")
+            ->with("from.attr")
+            ->with("to.attr")
+            ->with("draftTo.attr")
+            ->where("id","=",$id)->first();
+
+
+        return view('letter.officialMemo', compact('letter'));
+
     }
 
     /**
@@ -140,7 +174,7 @@ class LetterController extends Controller
 
         $om = new OfficialMemo();
         $om->letter_id = $dn->id;
-        $om->number = "ND/02.03/".date("dd/mm/YYYY");
+        $om->number = "ND/02.03/".date("d/m/Y");
         $om->save();
 
         //jika data berhasil ditambahkan, akan kembali ke halaman utama

@@ -48,7 +48,7 @@
         <td>{{ $letter->draftTo->name }} <br> <strong>{{ $letter->draftTo->attr ? $letter->draftTo->attr->position : "" }}</strong></td>
 
         <td>
-            <a class="btn btn-link" href="{{ route('letter.edit',$letter->id) }}">Official Memo</a>
+            <a class="btn btn-link" href="{{ route('letter.officialMemo',$letter->id) }}">Official Memo</a>
             <br>
             @if ($letter->file_path)
             <a class="btn btn-link" href="{{  asset($letter->file_path) }}">Attachment</a>
@@ -56,7 +56,14 @@
             <br>
             <form action="{{ route('letter.destroy',$letter->id) }}" method="POST">
 
+                @if($letter->draft_to_id == Auth::user()->id && $letter->status == "draft")
+                    <a class="btn btn-success" href="{{ route('letter.approve',$letter->id) }}">Approve</a>
+                @endif
+
+
                 <a class="btn btn-primary" href="{{ route('letter.edit',$letter->id) }}">Edit</a>
+
+
 
                 @csrf
                 @method('DELETE')

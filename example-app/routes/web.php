@@ -26,6 +26,8 @@ Route::resource('user', \App\Http\Controllers\UsersController::class);
 Route::get('/letter/sent', [App\Http\Controllers\LetterController::class, 'sent']);
 Route::get('/letter/draft', [App\Http\Controllers\LetterController::class, 'draft']);
 Route::get('/letter/inbox', [App\Http\Controllers\LetterController::class, 'inbox']);
+Route::get('/letter/{id}/approve', [App\Http\Controllers\LetterController::class, 'approve'])->name("letter.approve");
+Route::get('/letter/{id}/officialmemo', [App\Http\Controllers\LetterController::class, 'officialMemo'])->name("letter.officialMemo");
 
 Route::resource('letter', \App\Http\Controllers\LetterController::class);
 

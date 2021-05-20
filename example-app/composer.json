@@ -12,7 +12,8 @@
         "jeroennoten/laravel-adminlte": "dev-master",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.2"
+        "laravel/ui": "^3.2",
+        "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",
