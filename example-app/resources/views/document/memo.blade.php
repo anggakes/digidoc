@@ -96,6 +96,7 @@
     tinymce.init({
         selector: '#message',
         plugins: 'image',
+        width : "90%",
     });
 </script>
 @stop
