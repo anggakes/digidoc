@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateOfficialMemoTable extends Migration
+class CreateDepartmentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class UpdateOfficialMemoTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('official_memos', function (Blueprint $table) {
-            $table->string('number');
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('name');
         });
     }
 
@@ -26,9 +27,6 @@ class UpdateOfficialMemoTable extends Migration
      */
     public function down()
     {
-        //
-        Schema::table('official_memos', function (Blueprint $table) {
-            $table->dropColumn('number');
-        });
+        Schema::dropIfExists('departments');
     }
 }

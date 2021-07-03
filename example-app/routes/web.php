@@ -19,15 +19,25 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware("auth")->group(function (){
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('docno', \App\Http\Controllers\DocNoController::class);
-Route::resource('user', \App\Http\Controllers\UsersController::class);
-Route::get('/letter/sent', [App\Http\Controllers\LetterController::class, 'sent']);
-Route::get('/letter/draft', [App\Http\Controllers\LetterController::class, 'draft']);
-Route::get('/letter/inbox', [App\Http\Controllers\LetterController::class, 'inbox']);
-Route::get('/letter/{id}/approve', [App\Http\Controllers\LetterController::class, 'approve'])->name("letter.approve");
-Route::get('/letter/{id}/officialmemo', [App\Http\Controllers\LetterController::class, 'officialMemo'])->name("letter.officialMemo");
+    Route::resource('user', \App\Http\Controllers\UsersController::class);
+    Route::resource('job_position', \App\Http\Controllers\JobPositionController::class);
 
-Route::resource('letter', \App\Http\Controllers\LetterController::class);
+    Route::get('document/compose', [\App\Http\Controllers\DocumentController::class, 'compose']);
+    Route::get('document/compose/memo', [\App\Http\Controllers\DocumentController::class, 'memo'])->name('document.memo');
+    Route::post('document/compose/memo', [\App\Http\Controllers\DocumentController::class, 'memoStore'])->name('document.memo.store');
+    Route::get('document/print/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoPrint'])->name('document.memo.print');
+    Route::get('document/sign/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoSign'])->name('document.memo.sign');
+    Route::get('document/view/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoViewed'])->name('document.memo.view');
+    Route::resource('document', \App\Http\Controllers\DocumentController::class);
 
+
+    Route::get('inbox', [\App\Http\Controllers\DocumentController::class, 'inbox'])->name('document.inbox');
+
+
+
+    Route::get('document_classification', [\App\Http\Controllers\DocumentClassificationController::class, 'index']);
+
+});

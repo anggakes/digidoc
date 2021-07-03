@@ -1,0 +1,47 @@
+
+
+./vendor/bin/sail php artisan make:migration crea_docno_table
+./vendor/bin/sail php artisan make:migration create_letter_table
+./vendor/bin/sail php artisan make:migration update_official_memo_table
+
+./vendor/bin/sail php artisan make:migration create_letter_table
+./vendor/bin/sail php artisan make:migration create_digsign_table
+./vendor/bin/sail php artisan make:migration create_position_table
+./vendor/bin/sail php artisan make:migration create_document_table
+./vendor/bin/sail php artisan make:migration create_template_table
+./vendor/bin/sail php artisan make:migration create_inbox_document_table
+./vendor/bin/sail php artisan make:migration create_out_recipient_table
+./vendor/bin/sail php artisan make:migration create_department_table
+./vendor/bin/sail php artisan make:migration create_document_histories_table
+./vendor/bin/sail php artisan make:migration create_document_classification_table
+./vendor/bin/sail php artisan make:migration create_document_number_table
+
+./vendor/bin/sail composer require --dev barryvdh/laravel-ide-helper
+
+./vendor/bin/sail php artisan migrate
+
+./vendor/bin/sail php artisan db:seed
+./vendor/bin/sail php artisan db:seed --class=UserAdditional
+
+./vendor/bin/sail php artisan migrate:rollback
+
+./vendor/bin/sail php artisan make:controller DocNoController --resource
+./vendor/bin/sail php artisan make:controller LetterController --resource
+./vendor/bin/sail php artisan make:controller DocumentController --resource
+
+./vendor/bin/sail php artisan make:controller JobPositionController --resource
+
+./vendor/bin/sail php artisan adminlte:plugins install --plugin=select2
+./vendor/bin/sail php artisan make:model Memo
+./vendor/bin/sail php artisan make:model JobPosition
+./vendor/bin/sail php artisan make:model Letter
+./vendor/bin/sail php artisan make:model DigSign
+./vendor/bin/sail php artisan make:model Document
+./vendor/bin/sail php artisan make:model Template
+./vendor/bin/sail php artisan make:model Department
+./vendor/bin/sail php artisan make:model DocumentCodes
+./vendor/bin/sail php artisan make:model DocumentAction
+./vendor/bin/sail php artisan make:model DocumentHistories
+
+./vendor/bin/sail php artisan ide-helper:generate
+./vendor/bin/sail php artisan ide-helper:model

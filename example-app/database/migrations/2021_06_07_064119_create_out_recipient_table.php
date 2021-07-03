@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOfficialMemoTable extends Migration
+class CreateOutRecipientTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateOfficialMemoTable extends Migration
      */
     public function up()
     {
-        Schema::create('official_memos', function (Blueprint $table) {
+        Schema::create('out_recipients', function (Blueprint $table) {
             $table->id();
-            $table->integer('letter_id');
             $table->timestamps();
+            $table->string('name');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address');
         });
     }
 
@@ -27,6 +30,6 @@ class CreateOfficialMemoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('official_memos');
+        Schema::dropIfExists('out_recipients');
     }
 }

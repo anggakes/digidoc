@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreaDocnoTable extends Migration
+class CreateDocumentClassificationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class CreaDocnoTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('docnos', function (Blueprint $table) {
+        Schema::create('document_classifications', function (Blueprint $table) {
             $table->id();
-            $table->date('doc_date');
-            $table->string('doc_type');
-            $table->string('classification');
-            $table->string('subject');
-            $table->string('docno');
             $table->timestamps();
+            $table->string('code');
+            $table->string('archive_type');
+            $table->text('description');
         });
     }
 
@@ -32,7 +29,6 @@ class CreaDocnoTable extends Migration
      */
     public function down()
     {
-        //
-        Schema::drop('docnos');
+        Schema::dropIfExists('document_classifications');
     }
 }

@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'DigiDoc',
+    'title' => 'e-let co',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>Digidoc</b>',
+    'logo' => '<b>e-LetCo</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -244,12 +244,12 @@ return [
 //        ['header' => 'account_settings'],
         [
             'text' => 'Compose',
-            'url'  => 'letter/create',
+            'url'  => 'document/compose',
             'icon' => 'fas fa-fw fa-plus',
         ],
         [
-            'text' => 'Inbox',
-            'url'  => 'letter/inbox',
+            'text' => 'Kotak Masuk',
+            'url'  => 'inbox',
             'icon' => 'fas fa-fw fa-inbox',
         ],
         [
@@ -258,7 +258,7 @@ return [
             'icon' => 'fas fa-fw fa-envelope',
         ],
         [
-            'text' => 'Sent',
+            'text' => 'Pesan Terkirim',
             'url'  => 'letter/sent',
             'icon' => 'fas fa-fw fa-paper-plane',
         ],
@@ -268,7 +268,7 @@ return [
             'icon' => 'fas fa-fw fa-key',
         ],
         [
-            'text' => 'Distribution Letter',
+            'text' => 'Upload Surat',
             'url'  => 'letter',
             'icon' => 'fas fa-fw fa-file',
         ],
@@ -276,6 +276,15 @@ return [
             'text' => 'Users',
             'url'  => 'user',
             'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Jabatan',
+            'url'  => 'job_position',
+            'icon' => 'fas fa-fw fa-briefcase',
+        ],        [
+            'text' => 'Klasifikasi Arsip',
+            'url'  => 'document_classification',
+            'icon' => 'fas fa-fw fa-briefcase',
         ],
 //        [
 //            'text' => 'change_password',

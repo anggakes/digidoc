@@ -12,7 +12,7 @@
     <div class="row  ">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Create New User
+                Create Job Position
             </div>
             <div class="card-body">
                 @if ($errors->any())
@@ -25,39 +25,43 @@
                     </ul>
                 </div>
                 @endif
-                <form method="post" action="{{ route('user.store') }}" id="myForm">
+                <form method="post" action="{{ route('job_position.store') }}" id="myForm">
                     @csrf
                     <div class="form-group">
-                        <label for="nip">NIP</label>
-                        <input type="text" name="nip" class="form-control" id="nip" aria-describedby="nip" >
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" class="form-control" id="name" aria-describedby="name" >
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" class="form-control" id="email" aria-describedby="email" >
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" class="form-control" id="password" aria-describedby="password" >
-                    </div>
-                    <div class="form-group">
                         <div class="form-group">
-                            <label for="name">Job Position</label>
-                            <x-adminlte-select2 name="job_position_id" class="form-control"
-                                                data-placeholder="Select job position...">
-                                <option value="">Select job position...</option>
-                                @if($jobPosition)
-                                @foreach ($jobPosition as $jp)
-                                <option value="{{ $jp->id }}">{{ $jp->label }} </option>
+                            <label for="name">Department</label>
+                            <x-adminlte-select2 name="parent_id" class="form-control"
+                                                data-placeholder="Pilih Departemen...">
+<!--                                <option value="">Select job supervisor...</option>-->
+                                @if($department)
+                                @foreach ($department as $dep)
+                                <option value="{{ $dep->id }}">{{ $dep->name }}</option>
                                 @endforeach
                                 @endif
                             </x-adminlte-select2>
                         </div>
 
                     </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="name">Job Supervisor</label>
+                            <x-adminlte-select2 name="parent_id" class="form-control"
+                                                data-placeholder="Select job supervisor...">
+                                <option value="">Select job supervisor...</option>
+                                @if($jobPosition)
+                                @foreach ($jobPosition as $jp)
+                                <option value="{{ $jp->id }}">{{ $jp->label }}</option>
+                                @endforeach
+                                @endif
+                            </x-adminlte-select2>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="label">Nama Jabatan</label>
+                        <input type="text" name="label" class="form-control" id="label" aria-describedby="label" >
+                    </div>
+
 
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <a href="{{ route('user.index') }}" class="btn btn-link" >Back</a>

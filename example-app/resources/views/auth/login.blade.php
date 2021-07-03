@@ -284,11 +284,11 @@
     </div>
     <form action="{{ route('login') }}" class="log-in" method="POST">
         @csrf
-        <h4>Welcome to <span>DIGIDoc</span></h4>
-        <p>Digital Document Management System</p>
+        <h4>Welcome to <span>e-LetCo</span></h4>
+        <!--        <p>Digital Document Management System</p>-->
         <div class="floating-label">
-            <input placeholder="Email" type="email"  id="email" autocomplete="off" name="email" value="{{ old('email') }}" >
-            <label for="email">Email:</label>
+            <input placeholder="Nomor Induk Pegawai (NIP)" type="text"  id="email" autocomplete="off" name="nip" value="{{ old('nip') }}" >
+            <label for="email">NIP:</label>
             <div class="icon">
                 <?xml version="1.0" encoding="UTF-8"?>
                 <svg enable-background="new 0 0 100 100" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
@@ -303,7 +303,7 @@
 
             </div>
         </div>
-        @error('email')
+        @error('nip')
         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

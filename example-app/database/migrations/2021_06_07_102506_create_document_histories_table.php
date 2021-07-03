@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserAttributeTable extends Migration
+class CreateDocumentHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateUserAttributeTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_attributes', function (Blueprint $table) {
+        Schema::create('document_histories', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('position');
             $table->timestamps();
+            $table->integer('document_id');
+            $table->integer('user_id');
+            $table->string('action'); // create, edit, sign, approval
+            $table->string('description');
         });
     }
 
@@ -28,6 +30,6 @@ class CreateUserAttributeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_attributes');
+        Schema::dropIfExists('document_histories');
     }
 }

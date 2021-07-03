@@ -12,7 +12,7 @@
     <div class="row  ">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Create New User
+                Edit User
             </div>
             <div class="card-body">
                 @if ($errors->any())
@@ -25,23 +25,20 @@
                     </ul>
                 </div>
                 @endif
-                <form method="post" action="{{ route('user.store') }}" id="myForm">
+                <form method="post" action="{{ route('user.update', $user->id) }}" id="myForm">
+                    @method('PUT')
                     @csrf
                     <div class="form-group">
-                        <label for="nip">NIP</label>
-                        <input type="text" name="nip" class="form-control" id="nip" aria-describedby="nip" >
+                        <label for="name">Name</label>
+                        <input type="text" name="name" class="form-control" id="name" aria-describedby="name" value="{{ $user->name  }}">
                     </div>
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" class="form-control" id="name" aria-describedby="name" >
+                        <label for="name">NIP</label>
+                        <input type="text" name="nip" class="form-control" id="nip" aria-describedby="nip" value="{{ $user->nip  }}">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" name="email" class="form-control" id="email" aria-describedby="email" >
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" class="form-control" id="password" aria-describedby="password" >
+                        <input type="email" name="email" class="form-control" id="email" aria-describedby="email" value="{{ $user->email  }}">
                     </div>
                     <div class="form-group">
                         <div class="form-group">
@@ -51,7 +48,7 @@
                                 <option value="">Select job position...</option>
                                 @if($jobPosition)
                                 @foreach ($jobPosition as $jp)
-                                <option value="{{ $jp->id }}">{{ $jp->label }} </option>
+                                <option {{ $user->job_position_id == $jp->id ? 'selected="selected"' : '' }} value="{{ $jp->id }}">{{ $jp->label }} </option>
                                 @endforeach
                                 @endif
                             </x-adminlte-select2>

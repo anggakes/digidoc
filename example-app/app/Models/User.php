@@ -33,6 +33,11 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int|null $job_position_id
+ * @property int $is_admin
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereJobPositionId($value)
+ * @property-read \App\Models\JobPosition|null $job_position
  */
 class User extends Authenticatable
 {
@@ -68,8 +73,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function attr()
+    public function jobPosition()
     {
-        return $this->hasOne(UserAttribute::class, "user_id", "id");
+        return $this->belongsTo(JobPosition::class, "job_position_id", "id");
     }
+
 }

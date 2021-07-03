@@ -104,12 +104,7 @@
             <div class="title">
                 Nota Dinas
                 <br>
-                @if($letter->status == "draft")
-                Draft
-                @endif
-                @if($letter->status == "sent")
-                <div style="font-weight: bold;font-size: 12pt; margin-top: 10px"> No : {{ $letter->officialMemo->number }}</div>
-                @endif
+                <div style="font-weight: bold;font-size: 12pt; margin-top: 10px"> No : {{ $document->number }}</div>
             </div>
             <br>
             <div class="flex-container">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobPosition;
 use App\Models\User;
 use App\Models\UserAttribute;
 use Illuminate\Http\Request;
@@ -17,9 +18,10 @@ class UsersController extends Controller
     public function index()
     {
         //
-        $users = User::with("attr")->latest()->simplePaginate(5);
-        return view('user.index', compact('users'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $users = User::with('jobPosition')->latest()->simplePaginate(5);
+        return view('user.index', [
+            'users' => $users,
+        ])->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -30,7 +32,10 @@ class UsersController extends Controller
     public function create()
     {
         //
-        return view('user.create');
+        $jobPosition = JobPosition::all();
+        return view('user.create', [
+            'jobPosition' => $jobPosition,
+        ]);
     }
 
     /**
@@ -48,7 +53,7 @@ class UsersController extends Controller
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
-            'position' => 'required',
+            'job_position_id' => 'required',
         ]);
 
         //fungsi eloquent untuk menambah data
@@ -57,28 +62,15 @@ class UsersController extends Controller
         $dn->name = $request->name;
         $dn->email = $request->email;
         $dn->password =  Hash::make($request->password);
+        $dn->job_position_id =  $request->job_position_id;
         $dn->save();
 
-        $attr = new UserAttribute();
-        $attr->user_id = $dn->id;
-        $attr->position = $request->position;
-        $attr->save();
 
         //jika data berhasil ditambahkan, akan kembali ke halaman utama
         return redirect()->route('user.index')
             ->with('success', 'User Created');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -89,6 +81,12 @@ class UsersController extends Controller
     public function edit($id)
     {
         //
+        $user = User::find($id);
+        $jobPosition = JobPosition::all();
+        return view('user.edit', [
+            'user' => $user,
+            'jobPosition' => $jobPosition,
+        ]);
     }
 
     /**
@@ -100,20 +98,23 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'nip' => 'required',
+            'job_position_id' => 'required',
+        ]);
         //
-    }
+        $dn = User::find($id);
+        $dn->name = $request->name;
+        $dn->email = $request->email;
+        $dn->job_position_id =  $request->job_position_id;
+        $dn->nip =  $request->nip;
+        $dn->save();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-        $id =  User::destroy($id);
+
+        //jika data berhasil ditambahkan, akan kembali ke halaman utama
         return redirect()->route('user.index')
-            ->with('success', 'User deleted');
+            ->with('success', 'User Updated');
     }
 }

@@ -10,10 +10,10 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left mt-2">
-            <h2>User Management</h2>
+            <h2>Job Position Management</h2>
         </div>
         <div class="float-right my-2">
-            <a class="btn btn-success" href="{{ route('user.create') }}"> Create New</a>
+            <a class="btn btn-success" href="{{ route('job_position.create') }}"> Create New</a>
         </div>
     </div>
 </div>
@@ -27,29 +27,26 @@
 <table class="table table-bordered">
     <tr>
         <th>No</th>
-        <th>NIP</th>
-        <th>Name</th>
-        <th>Job Position</th>
+        <th>Label</th>
+        <th>Department</th>
+        <th>Kepala</th>
         <th width="280px">Action</th>
     </tr>
-    @foreach ($users as $user)
+    @foreach ($jobPosition as $jp)
 
-    <?php
-        //var_dump( $user->attr)
-    ?>
     <tr>
         <td>{{ ++$i }}</td>
-        <td>{{ $user->nip }}</td>
-        <td>{{ $user->name }}</td>
+        <td>{{ $jp->label }}</td>
+        <td>{{ $jp->department->name }}</td>
+        <td>{{ $jp->parent ? $jp->parent->label : ""}}</td>
         <td>
-            @if($user->jobPosition)
-            {{ $user->jobPosition->label }}
-            <br>
-            <strong>({{ $user->jobPosition->department->name }})</strong>
-            @endif
-        </td>
-        <td>
-                <a class="btn btn-primary" href="{{ route('user.edit',$user->id) }}">Edit</a>
+            <form action="{{ route('job_position.destroy',$jp->id) }}" method="POST">
+
+
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="btn btn-danger">Delete</button>
             </form>
         </td>
     </tr>
@@ -57,7 +54,7 @@
 </table>
 
 <div class="text-center">
-    {!! $users->links() !!}
+    {!! $jobPosition->links() !!}
 </div>
 
 
