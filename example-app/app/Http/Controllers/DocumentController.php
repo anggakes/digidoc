@@ -408,7 +408,7 @@ class DocumentController extends Controller
     }
 
 
-    
+
 
     public function inbox()
     {

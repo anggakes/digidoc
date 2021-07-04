@@ -243,7 +243,7 @@ return [
 //        ],
 //        ['header' => 'account_settings'],
         [
-            'text' => 'Compose',
+            'text' => 'Tulis',
             'url'  => 'document/compose',
             'icon' => 'fas fa-fw fa-plus',
         ],
