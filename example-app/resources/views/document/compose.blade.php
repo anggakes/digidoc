@@ -27,7 +27,7 @@
         <a href='{{ route("document.beritaAcara") }}' class="info-box">
 
             <!-- Apply any bg-* class to to the icon to color it -->
-            <span class="info-box-icon bg-blue"><i class="fa fa-envelope-square"></i></span>
+            <span class="info-box-icon bg-blue"><i class="fa fa-keyboard"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text info-box-title">Buat Berita Acara</span>
                 <span>Berita acara adalah dokumen yang di buat setelah rapat</span>
@@ -35,30 +35,15 @@
             <!-- /.info-box-content -->
         </a>
     </div>
-    <!-- /.info-box -->
 
     <div class="col-sm-4 col-xs-12">
         <a href='#' class="info-box">
 
             <!-- Apply any bg-* class to to the icon to color it -->
-            <span class="info-box-icon bg-purple"><i class="fa fa-keyboard"></i></span>
+            <span class="info-box-icon bg-purple"><i class="fa fa-envelope-square"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text info-box-title">Disposisi Surat Masuk</span>
-                <span>Disposisi surat masuk untuk diteruskan ke departemen terkait.</span>
-            </div>
-            <!-- /.info-box-content -->
-        </a>
-    </div>
-    <!-- /.info-box -->
-
-    <div class="col-sm-4 col-xs-12">
-        <a href='#' class="info-box">
-
-            <!-- Apply any bg-* class to to the icon to color it -->
-            <span class="info-box-icon bg-purple"><i class="fa fa-keyboard"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text info-box-title">Buat Berita Acara</span>
-                <span>Buat berita acara dari hasil suatu rapat atau diskusi</span>
+                <span class="info-box-text info-box-title">Buat Surat Keluar</span>
+                <span>Surat untuk instansi lain atau cabang lainnya</span>
             </div>
             <!-- /.info-box-content -->
         </a>

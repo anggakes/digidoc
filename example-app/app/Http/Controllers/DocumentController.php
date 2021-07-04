@@ -261,7 +261,7 @@ class DocumentController extends Controller
 
             $seq = DocumentCodes::where('code', '=', 'BA')->first();
             $seq->seq = $seq->seq + 1;
-            $number = "MI/" . ($seq->seq) . "/" . date("dmy");
+            $number = "BA/" . ($seq->seq) . "/" . date("dmy");
             $document = new Document();
             $document->title = $request->title;
             $document->number = $number;
