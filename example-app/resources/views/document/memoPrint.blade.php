@@ -153,7 +153,7 @@
 
 
             <div >
-                {{ $document->content }}
+                {!! $document->content !!}
             </div>
 
             <br><br>
