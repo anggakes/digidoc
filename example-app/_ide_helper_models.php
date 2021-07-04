@@ -37,6 +37,20 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DigSign newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DigSign query()
  * @mixin \Eloquent
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $data
+ * @property int|null $sign_by_id
+ * @property string|null $sign_uniqueness
+ * @property string $document_id
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereDocumentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereSignById($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereSignUniqueness($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereUpdatedAt($value)
  */
 	class DigSign extends \Eloquent {}
 }
@@ -61,12 +75,16 @@ namespace App\Models{
  * @property string $type
  * @property string $content
  * @property string|null $content_path
- * @property int $memo_to_department_id
- * @property int $out_recipient_id
+ * @property int|null $memo_to_department_id
+ * @property int|null $out_recipient_id
  * @property string $classification_code
- * @property int $in_recipient_id
- * @property int $disposition_to_department_id
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $documentable
+ * @property int|null $in_recipient_id
+ * @property int|null $disposition_to_department_id
+ * @property int|null $berita_acara_department_id
+ * @property-read \App\Models\Department|null $beritaAcaraDepartment
+ * @property-read \App\Models\User $createdBy
+ * @property-read \App\Models\Department|null $memoDepartment
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereBeritaAcaraDepartmentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereClassificationCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereContentPath($value)
@@ -99,6 +117,8 @@ namespace App\Models{
  * @property int $is_done
  * @property int $user_id
  * @property string $action_need
+ * @property-read \App\Models\Document $document
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction query()

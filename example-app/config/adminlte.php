@@ -253,19 +253,9 @@ return [
             'icon' => 'fas fa-fw fa-inbox',
         ],
         [
-            'text' => 'Draft',
-            'url'  => 'letter/draft',
-            'icon' => 'fas fa-fw fa-envelope',
-        ],
-        [
             'text' => 'Pesan Terkirim',
-            'url'  => 'letter/sent',
+            'url'  => 'sent',
             'icon' => 'fas fa-fw fa-paper-plane',
-        ],
-        [
-            'text' => 'Document Number',
-            'url'  => 'docno',
-            'icon' => 'fas fa-fw fa-key',
         ],
         [
             'text' => 'Upload Surat',

@@ -31,10 +31,20 @@ Route::middleware("auth")->group(function (){
     Route::get('document/print/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoPrint'])->name('document.memo.print');
     Route::get('document/sign/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoSign'])->name('document.memo.sign');
     Route::get('document/view/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoViewed'])->name('document.memo.view');
+
+
+    Route::get('document/compose/beritaAcara', [\App\Http\Controllers\DocumentController::class, 'beritaAcara'])->name('document.beritaAcara');
+    Route::post('document/compose/beritaAcara', [\App\Http\Controllers\DocumentController::class, 'beritaAcaraStore'])->name('document.beritaAcara.store');
+    Route::get('document/print/beritaAcara/{id}', [\App\Http\Controllers\DocumentController::class, 'beritaAcaraPrint'])->name('document.beritaAcara.print');
+    Route::get('document/sign/beritaAcara/{id}', [\App\Http\Controllers\DocumentController::class, 'beritaAcaraSign'])->name('document.beritaAcara.sign');
+    Route::get('document/view/beritaAcara/{id}', [\App\Http\Controllers\DocumentController::class, 'beritaAcaraViewed'])->name('document.beritaAcara.view');
+
+
     Route::resource('document', \App\Http\Controllers\DocumentController::class);
 
 
     Route::get('inbox', [\App\Http\Controllers\DocumentController::class, 'inbox'])->name('document.inbox');
+    Route::get('sent', [\App\Http\Controllers\DocumentController::class, 'sent'])->name('document.sent');
 
 
 

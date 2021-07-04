@@ -9,6 +9,7 @@ use App\Models\DocumentAction;
 use App\Models\DocumentClassification;
 use App\Models\DocumentCodes;
 use App\Models\DocumentHistories;
+use App\Models\JobPosition;
 use App\Models\Memo;
 use App\Models\User;
 use Auth;
@@ -27,6 +28,8 @@ class DocumentController extends Controller
 
         return view('document.compose');
     }
+
+    // MEMO
 
     public function memo()
     {
@@ -88,7 +91,15 @@ class DocumentController extends Controller
             // kepala yang create memo
             // tidak perlu approval
             $document->editable = false;
+            $document->status = 'sent';
             $document->save();
+
+            // langsung di tandatangani
+            $digSign = new DigSign();
+            $digSign->sign_by_id = $me->id;
+            $digSign->document_id = $document->id;
+            $digSign->sign_uniqueness = Str::random(20);
+            $digSign->encrypt()->save();
         }
 
         $docHistory = new DocumentHistories();
@@ -136,7 +147,6 @@ class DocumentController extends Controller
             // tanda tangani
             $digSign = new DigSign();
             $digSign->sign_by_id = $me->id;
-            $digSign->id = $id;
             $digSign->document_id = $id;
             $digSign->sign_uniqueness = Str::random(20);
             $digSign->encrypt()->save();
@@ -152,6 +162,7 @@ class DocumentController extends Controller
 
             $document = Document::find($id);
             $document->editable = false;
+            $document->status = 'sent';
             $document->save();
 
             // create new docACT
@@ -206,6 +217,173 @@ class DocumentController extends Controller
 
             DB::commit();
             // all good
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            throw $e;
+        }
+
+
+        return redirect()->route('document.show', $id);
+
+    }
+
+
+    // BERITA ACARA
+
+    public function beritaAcara()
+    {
+        //
+        $department = Department::all();
+        $docClass = DocumentClassification::all();
+        return view('document.beritaAcara', [
+            "department" => $department,
+            "docClass" => $docClass,
+        ]);
+    }
+
+    public function beritaAcaraStore(Request $request){
+
+        $validateRequest = [
+            'title' => 'required',
+            'message' => 'required',
+            'doc_class_code' => 'required',
+        ];
+
+        $request->validate($validateRequest);
+
+        $me = Auth::user();
+
+        DB::beginTransaction();
+
+        try{
+
+            $seq = DocumentCodes::where('code', '=', 'BA')->first();
+            $seq->seq = $seq->seq + 1;
+            $number = "MI/" . ($seq->seq) . "/" . date("dmy");
+            $document = new Document();
+            $document->title = $request->title;
+            $document->number = $number;
+            $document->content = $request->message;
+            $document->status = 'draft';
+            $document->type = 'berita acara';
+            $document->created_by = $me->id;
+            $document->classification_code = $request->doc_class_code;
+            $document->berita_acara_department_id = $me->jobPosition->department->id;
+
+            $document->save();
+
+            // save sequence baru
+            $seq->save();
+
+
+            /// notify kepala divisi
+            /// get kepala divisi user id dari departemen saat ini
+
+            if (isset($me->jobPosition->jobParent)) {
+
+                $kepalaDivisi = $me->jobPosition->jobParent->user;
+                $act = new DocumentAction();
+                $act->user_id = $kepalaDivisi->id;
+                $act->action_need = "Tanda Tangan";
+                $act->document_id = $document->id;
+                $act->save();
+
+            } else {
+                // kepala yang create memo
+                // tidak perlu approval
+                $document->editable = false;
+                $document->status = 'sent';
+                $document->save();
+
+                // langsung di tandatangani
+                $digSign = new DigSign();
+                $digSign->sign_by_id = $me->id;
+                $digSign->document_id = $document->id;
+                $digSign->sign_uniqueness = Str::random(20);
+                $digSign->encrypt()->save();
+            }
+
+            $docHistory = new DocumentHistories();
+            $docHistory->user_id = $me->id;
+            $docHistory->document_id = $document->id;
+            $docHistory->action = "CREATE";
+            $docHistory->description = "dokumen di buat oleh " . $me->name;
+            $docHistory->save();
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            throw $e;
+        }
+
+
+        //jika data berhasil ditambahkan, akan kembali ke halaman utama
+        return redirect()->route('document.show', $document->id)
+            ->with('success', 'Berita Acara berhasil dibuat');
+    }
+
+
+    public function beritaAcaraSign($id){
+        $me = Auth::user();
+
+        DB::beginTransaction();
+
+        try {
+
+            // update status
+            $docAct = DocumentAction::where("document_id", "=", $id)
+                ->where("user_id", "=", $me->id)
+                ->first();
+
+            if (!$docAct) {
+                throw new \Exception("Anda Tidak mendapatkan akses untuk melakukan itu.");
+            }
+            $docAct->is_done = true;
+            $docAct->save();
+
+            // tanda tangani
+            $digSign = new DigSign();
+            $digSign->sign_by_id = $me->id;
+            $digSign->document_id = $id;
+            $digSign->sign_uniqueness = Str::random(20);
+            $digSign->encrypt()->save();
+
+            // update histories
+            $docHistory = new DocumentHistories();
+            $docHistory->user_id = $me->id;
+            $docHistory->document_id = $id;
+            $docHistory->action = "SIGNED";
+            $docHistory->description = "dokumen di tandatangani oleh " . $me->name;
+            $docHistory->save();
+
+
+            $document = Document::find($id);
+            $document->editable = false;
+            if ($document->status == "draft"){
+                $document->status = 'sent';
+            }elseif($document->status == "sent"){
+                $document->status = 'archived';
+            }
+
+            $document->save();
+
+            if ($document->status == "sent") {
+                // kirim ke kepala
+                // create new docACT
+                $job = JobPosition::find(1);
+                $act = new DocumentAction();
+                $act->user_id = $job->user->id;
+                $act->action_need = "Tanda Tangan";
+                $act->document_id = $document->id;
+                $act->save();
+            }
+
+            DB::commit();
+            // all good
         } catch (\Exception $e) {
             DB::rollback();
             // something went wrong
@@ -214,9 +392,23 @@ class DocumentController extends Controller
         }
 
 
-        return redirect()->route('document.show', $id);
-
+        return redirect()->route('document.show', $id)
+            ->with('success', 'Document berhasil di tanda tangani');
     }
+
+    public function beritaAcaraPrint($id)
+    {
+        $document = Document::find($id);
+        $docAct = DocumentAction::where("document_id", "=", $id)->get();
+
+        return view('document.memoPrint', [
+            "document" => $document,
+            "docAct" => $docAct,
+        ]);
+    }
+
+
+    
 
     public function inbox()
     {
@@ -227,6 +419,20 @@ class DocumentController extends Controller
             'document.inbox',
             [
                 "docact" => $docAct
+            ]
+        )->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function sent()
+    {
+        $docAct = Document::
+            where("created_by", "=", Auth::user()->id)
+            ->latest()->simplePaginate(5);
+
+        return view(
+            'document.sent',
+            [
+                "document" => $docAct
             ]
         )->with('i', (request()->input('page', 1) - 1) * 5);
     }

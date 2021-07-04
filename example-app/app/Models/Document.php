@@ -25,4 +25,8 @@ class Document extends Model
         return $this->belongsTo(Department::class, "memo_to_department_id", "id");
     }
 
+    function beritaAcaraDepartment() {
+        return $this->belongsTo(Department::class, "berita_acara_department_id", "id");
+    }
+
 }

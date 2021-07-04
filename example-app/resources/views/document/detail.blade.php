@@ -28,14 +28,26 @@
                 </div>
                 @endif
 
-                @if (isset($error))
+                @if ($error = Session::get('error'))
                 <div class="alert alert-danger">
                     {{ $error }}
                 </div>
                 @endif
 
+                @if ($success = Session::get('success'))
+                <div class="alert alert-success">
+                    {{ $success }}
+                </div>
+                @endif
+
                 @if($document->type=="memo")
                 <a href="{{ route('document.memo.print', $document->id) }}" target="_blank" class="btn btn-primary">Lihat
+                    Dokumen Cetak</a>
+                @endif
+
+                @if($document->type=="berita acara")
+                <a href="{{ route('document.beritaAcara.print', $document->id) }}" target="_blank"
+                   class="btn btn-primary">Lihat
                     Dokumen Cetak</a>
                 @endif
 
@@ -76,12 +88,21 @@
                     </tr>
                     @endif
 
+                    @if($document->type=="berita acara")
+                    <tr>
+                        <td>Departemen</td>
+                        <td>:</td>
+                        <td>{{ $document->beritaAcaraDepartment->name }}</td>
+                    </tr>
+                    @endif
+
+
                 </table>
 
                 <hr>
                 <br>
                 @if($document->content)
-                    {{ $document->content }}
+                {!! $document->content !!}
                 @endif
 
                 <hr>
@@ -103,18 +124,35 @@
                             @if($da->is_done)
                             Ya
                             @else
-                                @if($document->type=="memo")
-                                    @if($da->user->id == Auth::user()->id)
-                                        @if($da->action_need=="Tanda Tangan")
-                                            <a href="{{ route('document.memo.sign', $document->id) }}" class="btn btn-primary">Tandatangani</a>
-                                        @endif
-                                        @if($da->action_need=="Baca")
-                                            <a href="{{ route('document.memo.view', $document->id) }}" class="btn btn-primary">Tandai Sudah Dibaca</a>
-                                        @endif
-                                    @else
-                                        Belum
-                                    @endif
-                                @endif
+                            @if($document->type=="memo")
+                            @if($da->user->id == Auth::user()->id)
+                            @if($da->action_need=="Tanda Tangan")
+                            <a href="{{ route('document.memo.sign', $document->id) }}" class="btn btn-primary">Tandatangani</a>
+                            @endif
+                            @if($da->action_need=="Baca")
+                            <a href="{{ route('document.memo.view', $document->id) }}" class="btn btn-primary">Tandai
+                                Sudah Dibaca</a>
+                            @endif
+                            @else
+                            Belum
+                            @endif
+                            @endif
+
+                            @if($document->type=="berita acara")
+                            @if($da->user->id == Auth::user()->id)
+                            @if($da->action_need=="Tanda Tangan")
+                            <a href="{{ route('document.beritaAcara.sign', $document->id) }}" class="btn btn-primary">Tandatangani</a>
+                            @endif
+                            @if($da->action_need=="Baca")
+                            <a href="{{ route('document.beritaAcara.view', $document->id) }}" class="btn btn-primary">Tandai
+                                Sudah Dibaca</a>
+                            @endif
+                            @else
+                            Belum
+                            @endif
+                            @endif
+
+
                             @endif
                         </td>
                     </tr>
@@ -141,9 +179,9 @@
         referrerpolicy="origin"></script>
 
 <script>
-    tinymce.init({
-        selector: '#message',
-        plugins: 'image',
-    });
+    // tinymce.init({
+    //     selector: '#message',
+    //     plugins: 'image',
+    // });
 </script>
 @stop

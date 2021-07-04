@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Buat Memo')
+@section('title', 'Buat Berita Acara')
 
 @section('content_header')
 
@@ -14,7 +14,7 @@
     <div class="row  ">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Buat Memo
+                Buat Berita Acara
             </div>
             <div class="card-body">
                 @if ($errors->any())
@@ -27,7 +27,7 @@
                     </ul>
                 </div>
                 @endif
-                <form method="post" action="{{ route('document.memo.store') }}" id="myForm" enctype="multipart/form-data">
+                <form method="post" action="{{ route('document.beritaAcara.store') }}" id="myForm" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group">
@@ -48,22 +48,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="name">Departemen Tujuan</label>
-                        <x-adminlte-select2 name="dep_id" class="form-control"
-                                            data-placeholder="Dikirim ke...">
-                            <option value="">Dikirim ke...</option>
-                            @foreach ($department as $dep)
-                            <option value="{{ $dep->id }}">{{ $dep->name }}</option>
-
-                            @endforeach
-                        </x-adminlte-select2>
-                    </div>
-
-                    <div class="form-group">
                         <label for="name">Isi Pesan</label>
                         <textarea name="message" label="Pesan" rows=5
                                   igroup-size="sm" placeholder="Isi Pesan" id="message"></textarea>
                     </div>
+
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>

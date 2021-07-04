@@ -24,13 +24,13 @@
     <!-- /.info-box -->
 
     <div class="col-sm-4 col-xs-12">
-        <a href='#' class="info-box">
+        <a href='{{ route("document.beritaAcara") }}' class="info-box">
 
             <!-- Apply any bg-* class to to the icon to color it -->
             <span class="info-box-icon bg-blue"><i class="fa fa-envelope-square"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text info-box-title">Buat Surat Keluar</span>
-                <span>Surat Keluar adalah jenis surat yang ditukan untuk instansi luar</span>
+                <span class="info-box-text info-box-title">Buat Berita Acara</span>
+                <span>Berita acara adalah dokumen yang di buat setelah rapat</span>
             </div>
             <!-- /.info-box-content -->
         </a>
