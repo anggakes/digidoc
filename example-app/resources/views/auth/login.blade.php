@@ -1,340 +1,309 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        * {
-            font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Helvetica, Arial, sans-serif;
+<html><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Bootstrap Login Page Card with Floating Labels</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <script type="text/javascript" src="/js/lib/dummy.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+
+    <style id="compiled-css" type="text/css">
+        :root {
+            --input-padding-x: 1.5rem;
+            --input-padding-y: .75rem;
+        }
+
+        body {
+            background: #007bff;
+            background: linear-gradient(to right, #0062E6, #33AEFF);
+        }
+
+        .card-signin {
+            border: 0;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .card-signin .card-title {
+            margin-bottom: 2rem;
             font-weight: 300;
-            margin: 0;
+            font-size: 1.5rem;
         }
 
-        html, body {
-            height: 100vh;
-            width: 100vw;
-            margin: 0 0;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            background: #f3f2f2;
+        .card-signin .card-body {
+            padding: 2rem;
         }
 
-        h4 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #000;
-            opacity: 0.85;
-        }
-
-        label {
-            font-size: 12.5px;
-            color: #000;
-            opacity: 0.8;
-            font-weight: 400;
-        }
-
-        form {
-            padding: 40px 30px;
-            background: #fefefe;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-bottom: 20px;
-            width: 300px;
-        }
-        form h4 {
-            margin-bottom: 20px;
-            color: rgba(0, 0, 0, 0.5);
-        }
-        form h4 span {
-            color: black;
-            font-weight: 700;
-        }
-        form p {
-            line-height: 155%;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: #000;
-            opacity: 0.65;
-            font-weight: 400;
-            max-width: 200px;
-            margin-bottom: 40px;
-        }
-
-        a.discrete {
-            color: rgba(0, 0, 0, 0.4);
-            font-size: 14px;
-            border-bottom: solid 1px rgba(0, 0, 0, 0);
-            padding-bottom: 4px;
-            margin-left: auto;
-            font-weight: 300;
-            transition: all 0.3s ease;
-            margin-top: 40px;
-        }
-        a.discrete:hover {
-            border-bottom: solid 1px rgba(0, 0, 0, 0.2);
-        }
-
-        button {
-            -webkit-appearance: none;
-            width: auto;
-            min-width: 100px;
-            border-radius: 24px;
-            text-align: center;
-            padding: 15px 40px;
-            margin-top: 5px;
-            background-color: #b08bf8;
-            color: #fff;
-            font-size: 14px;
-            margin-left: auto;
-            font-weight: 500;
-            box-shadow: 0px 2px 6px -1px rgba(0, 0, 0, 0.13);
-            border: none;
-            transition: all 0.3s ease;
-            outline: 0;
-        }
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 2px 6px -1px rgba(182, 157, 230, 0.65);
-        }
-        button:hover:active {
-            transform: scale(0.99);
-        }
-
-        input {
-            font-size: 16px;
-            padding: 20px 0px;
-            height: 56px;
-            border: none;
-            border-bottom: solid 1px rgba(0, 0, 0, 0.1);
-            background: #fff;
-            width: 280px;
-            box-sizing: border-box;
-            transition: all 0.3s linear;
-            color: #000;
-            font-weight: 400;
-            -webkit-appearance: none;
-        }
-        input:focus {
-            border-bottom: solid 1px #b69de6;
-            outline: 0;
-            box-shadow: 0 2px 6px -8px rgba(182, 157, 230, 0.45);
-        }
-
-        .floating-label {
-            position: relative;
-            margin-bottom: 10px;
+        .form-signin {
             width: 100%;
         }
-        .floating-label label {
-            position: absolute;
-            top: calc(50% - 7px);
-            left: 0;
-            opacity: 0;
-            transition: all 0.3s ease;
-            padding-left: 44px;
+
+        .form-signin .btn {
+            font-size: 80%;
+            border-radius: 5rem;
+            letter-spacing: .1rem;
+            font-weight: bold;
+            padding: 1rem;
+            transition: all 0.2s;
         }
-        .floating-label input {
-            width: calc(100% - 44px);
-            margin-left: auto;
-            display: flex;
+
+        .form-label-group {
+            position: relative;
+            margin-bottom: 1rem;
         }
-        .floating-label .icon {
+
+        .form-label-group input {
+            height: auto;
+            border-radius: 2rem;
+        }
+
+        .form-label-group>input,
+        .form-label-group>label {
+            padding: var(--input-padding-y) var(--input-padding-x);
+        }
+
+        .form-label-group>label {
             position: absolute;
             top: 0;
             left: 0;
-            height: 56px;
-            width: 44px;
-            display: flex;
-        }
-        .floating-label .icon svg {
-            height: 30px;
-            width: 30px;
-            margin: auto;
-            opacity: 0.15;
-            transition: all 0.3s ease;
-        }
-        .floating-label .icon svg path {
-            transition: all 0.3s ease;
-        }
-        .floating-label input:not(:-moz-placeholder-shown) {
-            padding: 28px 0px 12px 0px;
-        }
-        .floating-label input:not(:-ms-input-placeholder) {
-            padding: 28px 0px 12px 0px;
-        }
-        .floating-label input:not(:placeholder-shown) {
-            padding: 28px 0px 12px 0px;
-        }
-        .floating-label input:not(:-moz-placeholder-shown) + label {
-            transform: translateY(-10px);
-            opacity: 0.7;
-        }
-        .floating-label input:not(:-ms-input-placeholder) + label {
-            transform: translateY(-10px);
-            opacity: 0.7;
-        }
-        .floating-label input:not(:placeholder-shown) + label {
-            transform: translateY(-10px);
-            opacity: 0.7;
-        }
-        .floating-label input:valid:not(:-moz-placeholder-shown) + label + .icon svg {
-            opacity: 1;
-        }
-        .floating-label input:valid:not(:-ms-input-placeholder) + label + .icon svg {
-            opacity: 1;
-        }
-        .floating-label input:valid:not(:placeholder-shown) + label + .icon svg {
-            opacity: 1;
-        }
-        .floating-label input:valid:not(:-moz-placeholder-shown) + label + .icon svg path {
-            fill: #b69de6;
-        }
-        .floating-label input:valid:not(:-ms-input-placeholder) + label + .icon svg path {
-            fill: #b69de6;
-        }
-        .floating-label input:valid:not(:placeholder-shown) + label + .icon svg path {
-            fill: #b69de6;
-        }
-        .floating-label input:not(:valid):not(:focus) + label + .icon {
-            -webkit-animation-name: shake-shake;
-            animation-name: shake-shake;
-            -webkit-animation-duration: 0.3s;
-            animation-duration: 0.3s;
+            display: block;
+            width: 100%;
+            margin-bottom: 0;
+            /* Override default `<label>` margin */
+            line-height: 1.5;
+            color: #495057;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: all .1s ease-in-out;
         }
 
-        @-webkit-keyframes shake-shake {
-            0% {
-                transform: translateX(-3px);
+        .form-label-group input::-webkit-input-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input:-ms-input-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input::-ms-input-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input::-moz-placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input::placeholder {
+            color: transparent;
+        }
+
+        .form-label-group input:not(:placeholder-shown) {
+            padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+            padding-bottom: calc(var(--input-padding-y) / 3);
+        }
+
+        .form-label-group input:not(:placeholder-shown)~label {
+            padding-top: calc(var(--input-padding-y) / 3);
+            padding-bottom: calc(var(--input-padding-y) / 3);
+            font-size: 12px;
+            color: #777;
+        }
+
+        .btn-google {
+            color: white;
+            background-color: #ea4335;
+        }
+
+        .btn-facebook {
+            color: white;
+            background-color: #3b5998;
+        }
+
+        /* Fallback for Edge
+        -------------------------------------------------- */
+
+        @supports (-ms-ime-align: auto) {
+            .form-label-group>label {
+                display: none;
             }
-            20% {
-                transform: translateX(3px);
-            }
-            40% {
-                transform: translateX(-3px);
-            }
-            60% {
-                transform: translateX(3px);
-            }
-            80% {
-                transform: translateX(-3px);
-            }
-            100% {
-                transform: translateX(0px);
+            .form-label-group input::-ms-input-placeholder {
+                color: #777;
             }
         }
 
-        @keyframes shake-shake {
-            0% {
-                transform: translateX(-3px);
+        /* Fallback for IE
+        -------------------------------------------------- */
+
+        @media all and (-ms-high-contrast: none),
+        (-ms-high-contrast: active) {
+            .form-label-group>label {
+                display: none;
             }
-            20% {
-                transform: translateX(3px);
+            .form-label-group input:-ms-input-placeholder {
+                color: #777;
             }
-            40% {
-                transform: translateX(-3px);
-            }
-            60% {
-                transform: translateX(3px);
-            }
-            80% {
-                transform: translateX(-3px);
-            }
-            100% {
-                transform: translateX(0px);
-            }
-        }
-        .session {
-            display: flex;
-            flex-direction: row;
-            width: auto;
-            height: auto;
-            margin: auto auto;
-            background: #ffffff;
-            border-radius: 4px;
-            box-shadow: 0px 2px 6px -1px rgba(0, 0, 0, 0.12);
         }
 
-        .left {
-            width: 220px;
-            height: auto;
-            min-height: 100%;
-            position: relative;
-            background-image: url("https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-            background-size: cover;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-        }
-        .left svg {
-            height: 40px;
-            width: auto;
-            margin: 20px;
-        }
+        /* EOS */
     </style>
+
+    <script id="insert"></script>
+
+
+    <script src="/js/stringify.js?512d8e4cdb707dc1d3c1fef01ecde885570a61fd" charset="utf-8"></script>
+    <script>
+        const customConsole = (w) => {
+            const pushToConsole = (payload, type) => {
+                w.parent.postMessage({
+                    console: {
+                        payload: stringify(payload),
+                        type:    type
+                    }
+                }, "*")
+            }
+
+            w.onerror = (message, url, line, column) => {
+                // the line needs to correspond with the editor panel
+                // unfortunately this number needs to be altered every time this view is changed
+                line = line - 70
+                if (line < 0){
+                    pushToConsole(message, "error")
+                } else {
+                    pushToConsole(`[${line}:${column}] ${message}`, "error")
+                }
+            }
+
+            let console = (function(systemConsole){
+                return {
+                    log: function(){
+                        let args = Array.from(arguments)
+                        pushToConsole(args, "log")
+                        systemConsole.log.apply(this, args)
+                    },
+                    info: function(){
+                        let args = Array.from(arguments)
+                        pushToConsole(args, "info")
+                        systemConsole.info.apply(this, args)
+                    },
+                    warn: function(){
+                        let args = Array.from(arguments)
+                        pushToConsole(args, "warn")
+                        systemConsole.warn.apply(this, args)
+                    },
+                    error: function(){
+                        let args = Array.from(arguments)
+                        pushToConsole(args, "error")
+                        systemConsole.error.apply(this, args)
+                    },
+                    system: function(arg){
+                        pushToConsole(arg, "system")
+                    },
+                    clear: function(){
+                        systemConsole.clear.apply(this, {})
+                    },
+                    time: function(){
+                        let args = Array.from(arguments)
+                        systemConsole.time.apply(this, args)
+                    },
+                    assert: function(assertion, label){
+                        if (!assertion){
+                            pushToConsole(label, "log")
+                        }
+
+                        let args = Array.from(arguments)
+                        systemConsole.assert.apply(this, args)
+                    }
+                }
+            }(window.console))
+
+            window.console = { ...window.console, ...console }
+
+            console.system("Running fiddle")
+        }
+
+        if (window.parent){
+            customConsole(window)
+        }
+    </script>
 </head>
 <body>
-<div class="session">
-    <div class="left">
-        <?xml version="1.0" encoding="UTF-8"?>
-        <svg enable-background="new 0 0 300 302.5" version="1.1" viewBox="0 0 300 302.5" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
-<style type="text/css">
-    .st01{fill:#fff;}
-</style>
-            <path class="st01" d="m126 302.2c-2.3 0.7-5.7 0.2-7.7-1.2l-105-71.6c-2-1.3-3.7-4.4-3.9-6.7l-9.4-126.7c-0.2-2.4 1.1-5.6 2.8-7.2l93.2-86.4c1.7-1.6 5.1-2.6 7.4-2.3l125.6 18.9c2.3 0.4 5.2 2.3 6.4 4.4l63.5 110.1c1.2 2 1.4 5.5 0.6 7.7l-46.4 118.3c-0.9 2.2-3.4 4.6-5.7 5.3l-121.4 37.4zm63.4-102.7c2.3-0.7 4.8-3.1 5.7-5.3l19.9-50.8c0.9-2.2 0.6-5.7-0.6-7.7l-27.3-47.3c-1.2-2-4.1-4-6.4-4.4l-53.9-8c-2.3-0.4-5.7 0.7-7.4 2.3l-40 37.1c-1.7 1.6-3 4.9-2.8 7.2l4.1 54.4c0.2 2.4 1.9 5.4 3.9 6.7l45.1 30.8c2 1.3 5.4 1.9 7.7 1.2l52-16.2z"/>
-</svg>
+<!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">e-letco</h5>
+                    <form class="form-signin">
+                        <div class="form-label-group">
+                            <input type="text" name="nik" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+                            <label for="inputEmail">NIK</label>
+                        </div>
+
+                        <div class="form-label-group">
+                            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+                            <label for="inputPassword">Password</label>
+                        </div>
+
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Masuk</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <form action="{{ route('login') }}" class="log-in" method="POST">
-        @csrf
-        <h4>Welcome to <span>e-LetCo</span></h4>
-        <!--        <p>Digital Document Management System</p>-->
-        <div class="floating-label">
-            <input placeholder="Nomor Induk Pegawai (NIP)" type="text"  id="email" autocomplete="off" name="nip" value="{{ old('nip') }}" >
-            <label for="email">NIP:</label>
-            <div class="icon">
-                <?xml version="1.0" encoding="UTF-8"?>
-                <svg enable-background="new 0 0 100 100" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
-<style type="text/css">
-    .st0{fill:none;}
-</style>
-                    <g transform="translate(0 -952.36)">
-                        <path d="m17.5 977c-1.3 0-2.4 1.1-2.4 2.4v45.9c0 1.3 1.1 2.4 2.4 2.4h64.9c1.3 0 2.4-1.1 2.4-2.4v-45.9c0-1.3-1.1-2.4-2.4-2.4h-64.9zm2.4 4.8h60.2v1.2l-30.1 22-30.1-22v-1.2zm0 7l28.7 21c0.8 0.6 2 0.6 2.8 0l28.7-21v34.1h-60.2v-34.1z"/>
-                    </g>
-                    <rect class="st0" width="100" height="100"/>
-</svg>
-
-            </div>
-        </div>
-        @error('nip')
-        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-        @enderror
-        <div class="floating-label">
-            <input placeholder="Password" type="password" name="password" id="password" autocomplete="off">
-            <label for="password">Password:</label>
-            <div class="icon">
-
-                <?xml version="1.0" encoding="UTF-8"?>
-                <svg enable-background="new 0 0 24 24" version="1.1" viewBox="0 0 24 24" xml:space="preserve"              xmlns="http://www.w3.org/2000/svg">
-<style type="text/css">
-    .st0{fill:none;}
-    .st1{fill:#010101;}
-</style>
-                    <rect class="st0" width="24" height="24"/>
-                    <path class="st1" d="M19,21H5V9h14V21z M6,20h12V10H6V20z"/>
-                    <path class="st1" d="M16.5,10h-1V7c0-1.9-1.6-3.5-3.5-3.5S8.5,5.1,8.5,7v3h-1V7c0-2.5,2-4.5,4.5-4.5s4.5,2,4.5,4.5V10z"/>
-                    <path class="st1" d="m12 16.5c-0.8 0-1.5-0.7-1.5-1.5s0.7-1.5 1.5-1.5 1.5 0.7 1.5 1.5-0.7 1.5-1.5 1.5zm0-2c-0.3 0-0.5 0.2-0.5 0.5s0.2 0.5 0.5 0.5 0.5-0.2 0.5-0.5-0.2-0.5-0.5-0.5z"/>
-</svg>
-            </div>
-
-        </div>
-        @error('password')
-        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-        @enderror
-        <button type="submit" >Log in</button>
-
-    </form>
 </div>
-</body>
-</html>
+
+
+
+<script type="text/javascript">//<![CDATA[
+
+
+
+
+
+    //]]></script>
+
+<script>
+    // tell the embed parent frame the height of the content
+    if (window.parent && window.parent.parent){
+        window.parent.parent.postMessage(["resultsFrame", {
+            height: document.body.getBoundingClientRect().height,
+            slug: "amxr8n19"
+        }], "*")
+    }
+
+    // always overwrite window.name, in case users try to set it manually
+    window.name = "result"
+</script>
+
+<script>
+    let allLines = []
+
+    window.addEventListener("message", (message) => {
+        if (message.data.console){
+            let insert = document.querySelector("#insert")
+            allLines.push(message.data.console.payload)
+            insert.innerHTML = allLines.join(";\r")
+
+            let result = eval.call(null, message.data.console.payload)
+            if (result !== undefined){
+                console.log(result)
+            }
+        }
+    })
+</script>
+
+
+
+</body></html>

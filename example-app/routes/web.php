@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/apps/', function () {
+    return view('apps');
+});
+
 Auth::routes();
 
 Route::middleware("auth")->group(function (){
@@ -39,6 +43,9 @@ Route::middleware("auth")->group(function (){
     Route::get('document/sign/beritaAcara/{id}', [\App\Http\Controllers\DocumentController::class, 'beritaAcaraSign'])->name('document.beritaAcara.sign');
     Route::get('document/view/beritaAcara/{id}', [\App\Http\Controllers\DocumentController::class, 'beritaAcaraViewed'])->name('document.beritaAcara.view');
 
+
+    Route::get('document/compose/suratMasuk', [\App\Http\Controllers\DocumentController::class, 'suratMasuk'])->name('document.suratMasuk');
+    Route::post('document/compose/suratMasuk', [\App\Http\Controllers\DocumentController::class, 'suratMasukStore'])->name('document.suratMasuk.store');
 
     Route::resource('document', \App\Http\Controllers\DocumentController::class);
 

@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-<p>Selamat datang di e-let co.</p>
+<p>Welcome to this beautiful admin panel.</p>
 @stop
 
 @section('css')

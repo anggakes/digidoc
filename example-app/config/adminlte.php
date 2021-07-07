@@ -259,7 +259,7 @@ return [
         ],
         [
             'text' => 'Upload Surat',
-            'url'  => 'letter',
+            'url'  => 'document/compose/suratMasuk',
             'icon' => 'fas fa-fw fa-file',
         ],
         [

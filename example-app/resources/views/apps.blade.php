@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+    <script type="text/javascript" src="/js/lib/dummy.js"></script>
+
     <link rel="stylesheet" type="text/css" href="/css/result-light.css">
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
@@ -154,6 +156,84 @@
         /* EOS */
     </style>
 
+    <script id="insert"></script>
+
+
+    <script src="/js/stringify.js?512d8e4cdb707dc1d3c1fef01ecde885570a61fd" charset="utf-8"></script>
+    <script>
+        const customConsole = (w) => {
+            const pushToConsole = (payload, type) => {
+                w.parent.postMessage({
+                    console: {
+                        payload: stringify(payload),
+                        type:    type
+                    }
+                }, "*")
+            }
+
+            w.onerror = (message, url, line, column) => {
+                // the line needs to correspond with the editor panel
+                // unfortunately this number needs to be altered every time this view is changed
+                line = line - 70
+                if (line < 0){
+                    pushToConsole(message, "error")
+                } else {
+                    pushToConsole(`[${line}:${column}] ${message}`, "error")
+                }
+            }
+
+            let console = (function(systemConsole){
+                return {
+                    log: function(){
+                        let args = Array.from(arguments)
+                        pushToConsole(args, "log")
+                        systemConsole.log.apply(this, args)
+                    },
+                    info: function(){
+                        let args = Array.from(arguments)
+                        pushToConsole(args, "info")
+                        systemConsole.info.apply(this, args)
+                    },
+                    warn: function(){
+                        let args = Array.from(arguments)
+                        pushToConsole(args, "warn")
+                        systemConsole.warn.apply(this, args)
+                    },
+                    error: function(){
+                        let args = Array.from(arguments)
+                        pushToConsole(args, "error")
+                        systemConsole.error.apply(this, args)
+                    },
+                    system: function(arg){
+                        pushToConsole(arg, "system")
+                    },
+                    clear: function(){
+                        systemConsole.clear.apply(this, {})
+                    },
+                    time: function(){
+                        let args = Array.from(arguments)
+                        systemConsole.time.apply(this, args)
+                    },
+                    assert: function(assertion, label){
+                        if (!assertion){
+                            pushToConsole(label, "log")
+                        }
+
+                        let args = Array.from(arguments)
+                        systemConsole.assert.apply(this, args)
+                    }
+                }
+            }(window.console))
+
+            window.console = { ...window.console, ...console }
+
+            console.system("Running fiddle")
+        }
+
+        if (window.parent){
+            customConsole(window)
+        }
+    </script>
 </head>
 <body>
 <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
@@ -165,28 +245,14 @@
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">e-letco</h5>
-                    <form  action="{{ route('login') }}"  method="POST" class="form-signin">
-                        @csrf
-                        @error('nip')
-
-                            <div class="alert alert-danger" style="font-size: 12px">
-                                        <strong>{{ $message }}</strong>
-                                    </div>
-                        @enderror
+                    <form class="form-signin">
                         <div class="form-label-group">
-                            <input type="text" name="nip" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-                            <label for="inputEmail">NIP</label>
+                            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+                            <label for="inputEmail">NIK</label>
                         </div>
 
-
-
                         <div class="form-label-group">
-                            @error('password')
-                            <div class="alert alert-danger" style="font-size: 12px" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </div>
-                            @enderror
-                            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+                            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
                             <label for="inputPassword">Password</label>
                         </div>
 
@@ -198,6 +264,45 @@
     </div>
 </div>
 
+
+
+<script type="text/javascript">//<![CDATA[
+
+
+
+
+
+    //]]></script>
+
+<script>
+    // tell the embed parent frame the height of the content
+    if (window.parent && window.parent.parent){
+        window.parent.parent.postMessage(["resultsFrame", {
+            height: document.body.getBoundingClientRect().height,
+            slug: "amxr8n19"
+        }], "*")
+    }
+
+    // always overwrite window.name, in case users try to set it manually
+    window.name = "result"
+</script>
+
+<script>
+    let allLines = []
+
+    window.addEventListener("message", (message) => {
+        if (message.data.console){
+            let insert = document.querySelector("#insert")
+            allLines.push(message.data.console.payload)
+            insert.innerHTML = allLines.join(";\r")
+
+            let result = eval.call(null, message.data.console.payload)
+            if (result !== undefined){
+                console.log(result)
+            }
+        }
+    })
+</script>
 
 
 

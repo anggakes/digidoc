@@ -44,12 +44,18 @@ namespace App\Models{
  * @property int|null $sign_by_id
  * @property string|null $sign_uniqueness
  * @property string $document_id
+ * @property string|null $label
+ * @property string|null $departement
+ * @property string|null $signed_by_name
  * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereDepartement($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereDocumentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereSignById($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereSignUniqueness($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereSignedByName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DigSign whereUpdatedAt($value)
  */
 	class DigSign extends \Eloquent {}

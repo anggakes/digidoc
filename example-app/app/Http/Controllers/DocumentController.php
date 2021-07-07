@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Storage;
 use Str;
+use URL;
 
 class DocumentController extends Controller
 {
@@ -290,6 +291,15 @@ class DocumentController extends Controller
                 $act->document_id = $document->id;
                 $act->save();
 
+                $digSign = new DigSign();
+                $digSign->sign_by_id = $me->id;
+                $digSign->document_id = $document->id;
+                $digSign->sign_uniqueness = Str::random(20);
+                $digSign->signed_by_name = $me->name;
+                $digSign->departement = $me->jobPosition->department->name;
+                $digSign->label = "Yang Membuat";
+                $digSign->encrypt()->save();
+
             } else {
                 // kepala yang create memo
                 // tidak perlu approval
@@ -302,6 +312,9 @@ class DocumentController extends Controller
                 $digSign->sign_by_id = $me->id;
                 $digSign->document_id = $document->id;
                 $digSign->sign_uniqueness = Str::random(20);
+                $digSign->signed_by_name = $me->name;
+                $digSign->departement = $me->jobPosition->department->name;
+                $digSign->label = "Yang Membuat";
                 $digSign->encrypt()->save();
             }
 
@@ -311,6 +324,7 @@ class DocumentController extends Controller
             $docHistory->action = "CREATE";
             $docHistory->description = "dokumen di buat oleh " . $me->name;
             $docHistory->save();
+
 
             DB::commit();
 
@@ -350,7 +364,8 @@ class DocumentController extends Controller
             $digSign->sign_by_id = $me->id;
             $digSign->document_id = $id;
             $digSign->sign_uniqueness = Str::random(20);
-            $digSign->encrypt()->save();
+            $digSign->signed_by_name = $me->name;
+            $digSign->departement = $me->jobPosition->department->name;
 
             // update histories
             $docHistory = new DocumentHistories();
@@ -365,11 +380,14 @@ class DocumentController extends Controller
             $document->editable = false;
             if ($document->status == "draft"){
                 $document->status = 'sent';
+                $digSign->label = "Menyetujui";
             }elseif($document->status == "sent"){
                 $document->status = 'archived';
+                $digSign->label = "Mengetahui";
             }
 
             $document->save();
+            $digSign->encrypt()->save();
 
             if ($document->status == "sent") {
                 // kirim ke kepala
@@ -400,13 +418,26 @@ class DocumentController extends Controller
     {
         $document = Document::find($id);
         $docAct = DocumentAction::where("document_id", "=", $id)->get();
-
-        return view('document.memoPrint', [
+        $digSign = DigSign::where("document_id", "=", $id)->get();
+        return view('document.beritaAcaraPrint', [
             "document" => $document,
             "docAct" => $docAct,
+            "digSign" => $digSign,
         ]);
     }
 
+
+    // Surat Masuk
+    public function suratMasuk()
+    {
+        //
+        $department = Department::all();
+        $docClass = DocumentClassification::all();
+        return view('document.suratMasuk', [
+            "department" => $department,
+            "docClass" => $docClass,
+        ]);
+    }
 
 
 
@@ -445,6 +476,7 @@ class DocumentController extends Controller
     public function index()
     {
         //
+
     }
 
     /**
