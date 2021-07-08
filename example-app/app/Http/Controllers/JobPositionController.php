@@ -16,7 +16,7 @@ class JobPositionController extends Controller
     public function index()
     {
         //
-        $jobPosition = JobPosition::with('parent')->latest()->simplePaginate(5);
+        $jobPosition = JobPosition::with('jobParent')->latest()->simplePaginate(5);
         return view('job_position.index', [
             'jobPosition' => $jobPosition,
         ])
