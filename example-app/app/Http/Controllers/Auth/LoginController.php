@@ -44,4 +44,14 @@ class LoginController extends Controller
         return 'nip';
     }
 
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showLoginForm()
+    {
+        return redirect("/");
+    }
+
 }
