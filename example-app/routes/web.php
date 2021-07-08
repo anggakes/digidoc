@@ -34,6 +34,7 @@ Route::middleware("auth")->group(function (){
     Route::post('document/compose/memo', [\App\Http\Controllers\DocumentController::class, 'memoStore'])->name('document.memo.store');
     Route::get('document/print/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoPrint'])->name('document.memo.print');
     Route::get('document/sign/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoSign'])->name('document.memo.sign');
+    Route::post('document/disposisi/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoDisposisi'])->name('document.memo.disposisi');
     Route::get('document/view/memo/{id}', [\App\Http\Controllers\DocumentController::class, 'memoViewed'])->name('document.memo.view');
 
 

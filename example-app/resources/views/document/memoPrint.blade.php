@@ -157,13 +157,16 @@
             </div>
 
             <br><br>
+            @foreach($digSign as $d)
             <div class="ttd">
-            {{ $document->createdBy->jobPosition->jobParent->user->name }}
-            <br>
-            {{ $document->createdBy->jobPosition->jobParent->label }}
-
-
+                <span class="text-bold"> {{ $d->label }}</span>
+                <br><br>
+                {{ QrCode::size(100)->generate(URL::to('/sign/'.$d->data)) }}
+                <br><br>
+                {{ $d->signed_by_name }} <br>
+                {{ $d->departement }}
             </div>
+            @endforeach
             <br>
             {{ $document->classification_code}}
         </div>

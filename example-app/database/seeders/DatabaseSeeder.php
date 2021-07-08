@@ -92,8 +92,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-
-
         DB::table('users')->insert([
             'name' => 'Ady Hendrata',
             'email' => 'adyhendrata@bpjstk.co.id',

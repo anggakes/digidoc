@@ -111,7 +111,7 @@
                     <thead>
                     <th>Nama</th>
                     <th>Aksi</th>
-                    <th>Sudah di Berikan</th>
+                    <th>Selesai</th>
                     </thead>
                     <tbody>
                     @foreach($docAct as $da)
@@ -133,11 +133,33 @@
                             <a href="{{ route('document.memo.view', $document->id) }}" class="btn btn-primary">Tandai
                                 Sudah Dibaca</a>
                             @endif
+                            @if($da->action_need=="Disposisi")
+
+                            <form method="post" action="{{ route('document.memo.disposisi', $document->id) }}" id="myForm"
+                                  enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="name">Departemen Tujuan</label>
+                                    <x-adminlte-select2 name="dep_ids[]" class="form-control"
+                                                        data-placeholder="Dikirim ke...">
+                                        <option value="">Dikirim ke...</option>
+                                        @foreach ($department as $dep)
+                                        <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+
+                                        @endforeach
+                                    </x-adminlte-select2>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Kirim</button>
+
+                            </form>
+                            @endif
                             @else
                             Belum
                             @endif
                             @endif
 
+                            <!--                            Berita acara -->
                             @if($document->type=="berita acara")
                             @if($da->user->id == Auth::user()->id)
                             @if($da->action_need=="Tanda Tangan")

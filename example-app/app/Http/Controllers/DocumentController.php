@@ -15,6 +15,7 @@ use App\Models\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Storage;
 use Str;
@@ -100,7 +101,25 @@ class DocumentController extends Controller
             $digSign->sign_by_id = $me->id;
             $digSign->document_id = $document->id;
             $digSign->sign_uniqueness = Str::random(20);
+            $digSign->signed_by_name = $me->name;
+            $digSign->departement = $me->jobPosition->department->name;
             $digSign->encrypt()->save();
+
+            // kakacab
+            if ($document->memo_to_department_id == 1) {
+                $act = new DocumentAction();
+                $act->user_id = $document->memoDepartment->kepala()->user->id;
+                $act->action_need = "Disposisi";
+                $act->document_id = $document->id;
+                $act->save();
+            } else {
+                $act = new DocumentAction();
+                $act->user_id = $document->memoDepartment->kepala()->user->id;
+                $act->action_need = "Baca";
+                $act->document_id = $document->id;
+                $act->save();
+            }
+
         }
 
         $docHistory = new DocumentHistories();
@@ -119,10 +138,11 @@ class DocumentController extends Controller
     {
         $document = Document::find($id);
         $docAct = DocumentAction::where("document_id", "=", $id)->get();
-
+        $digSign = DigSign::where("document_id", "=", $id)->get();
         return view('document.memoPrint', [
             "document" => $document,
             "docAct" => $docAct,
+            "digSign" => $digSign,
         ]);
     }
 
@@ -150,6 +170,8 @@ class DocumentController extends Controller
             $digSign->sign_by_id = $me->id;
             $digSign->document_id = $id;
             $digSign->sign_uniqueness = Str::random(20);
+            $digSign->signed_by_name = $me->name;
+            $digSign->departement = $me->jobPosition->department->name;
             $digSign->encrypt()->save();
 
             // update histories
@@ -167,11 +189,20 @@ class DocumentController extends Controller
             $document->save();
 
             // create new docACT
-            $act = new DocumentAction();
-            $act->user_id = $document->memoDepartment->kepala()->user->id;
-            $act->action_need = "Baca";
-            $act->document_id = $document->id;
-            $act->save();
+            // kakacab
+            if ($document->memo_to_department_id == 1) {
+                $act = new DocumentAction();
+                $act->user_id = $document->memoDepartment->kepala()->user->id;
+                $act->action_need = "Disposisi";
+                $act->document_id = $document->id;
+                $act->save();
+            } else {
+                $act = new DocumentAction();
+                $act->user_id = $document->memoDepartment->kepala()->user->id;
+                $act->action_need = "Baca";
+                $act->document_id = $document->id;
+                $act->save();
+            }
 
 
             DB::commit();
@@ -187,6 +218,58 @@ class DocumentController extends Controller
         return redirect()->route('document.show', $id)
             ->with('success', 'Document berhasil di tanda tangani');
 
+    }
+
+    public function memoDisposisi($id, Request $request)
+    {
+        //melakukan validasi data
+        $validateRequest = [
+            'dep_ids' => 'required',
+        ];
+
+        $me = Auth::user();
+//        $id = $request->document_id;
+
+        DB::beginTransaction();
+
+        try {
+
+            if ($me->jobPosition->id != 1) {
+                throw new Exception("Anda tidak memiliki akses");
+            }
+
+            $docAct = DocumentAction::where("document_id", "=", $id)
+                ->where("user_id", "=", $me->id)
+                ->first();
+
+            if (!$docAct) {
+                throw new \Exception("Anda Tidak mendapatkan akses untuk melakukan itu.");
+            }
+            $docAct->is_done = true;
+            $docAct->save();
+
+            foreach ($request->dep_ids as $dep_id){
+                $dep = Department::find($dep_id);
+                $act = new DocumentAction();
+                $act->user_id = $dep->kepala()->user->id;
+                $act->action_need = "Baca";
+                $act->document_id = $id;
+                $act->save();
+            }
+
+
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            return redirect()->route('document.show', $id)
+                ->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('document.show', $id)
+            ->with('success', 'Document berhasil di disposisi');
     }
 
     public function memoViewed($id)
@@ -238,13 +321,15 @@ class DocumentController extends Controller
         //
         $department = Department::all();
         $docClass = DocumentClassification::all();
+
         return view('document.beritaAcara', [
             "department" => $department,
             "docClass" => $docClass,
         ]);
     }
 
-    public function beritaAcaraStore(Request $request){
+    public function beritaAcaraStore(Request $request)
+    {
 
         $validateRequest = [
             'title' => 'required',
@@ -258,7 +343,7 @@ class DocumentController extends Controller
 
         DB::beginTransaction();
 
-        try{
+        try {
 
             $seq = DocumentCodes::where('code', '=', 'BA')->first();
             $seq->seq = $seq->seq + 1;
@@ -341,7 +426,8 @@ class DocumentController extends Controller
     }
 
 
-    public function beritaAcaraSign($id){
+    public function beritaAcaraSign($id)
+    {
         $me = Auth::user();
 
         DB::beginTransaction();
@@ -378,10 +464,10 @@ class DocumentController extends Controller
 
             $document = Document::find($id);
             $document->editable = false;
-            if ($document->status == "draft"){
+            if ($document->status == "draft") {
                 $document->status = 'sent';
                 $digSign->label = "Menyetujui";
-            }elseif($document->status == "sent"){
+            } elseif ($document->status == "sent") {
                 $document->status = 'archived';
                 $digSign->label = "Mengetahui";
             }
@@ -440,7 +526,6 @@ class DocumentController extends Controller
     }
 
 
-
     public function inbox()
     {
         $docAct = DocumentAction::with('document')->where("user_id", "=", Auth::user()->id)
@@ -457,7 +542,7 @@ class DocumentController extends Controller
     public function sent()
     {
         $docAct = Document::
-            where("created_by", "=", Auth::user()->id)
+        where("created_by", "=", Auth::user()->id)
             ->latest()->simplePaginate(5);
 
         return view(
@@ -511,11 +596,12 @@ class DocumentController extends Controller
         //
         $document = Document::find($id);
         $docAct = DocumentAction::where("document_id", "=", $id)->get();
-
+        $department = Department::all();
 
         return view('document.detail', [
             "document" => $document,
             "docAct" => $docAct,
+            "department" => $department,
         ]);
     }
 
