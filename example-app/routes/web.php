@@ -47,6 +47,8 @@ Route::middleware("auth")->group(function (){
 
     Route::get('document/compose/suratMasuk', [\App\Http\Controllers\DocumentController::class, 'suratMasuk'])->name('document.suratMasuk');
     Route::post('document/compose/suratMasuk', [\App\Http\Controllers\DocumentController::class, 'suratMasukStore'])->name('document.suratMasuk.store');
+    Route::post('document/disposisi/suratMasuk/{id}', [\App\Http\Controllers\DocumentController::class, 'suratMasukDisposisi'])->name('document.suratMasuk.disposisi');
+    Route::get('document/view/suratMasuk/{id}', [\App\Http\Controllers\DocumentController::class, 'suratMasukViewed'])->name('document.suratMasuk.view');
 
     Route::resource('document', \App\Http\Controllers\DocumentController::class);
 

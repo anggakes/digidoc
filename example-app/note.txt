@@ -16,6 +16,7 @@
 ./vendor/bin/sail php artisan make:migration create_document_classification_table
 ./vendor/bin/sail php artisan make:migration create_document_number_table
 ./vendor/bin/sail php artisan make:migration add_additional_digsign_table
+./vendor/bin/sail php artisan make:migration create_document_file_table
 
 
 ./vendor/bin/sail composer require --dev barryvdh/laravel-ide-helper
@@ -44,6 +45,7 @@
 ./vendor/bin/sail php artisan make:model DocumentCodes
 ./vendor/bin/sail php artisan make:model DocumentAction
 ./vendor/bin/sail php artisan make:model DocumentHistories
+./vendor/bin/sail php artisan make:model DocumentFile
 
 ./vendor/bin/sail php artisan ide-helper:generate
 ./vendor/bin/sail php artisan ide-helper:model

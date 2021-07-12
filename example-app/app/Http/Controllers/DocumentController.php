@@ -8,6 +8,7 @@ use App\Models\Document;
 use App\Models\DocumentAction;
 use App\Models\DocumentClassification;
 use App\Models\DocumentCodes;
+use App\Models\DocumentFile;
 use App\Models\DocumentHistories;
 use App\Models\JobPosition;
 use App\Models\Memo;
@@ -258,6 +259,12 @@ class DocumentController extends Controller
             }
 
 
+            $docHistory = new DocumentHistories();
+            $docHistory->user_id = $me->id;
+            $docHistory->document_id = $id;
+            $docHistory->action = "DISPOSITION";
+            $docHistory->description = "dokumen di didisposisi oleh " . $me->name;
+            $docHistory->save();
 
             DB::commit();
 
@@ -524,6 +531,188 @@ class DocumentController extends Controller
             "docClass" => $docClass,
         ]);
     }
+
+    public function suratMasukStore(Request $request)
+    {
+        //
+
+        $validateRequest = [
+            'title' => 'required',
+            'surat_masuk_date' => 'required',
+            'surat_masuk_from' => 'required',
+            'number' => 'required',
+            'doc_class_code' => 'required',
+        ];
+
+        $request->validate($validateRequest);
+
+        $me = Auth::user();
+
+        DB::beginTransaction();
+
+        try {
+
+
+
+            $number = $request->number;
+
+            $document = new Document();
+            $document->title = $request->title;
+            $document->number = $number;
+            $document->content = "";
+            $document->status = 'draft';
+            $document->type = 'surat masuk';
+            $document->surat_masuk_date = $request->surat_masuk_date;
+            $document->surat_masuk_from = $request->surat_masuk_from;
+            $document->created_by = $me->id;
+            $document->classification_code = $request->doc_class_code;
+            $document->save();
+
+            // upload file.
+            if($request->has("filenames")){
+                foreach($request->file('filenames') as $file)
+                {
+                    $name = time().'.'.$file->extension();
+                    $file->move(public_path().'/', $name);
+                    $df= new DocumentFile();
+                    $df->path = $name;
+                    $df->document_id = $document->id;
+                        $df->save();
+                }
+            }
+
+            // kirim ke kepala cabang
+            $jp = JobPosition::find(1);
+            $act = new DocumentAction();
+            $act->user_id = $jp->user->id;
+            $act->action_need = "Disposisi";
+            $act->document_id = $document->id;
+            $act->save();
+
+            $docHistory = new DocumentHistories();
+            $docHistory->user_id = $me->id;
+            $docHistory->document_id = $document->id;
+            $docHistory->action = "CREATE";
+            $docHistory->description = "dokumen di buat oleh " . $me->name;
+            $docHistory->save();
+
+            DB::commit();
+            // all good
+
+            return redirect()->route('document.show', $document->id)
+                ->with('success', "Surat masuk berhasil di buat");
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            return redirect()->route('document.suratMasuk')
+                ->with('error', $e->getMessage());
+        }
+
+    }
+
+
+    public function suratMasukViewed($id)
+    {
+        $me = Auth::user();
+
+        DB::beginTransaction();
+
+        try {
+
+            // update status
+            $docAct = DocumentAction::where("document_id", "=", $id)
+                ->where("user_id", "=", $me->id)
+                ->first();
+
+            if (!$docAct) {
+                throw new \Exception("Anda Tidak mendapatkan akses untuk melakukan itu.");
+            }
+            $docAct->is_done = true;
+            $docAct->save();
+
+            // update histories
+            $docHistory = new DocumentHistories();
+            $docHistory->user_id = $me->id;
+            $docHistory->document_id = $id;
+            $docHistory->action = "VIEWED";
+            $docHistory->description = "dokumen sudah dibaca oleh " . $me->name;
+            $docHistory->save();
+
+            DB::commit();
+            // all good
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            throw $e;
+        }
+
+
+        return redirect()->route('document.show', $id);
+
+    }
+
+
+    public function suratMasukDisposisi($id, Request $request)
+    {
+        //melakukan validasi data
+        $validateRequest = [
+            'dep_ids' => 'required',
+        ];
+
+        $me = Auth::user();
+//        $id = $request->document_id;
+
+        DB::beginTransaction();
+
+        try {
+
+            if ($me->jobPosition->id != 1) {
+                throw new Exception("Anda tidak memiliki akses");
+            }
+
+            $docAct = DocumentAction::where("document_id", "=", $id)
+                ->where("user_id", "=", $me->id)
+                ->first();
+
+            if (!$docAct) {
+                throw new \Exception("Anda Tidak mendapatkan akses untuk melakukan itu.");
+            }
+            $docAct->is_done = true;
+            $docAct->save();
+
+            foreach ($request->dep_ids as $dep_id){
+                $dep = Department::find($dep_id);
+                $act = new DocumentAction();
+                $act->user_id = $dep->kepala()->user->id;
+                $act->action_need = "Baca";
+                $act->document_id = $id;
+                $act->save();
+            }
+
+            $docHistory = new DocumentHistories();
+            $docHistory->user_id = $me->id;
+            $docHistory->document_id = $id;
+            $docHistory->action = "DISPOSITION";
+            $docHistory->description = "dokumen di didisposisi oleh " . $me->name;
+            $docHistory->save();
+
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            return redirect()->route('document.show', $id)
+                ->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('document.show', $id)
+            ->with('success', 'Document berhasil di disposisi');
+    }
+
+
 
 
     public function inbox()

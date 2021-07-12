@@ -27,6 +27,14 @@
                     </ul>
                 </div>
                 @endif
+
+                @if ($error = Session::get('error'))
+                <div class="alert alert-danger">
+                    {{ $error }}
+                </div>
+                @endif
+
+
                 <form method="post" action="{{ route('document.suratMasuk.store') }}" id="myForm"
                       enctype="multipart/form-data">
                     @csrf
@@ -41,7 +49,10 @@
                         <x-adminlte-select2 name="doc_class_code" class="form-control"
                                             data-placeholder="Pilih Kode Klasifikasi...">
                             <option value="">Pilih Kode Klasifikasi...</option>
+                            @foreach ($docClass as $dc)
+                            <option value="{{ $dc->code }}">{{ $dc->code }} - {{ $dc->archive_type }}</option>
 
+                            @endforeach
                         </x-adminlte-select2>
                     </div>
 
@@ -66,7 +77,7 @@
                         <div class="input-group hdtuto control-group lst increment">
                             <input type="file" name="filenames[]" class="myfrm form-control">
                             <div class="input-group-btn">
-                                <button class="btn btn-success" type="button"><i
+                                <button class="btn btn-success add" type="button"><i
                                         class="fldemo glyphicon glyphicon-plus"></i>Add
                                 </button>
                             </div>
@@ -117,7 +128,7 @@
     });
 
     $(document).ready(function () {
-        $(".btn-success").click(function () {
+        $(".add").click(function () {
             var lsthmtl = $(".clone").html();
             $(".increment").after(lsthmtl);
         });

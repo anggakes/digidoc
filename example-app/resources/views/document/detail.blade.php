@@ -55,6 +55,11 @@
 
                 <table class="table table-borderless">
                     <tr>
+                        <td>Tipe Dokumen</td>
+                        <td>:</td>
+                        <td>{{ $document->type }}</td>
+                    </tr>
+                    <tr>
                         <td>Nomor Dokumen</td>
                         <td>:</td>
                         <td>{{ $document->number }}</td>
@@ -96,6 +101,13 @@
                     </tr>
                     @endif
 
+                    @if($document->type=="surat masuk")
+                    <tr>
+                        <td>Jumlah File</td>
+                        <td>:</td>
+                        <td>{{ $document->files()->count() }}</td>
+                    </tr>
+                    @endif
 
                 </table>
 
@@ -168,6 +180,40 @@
                             @if($da->action_need=="Baca")
                             <a href="{{ route('document.beritaAcara.view', $document->id) }}" class="btn btn-primary">Tandai
                                 Sudah Dibaca</a>
+                            @endif
+                            @else
+                            Belum
+                            @endif
+                            @endif
+
+
+<!--                            Surat Masuk -->
+                            @if($document->type=="surat masuk")
+                            @if($da->user->id == Auth::user()->id)
+                            @if($da->action_need=="Baca")
+                            <a href="{{ route('document.suratMasuk.view', $document->id) }}" class="btn btn-primary">Tandai
+                                Sudah Dibaca</a>
+                            @endif
+                            @if($da->action_need=="Disposisi")
+
+                            <form method="post" action="{{ route('document.suratMasuk.disposisi', $document->id) }}" id="myForm"
+                                  enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="name">Departemen Tujuan</label>
+                                    <x-adminlte-select2 name="dep_ids[]" class="form-control"
+                                                        data-placeholder="Dikirim ke...">
+                                        <option value="">Dikirim ke...</option>
+                                        @foreach ($department as $dep)
+                                        <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+
+                                        @endforeach
+                                    </x-adminlte-select2>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Kirim</button>
+
+                            </form>
                             @endif
                             @else
                             Belum

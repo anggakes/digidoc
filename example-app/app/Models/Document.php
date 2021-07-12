@@ -29,4 +29,8 @@ class Document extends Model
         return $this->belongsTo(Department::class, "berita_acara_department_id", "id");
     }
 
+    function files() {
+        return $this->hasMany(DocumentFile::class, "document_id", "id");
+    }
+
 }

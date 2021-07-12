@@ -87,8 +87,12 @@ namespace App\Models{
  * @property int|null $in_recipient_id
  * @property int|null $disposition_to_department_id
  * @property int|null $berita_acara_department_id
+ * @property string|null $surat_masuk_date
+ * @property string|null $surat_masuk_from
  * @property-read \App\Models\Department|null $beritaAcaraDepartment
  * @property-read \App\Models\User $createdBy
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DocumentFile[] $file
+ * @property-read int|null $file_count
  * @property-read \App\Models\Department|null $memoDepartment
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereBeritaAcaraDepartmentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereClassificationCode($value)
@@ -105,6 +109,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereOutRecipientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratMasukDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratMasukFrom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereUpdatedAt($value)
@@ -185,6 +191,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentCodes whereUpdatedAt($value)
  */
 	class DocumentCodes extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\DocumentFile
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile query()
+ */
+	class DocumentFile extends \Eloquent {}
 }
 
 namespace App\Models{
