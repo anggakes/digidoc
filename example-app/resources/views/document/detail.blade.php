@@ -117,6 +117,17 @@
                 {!! $document->content !!}
                 @endif
 
+                @if($document->files()->count() > 0)
+                    <hr>
+                    @foreach($document->files as $file)
+                        @if( isImage($file->path))
+                            <img src="{{ asset($file->path) }}">
+                        @endif
+                        <a href="{{  asset($file->path) }}">{{ $file->path }}</a>
+                    @endforeach
+
+                @endif
+
                 <hr>
                 <h3>Approval dan Tanda Tangan</h3>
                 <table class="table table-condensed">

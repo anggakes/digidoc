@@ -572,7 +572,7 @@ class DocumentController extends Controller
             if($request->has("filenames")){
                 foreach($request->file('filenames') as $file)
                 {
-                    $name = time().'.'.$file->extension();
+                    $name = $file->getFilename().'.'.$file->extension();
                     $file->move(public_path().'/', $name);
                     $df= new DocumentFile();
                     $df->path = $name;
