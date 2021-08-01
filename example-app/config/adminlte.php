@@ -244,37 +244,47 @@ return [
 //        ['header' => 'account_settings'],
         [
             'text' => 'Tulis',
-            'url'  => 'document/compose',
+            'url' => 'document/compose',
             'icon' => 'fas fa-fw fa-plus',
         ],
         [
             'text' => 'Kotak Masuk',
-            'url'  => 'inbox',
+            'url' => 'inbox',
             'icon' => 'fas fa-fw fa-inbox',
         ],
         [
             'text' => 'Pesan Terkirim',
-            'url'  => 'sent',
+            'url' => 'sent',
             'icon' => 'fas fa-fw fa-paper-plane',
         ],
         [
             'text' => 'Upload Surat',
-            'url'  => 'document/compose/suratMasuk',
+            'url' => 'document/compose/suratMasuk',
             'icon' => 'fas fa-fw fa-file',
         ],
         [
             'text' => 'Users',
-            'url'  => 'user',
+            'url' => 'user',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'Jabatan',
-            'url'  => 'job_position',
+            'url' => 'job_position',
             'icon' => 'fas fa-fw fa-briefcase',
-        ],        [
+        ], [
             'text' => 'Klasifikasi Arsip',
-            'url'  => 'document_classification',
+            'url' => 'document_classification',
             'icon' => 'fas fa-fw fa-briefcase',
+        ],
+        [
+            'text' => 'Organisasi Eksternal',
+            'url' => 'external_recipient',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Template Dokumen',
+            'url' => 'document_template',
+            'icon' => 'fas fa-fw fa-book',
         ],
 //        [
 //            'text' => 'change_password',

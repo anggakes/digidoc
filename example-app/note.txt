@@ -17,6 +17,13 @@
 ./vendor/bin/sail php artisan make:migration create_document_number_table
 ./vendor/bin/sail php artisan make:migration add_additional_digsign_table
 ./vendor/bin/sail php artisan make:migration create_document_file_table
+./vendor/bin/sail php artisan make:migration create_document_number_table
+
+c
+
+
+
+./vendor/bin/sail php artisan make:migration add_surat_masuk_column
 
 
 ./vendor/bin/sail composer require --dev barryvdh/laravel-ide-helper
@@ -31,6 +38,7 @@
 ./vendor/bin/sail php artisan make:controller DocNoController --resource
 ./vendor/bin/sail php artisan make:controller LetterController --resource
 ./vendor/bin/sail php artisan make:controller DocumentController --resource
+./vendor/bin/sail php artisan make:controller ExternalRecipient --resource
 
 ./vendor/bin/sail php artisan make:controller JobPositionController --resource
 
@@ -46,6 +54,7 @@
 ./vendor/bin/sail php artisan make:model DocumentAction
 ./vendor/bin/sail php artisan make:model DocumentHistories
 ./vendor/bin/sail php artisan make:model DocumentFile
+./vendor/bin/sail php artisan make:model ExternalRecipient
 
 ./vendor/bin/sail php artisan ide-helper:generate
 ./vendor/bin/sail php artisan ide-helper:model

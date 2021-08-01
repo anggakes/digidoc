@@ -28,6 +28,8 @@ Route::middleware("auth")->group(function (){
 
     Route::resource('user', \App\Http\Controllers\UsersController::class);
     Route::resource('job_position', \App\Http\Controllers\JobPositionController::class);
+    Route::resource('external_recipient', \App\Http\Controllers\ExternalRecipientController::class);
+    Route::resource('document_template', \App\Http\Controllers\DocumentTemplateController::class);
 
     Route::get('document/compose', [\App\Http\Controllers\DocumentController::class, 'compose']);
     Route::get('document/compose/memo', [\App\Http\Controllers\DocumentController::class, 'memo'])->name('document.memo');
@@ -49,6 +51,12 @@ Route::middleware("auth")->group(function (){
     Route::post('document/compose/suratMasuk', [\App\Http\Controllers\DocumentController::class, 'suratMasukStore'])->name('document.suratMasuk.store');
     Route::post('document/disposisi/suratMasuk/{id}', [\App\Http\Controllers\DocumentController::class, 'suratMasukDisposisi'])->name('document.suratMasuk.disposisi');
     Route::get('document/view/suratMasuk/{id}', [\App\Http\Controllers\DocumentController::class, 'suratMasukViewed'])->name('document.suratMasuk.view');
+
+
+    Route::get('document/compose/suratKeluar', [\App\Http\Controllers\DocumentController::class, 'suratKeluar'])->name('document.suratKeluar');
+    Route::post('document/compose/suratKeluar', [\App\Http\Controllers\DocumentController::class, 'suratKeluarStore'])->name('document.suratKeluar.store');
+    Route::get('document/print/suratKeluar/{id}', [\App\Http\Controllers\DocumentController::class, 'suratKeluarPrint'])->name('document.suratKeluar.print');
+
 
     Route::resource('document', \App\Http\Controllers\DocumentController::class);
 

@@ -10,6 +10,8 @@ use App\Models\DocumentClassification;
 use App\Models\DocumentCodes;
 use App\Models\DocumentFile;
 use App\Models\DocumentHistories;
+use App\Models\DocumentTemplate;
+use App\Models\ExternalRecipient;
 use App\Models\JobPosition;
 use App\Models\Memo;
 use App\Models\User;
@@ -249,7 +251,7 @@ class DocumentController extends Controller
             $docAct->is_done = true;
             $docAct->save();
 
-            foreach ($request->dep_ids as $dep_id){
+            foreach ($request->dep_ids as $dep_id) {
                 $dep = Department::find($dep_id);
                 $act = new DocumentAction();
                 $act->user_id = $dep->kepala()->user->id;
@@ -553,7 +555,6 @@ class DocumentController extends Controller
         try {
 
 
-
             $number = $request->number;
 
             $document = new Document();
@@ -569,15 +570,14 @@ class DocumentController extends Controller
             $document->save();
 
             // upload file.
-            if($request->has("filenames")){
-                foreach($request->file('filenames') as $file)
-                {
-                    $name = $file->getFilename().'.'.$file->extension();
-                    $file->move(public_path().'/', $name);
-                    $df= new DocumentFile();
+            if ($request->has("filenames")) {
+                foreach ($request->file('filenames') as $file) {
+                    $name = $file->getFilename() . '.' . $file->extension();
+                    $file->move(public_path() . '/', $name);
+                    $df = new DocumentFile();
                     $df->path = $name;
                     $df->document_id = $document->id;
-                        $df->save();
+                    $df->save();
                 }
             }
 
@@ -682,7 +682,7 @@ class DocumentController extends Controller
             $docAct->is_done = true;
             $docAct->save();
 
-            foreach ($request->dep_ids as $dep_id){
+            foreach ($request->dep_ids as $dep_id) {
                 $dep = Department::find($dep_id);
                 $act = new DocumentAction();
                 $act->user_id = $dep->kepala()->user->id;
@@ -713,7 +713,185 @@ class DocumentController extends Controller
     }
 
 
+    // Surat Keluar
 
+    public function suratKeluar()
+    {
+        //
+        $department = Department::all();
+        $docClass = DocumentClassification::all();
+        $externalRecipient = ExternalRecipient::all();
+        $documentTemplate = DocumentTemplate::all();
+
+        return view('document.suratKeluar', [
+            "department" => $department,
+            "docClass" => $docClass,
+            "externalRecipient" => $externalRecipient,
+            "documentTemplate" => $documentTemplate,
+        ]);
+    }
+
+    public function suratKeluarStore(Request $request)
+    {
+        //
+
+        $validateRequest = [
+            'title' => 'required',
+            'number' => 'required',
+            'doc_class_code' => 'required',
+            'surat_keluar_to' => 'required',
+            'surat_keluar_type' => 'required',
+            'message' => 'required',
+        ];
+
+        $request->validate($validateRequest);
+
+        $me = Auth::user();
+
+        DB::beginTransaction();
+
+        try {
+
+
+            $number = $request->number;
+
+            $document = new Document();
+            $document->title = $request->title;
+            $document->number = $number;
+            $document->content = "";
+            $document->status = 'draft';
+            $document->type = 'surat keluar';
+            $document->surat_keluar_to = $request->surat_keluar_to;
+            $document->created_by = $me->id;
+            $document->classification_code = $request->doc_class_code;
+            $document->content = $request->message;
+            $document->surat_keluar_type = $request->surat_keluar_type;
+            $document->save();
+
+            // upload file.
+            if ($request->has("filenames")) {
+                foreach ($request->file('filenames') as $file) {
+                    $name = $file->getFilename() . '.' . $file->extension();
+                    $file->move(public_path() . '/', $name);
+                    $df = new DocumentFile();
+                    $df->path = $name;
+                    $df->document_id = $document->id;
+                    $df->save();
+                }
+            }
+
+            // kirim ke kepala cabang
+            $kepalaDivisi = $me->jobPosition->jobParent->user;
+            $act = new DocumentAction();
+            $act->user_id = $kepalaDivisi->id;
+            $act->action_need = "Tanda Tangan";
+            $act->document_id = $document->id;
+            $act->save();
+
+            $docHistory = new DocumentHistories();
+            $docHistory->user_id = $me->id;
+            $docHistory->document_id = $document->id;
+            $docHistory->action = "CREATE";
+            $docHistory->description = "dokumen di buat oleh " . $me->name;
+            $docHistory->save();
+
+            DB::commit();
+            // all good
+
+            return redirect()->route('document.show', $document->id)
+                ->with('success', "Surat keluar berhasil di buat");
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            return redirect()->route('document.suratKeluar')
+                ->with('error', $e->getMessage());
+        }
+
+    }
+
+
+    public function suratKeluarSign($id)
+    {
+        $me = Auth::user();
+
+        DB::beginTransaction();
+
+        try {
+
+            // update status
+            $docAct = DocumentAction::where("document_id", "=", $id)
+                ->where("user_id", "=", $me->id)
+                ->first();
+
+            if (!$docAct) {
+                throw new \Exception("Anda Tidak mendapatkan akses untuk melakukan itu.");
+            }
+            $docAct->is_done = true;
+            $docAct->save();
+
+            // tanda tangani
+            $digSign = new DigSign();
+            $digSign->sign_by_id = $me->id;
+            $digSign->document_id = $id;
+            $digSign->sign_uniqueness = Str::random(20);
+            $digSign->signed_by_name = $me->name;
+            $digSign->departement = $me->jobPosition->department->name;
+
+            // update histories
+            $docHistory = new DocumentHistories();
+            $docHistory->user_id = $me->id;
+            $docHistory->document_id = $id;
+            $docHistory->action = "SIGNED";
+            $docHistory->description = "dokumen di tandatangani oleh " . $me->name;
+            $docHistory->save();
+
+
+            $document = Document::find($id);
+            $document->editable = false;
+            $document->status = 'sent';
+            $digSign->label = "Menyetujui";
+
+
+            $document->save();
+            $digSign->encrypt()->save();
+
+            if ($document->status == "sent") {
+                // kirim ke kepala
+                // create new docACT
+                $job = JobPosition::find(1);
+                $act = new DocumentAction();
+                $act->user_id = $job->user->id;
+                $act->action_need = "Tanda Tangan";
+                $act->document_id = $document->id;
+                $act->save();
+            }
+
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            return redirect()->route('document.show', $id)
+                ->with('error', $e->getMessage());
+        }
+
+
+        return redirect()->route('document.show', $id)
+            ->with('success', 'Document berhasil di tanda tangani');
+    }
+
+    public function suratKeluarPrint($id)
+    {
+        $document = Document::find($id);
+        $docAct = DocumentAction::where("document_id", "=", $id)->get();
+        $digSign = DigSign::where("document_id", "=", $id)->get();
+        return view('document.suratKeluarPrint', [
+            "document" => $document,
+            "docAct" => $docAct,
+            "digSign" => $digSign,
+        ]);
+    }
 
     public function inbox()
     {

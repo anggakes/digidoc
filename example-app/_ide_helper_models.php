@@ -89,10 +89,15 @@ namespace App\Models{
  * @property int|null $berita_acara_department_id
  * @property string|null $surat_masuk_date
  * @property string|null $surat_masuk_from
+ * @property string|null $surat_keluar_to
+ * @property string|null $surat_keluar_type
+ * @property string|null $surat_keluar_template
+ * @property string|null $surat_address
  * @property-read \App\Models\Department|null $beritaAcaraDepartment
  * @property-read \App\Models\User $createdBy
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DocumentFile[] $file
- * @property-read int|null $file_count
+ * @property-read \App\Models\ExternalRecipient|null $externalRecipient
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DocumentFile[] $files
+ * @property-read int|null $files_count
  * @property-read \App\Models\Department|null $memoDepartment
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereBeritaAcaraDepartmentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereClassificationCode($value)
@@ -109,6 +114,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereOutRecipientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarTemplate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarTo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratMasukDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratMasukFrom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereTitle($value)
@@ -197,9 +206,19 @@ namespace App\Models{
 /**
  * App\Models\DocumentFile
  *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $document_id
+ * @property string $path
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile query()
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile whereDocumentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentFile whereUpdatedAt($value)
  */
 	class DocumentFile extends \Eloquent {}
 }
@@ -227,6 +246,52 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentHistories whereUserId($value)
  */
 	class DocumentHistories extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\DocumentTemplate
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $stub
+ * @property string $name
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentTemplate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentTemplate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentTemplate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentTemplate whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentTemplate whereStub($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentTemplate whereUpdatedAt($value)
+ */
+	class DocumentTemplate extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ExternalRecipient
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $email
+ * @property string $name
+ * @property string|null $phone
+ * @property string|null $address
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExternalRecipient whereUpdatedAt($value)
+ */
+	class ExternalRecipient extends \Eloquent {}
 }
 
 namespace App\Models{

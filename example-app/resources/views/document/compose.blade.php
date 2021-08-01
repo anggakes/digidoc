@@ -37,7 +37,7 @@
     </div>
 
     <div class="col-sm-4 col-xs-12">
-        <a href='#' class="info-box">
+        <a href='{{ route("document.suratKeluar") }}' class="info-box">
 
             <!-- Apply any bg-* class to to the icon to color it -->
             <span class="info-box-icon bg-purple"><i class="fa fa-envelope-square"></i></span>

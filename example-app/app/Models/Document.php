@@ -33,4 +33,8 @@ class Document extends Model
         return $this->hasMany(DocumentFile::class, "document_id", "id");
     }
 
+    function externalRecipient() {
+        return $this->belongsTo(ExternalRecipient::class, "surat_keluar_to", "id");
+    }
+
 }

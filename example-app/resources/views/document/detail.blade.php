@@ -51,6 +51,13 @@
                     Dokumen Cetak</a>
                 @endif
 
+
+                @if($document->type=="surat keluar")
+                <a href="{{ route('document.suratKeluar.print', $document->id) }}" target="_blank"
+                   class="btn btn-primary">Lihat
+                    Dokumen Cetak</a>
+                @endif
+
                 <br>
 
                 <table class="table table-borderless">
@@ -106,6 +113,32 @@
                         <td>Jumlah File</td>
                         <td>:</td>
                         <td>{{ $document->files()->count() }}</td>
+                    </tr>
+                    @endif
+
+                    @if($document->type=="surat keluar")
+                    <tr>
+                        <td>Jumlah File</td>
+                        <td>:</td>
+                        <td>{{ $document->files()->count() }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tipe surat</td>
+                        <td>:</td>
+                        <td>{{ $document->surat_keluar_type }}</td>
+                    </tr>
+                    <tr>
+                        <?php
+                            $exRecipient = $document->externalRecipient;
+                        ?>
+                        <td>Tujuan</td>
+                        <td>:</td>
+                        <td>
+                            <span style="font-weight: bold">{{ $exRecipient->name}}</span> <br>
+                            {{ $exRecipient->email}} <br>
+                            {{ $exRecipient->phone}} <br>
+                            {{ $exRecipient->address}} <br>
+                        </td>
                     </tr>
                     @endif
 
