@@ -177,6 +177,7 @@ return [
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         \SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Berkayk\OneSignal\OneSignalServiceProvider::class
 
     ],
 
@@ -231,6 +232,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         "QrCode" => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'OneSignal' => Berkayk\OneSignal\OneSignalFacade::class
 
     ],
 

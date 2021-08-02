@@ -56,5 +56,12 @@ c
 ./vendor/bin/sail php artisan make:model DocumentFile
 ./vendor/bin/sail php artisan make:model ExternalRecipient
 
+./vendor/bin/sail php artisan make:notification SendNotif
+
 ./vendor/bin/sail php artisan ide-helper:generate
 ./vendor/bin/sail php artisan ide-helper:model
+
+
+./vendor/bin/sail php artisan make:event Notif
+
+./vendor/bin/sail php artisan make:listener SendNotif --event=Notif

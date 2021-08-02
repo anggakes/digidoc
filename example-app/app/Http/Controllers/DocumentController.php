@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Notif;
 use App\Models\Department;
 use App\Models\DigSign;
 use App\Models\Document;
@@ -125,6 +126,8 @@ class DocumentController extends Controller
 
         }
 
+        Notif::dispatch($act);
+
         $docHistory = new DocumentHistories();
         $docHistory->user_id = $me->id;
         $docHistory->document_id = $document->id;
@@ -207,6 +210,8 @@ class DocumentController extends Controller
                 $act->save();
             }
 
+            Notif::dispatch($act);
+
 
             DB::commit();
             // all good
@@ -258,6 +263,8 @@ class DocumentController extends Controller
                 $act->action_need = "Baca";
                 $act->document_id = $id;
                 $act->save();
+
+                Notif::dispatch($act);
             }
 
 
@@ -412,6 +419,8 @@ class DocumentController extends Controller
                 $digSign->encrypt()->save();
             }
 
+            Notif::dispatch($act);
+
             $docHistory = new DocumentHistories();
             $docHistory->user_id = $me->id;
             $docHistory->document_id = $document->id;
@@ -493,6 +502,8 @@ class DocumentController extends Controller
                 $act->action_need = "Tanda Tangan";
                 $act->document_id = $document->id;
                 $act->save();
+
+                Notif::dispatch($act);
             }
 
             DB::commit();
@@ -588,6 +599,8 @@ class DocumentController extends Controller
             $act->action_need = "Disposisi";
             $act->document_id = $document->id;
             $act->save();
+
+            Notif::dispatch($act);
 
             $docHistory = new DocumentHistories();
             $docHistory->user_id = $me->id;
@@ -689,6 +702,8 @@ class DocumentController extends Controller
                 $act->action_need = "Baca";
                 $act->document_id = $id;
                 $act->save();
+
+                Notif::dispatch($act);
             }
 
             $docHistory = new DocumentHistories();
@@ -788,6 +803,8 @@ class DocumentController extends Controller
             $act->document_id = $document->id;
             $act->save();
 
+            Notif::dispatch($act);
+
             $docHistory = new DocumentHistories();
             $docHistory->user_id = $me->id;
             $docHistory->document_id = $document->id;
@@ -865,6 +882,8 @@ class DocumentController extends Controller
                 $act->action_need = "Tanda Tangan";
                 $act->document_id = $document->id;
                 $act->save();
+
+                Notif::dispatch($act);
             }
 
             DB::commit();
