@@ -12,10 +12,6 @@
 
 @section('css')
 <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
-@section('js')
-<script> console.log('Hi!'); </script>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
     window.OneSignal = window.OneSignal || [];
@@ -26,4 +22,8 @@
         OneSignal.setExternalUserId("{{ Auth::user()->id }}");
     });
 </script>
+@stop
+
+@section('js')
+<script> console.log('Hi!'); </script>
 @stop
