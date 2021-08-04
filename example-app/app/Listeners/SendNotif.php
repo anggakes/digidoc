@@ -29,11 +29,13 @@ class SendNotif
     {
         //
 
-
+        $users = [
+            "elet-".$event->docAct->user_id
+        ];
 
         OneSignal::sendNotificationToExternalUser(
             "Some Message",
-            ["$event->docAct->user_id"],
+            $users,
             $url = null,
             $data = null,
             $buttons = null,
