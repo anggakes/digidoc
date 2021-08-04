@@ -34,7 +34,7 @@ class SendNotif
         ];
 
         OneSignal::sendNotificationToExternalUser(
-            "Some Message",
+            "Dokumen ".$event->docAct->document->title." perlu ".$event->docAct->action_need." Anda",
             $users,
             $url = null,
             $data = null,
