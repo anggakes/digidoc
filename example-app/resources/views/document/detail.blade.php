@@ -177,9 +177,9 @@
                        ">
                             {{ $da->action_need }} -
                             @if($da->is_done)
-                                Selesai
+                            Selesai
                             @else
-                                Belum
+                            Belum
                             @endif
                         </div>
                         <div class="card-body">
@@ -237,7 +237,7 @@
                                                     <option value="">Dikirim ke...</option>
                                                     @foreach ($department as $dep)
                                                     @if( $dep->id == Auth::user()->jobPosition->department->id)
-                                                        <?php continue; ?>
+                                                    @continue
                                                     @endif
                                                     <option value="{{ $dep->id }}">{{ $dep->name }}</option>
 
@@ -255,7 +255,6 @@
                                     </div>
 
 
-
                                     <div class="clone hide">
                                         <div class="hdtuto control-group lst input-group" style="margin-top:10px">
                                             <div class="row">
@@ -265,7 +264,7 @@
                                                         <option value="">Dikirim ke...</option>
                                                         @foreach ($department as $dep)
                                                         @if( $dep->id == Auth::user()->jobPosition->department->id)
-                                                        <?php continue; ?>
+                                                        @continue
                                                         @endif
                                                         <option value="{{ $dep->id }}">{{ $dep->name }}</option>
 

@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="name">Departemen Tujuan</label>
+                        <label for="name">Tujuan</label>
                         <x-adminlte-select2 name="dep_id" class="form-control"
                                             data-placeholder="Dikirim ke...">
                             <option value="">Dikirim ke...</option>
@@ -56,6 +56,17 @@
                             <option value="{{ $dep->id }}">{{ $dep->name }}</option>
 
                             @endforeach
+                            @if(Auth::user()->jobPosition->department->id == 1)
+                            <option value="9999">Semua Karyawan</option>
+                            @endif
+                            @foreach ($userDept as $udept)
+                            @if($udept->id == Auth::user()->id)
+                            @continue
+                            @endif
+                            <option value="usr:{{ $udept->id }}:{{ $udept->department_id }}">{{ $udept->nip }} - {{ $udept->name }} </option>
+
+                            @endforeach
+
                         </x-adminlte-select2>
                     </div>
 

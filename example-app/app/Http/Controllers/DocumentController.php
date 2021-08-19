@@ -42,9 +42,15 @@ class DocumentController extends Controller
         //
         $department = Department::all();
         $docClass = DocumentClassification::all();
+        $userDept = DB::table('users')
+            ->select("users.id", "name", "nip", "job_positions.department_id")
+            ->join("job_positions", "job_positions.id", "=", "users.job_position_id")
+            ->where('job_positions.department_id', '=', Auth::user()->jobPosition->department_id)
+            ->get();
         return view('document.memo', [
             "department" => $department,
             "docClass" => $docClass,
+            "userDept" => $userDept,
         ]);
     }
 
@@ -63,6 +69,16 @@ class DocumentController extends Controller
 
         $me = Auth::user();
 
+        $deptSplit = explode(":", $request->dep_id);
+
+        $depid = $request->dep_id;
+        $tujuan = "";
+        if (count($deptSplit) == 3) {
+            $depid = $deptSplit[2];
+            $tujuan = $deptSplit[1];
+        }
+
+
         $seq = DocumentCodes::where('code', '=', 'MI')->first();
         $seq->seq = $seq->seq + 1;
         $number = "MI/" . ($seq->seq) . "/" . date("dmy");
@@ -72,7 +88,7 @@ class DocumentController extends Controller
         $document->content = $request->message;
         $document->status = 'draft';
         $document->type = 'memo';
-        $document->memo_to_department_id = $request->dep_id;
+        $document->memo_to_department_id = $depid;
         $document->created_by = $me->id;
         $document->classification_code = $request->doc_class_code;
         $document->save();
@@ -117,8 +133,11 @@ class DocumentController extends Controller
                 $act->document_id = $document->id;
                 $act->save();
             } else {
+                if ($tujuan == "") {
+                    $tujuan = $document->memoDepartment->kepala()->user->id;
+                }
                 $act = new DocumentAction();
-                $act->user_id = $document->memoDepartment->kepala()->user->id;
+                $act->user_id = $tujuan;
                 $act->action_need = "Baca";
                 $act->document_id = $document->id;
                 $act->save();
@@ -258,7 +277,6 @@ class DocumentController extends Controller
             $docAct->save();
 
 
-
             if ($me->jobPosition->id == 1) {
                 foreach ($request->dep_ids as $dep_id) {
                     if ($dep_id == "") {
@@ -267,9 +285,9 @@ class DocumentController extends Controller
                     $dep = Department::find($dep_id);
                     $act = new DocumentAction();
                     $act->user_id = $dep->kepala()->user->id;
-                    if ($dep_id == "7" || $dep_id == 8){
+                    if ($dep_id == "7" || $dep_id == 8) {
                         $act->action_need = "Baca";
-                    }else{
+                    } else {
                         $act->action_need = "Disposisi";
                     }
                     $act->note = $request->note;
@@ -998,7 +1016,7 @@ class DocumentController extends Controller
         $docAct = DocumentAction::where("document_id", "=", $id)->get();
         $department = Department::all();
 
-        $mydeptID=Auth::user()->jobPosition->department->id;
+        $mydeptID = Auth::user()->jobPosition->department->id;
 //        $departmentUser=User::where()
 
         return view('document.detail', [
