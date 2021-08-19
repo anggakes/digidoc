@@ -91,7 +91,14 @@
                     <tr>
                         <td>Kepada</td>
                         <td>:</td>
-                        <td>{{ $document->memoDepartment->name }}</td>
+                        <td>
+                            @if($document->memo_to_department_id != "9999")
+                            {{ $document->memoDepartment->name }}
+                            @else
+                            Semua Karyawan
+                            @endif
+
+                        </td>
                     </tr>
                     <tr>
                         <td>Dari</td>

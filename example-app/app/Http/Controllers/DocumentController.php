@@ -132,6 +132,21 @@ class DocumentController extends Controller
                 $act->action_need = "Disposisi";
                 $act->document_id = $document->id;
                 $act->save();
+            }
+            if ($depid == 9999) {
+
+                $users = User::all("id");
+                foreach ($users as $user) {
+                    
+                    if ($user->id == 1 || $user->id == 2) continue;
+
+                    $act = new DocumentAction();
+                    $act->user_id = $user->id;
+                    $act->action_need = "Baca";
+                    $act->document_id = $document->id;
+                    $act->save();
+                }
+
             } else {
                 if ($tujuan == "") {
                     $tujuan = $document->memoDepartment->kepala()->user->id;
