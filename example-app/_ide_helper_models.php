@@ -138,6 +138,7 @@ namespace App\Models{
  * @property int $is_done
  * @property int $user_id
  * @property string $action_need
+ * @property string $note
  * @property-read \App\Models\Document $document
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction newModelQuery()
@@ -148,6 +149,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereDocumentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereIsDone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereUserId($value)
  */

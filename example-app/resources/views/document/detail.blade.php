@@ -129,7 +129,7 @@
                     </tr>
                     <tr>
                         <?php
-                            $exRecipient = $document->externalRecipient;
+                        $exRecipient = $document->externalRecipient;
                         ?>
                         <td>Tujuan</td>
                         <td>:</td>
@@ -151,34 +151,57 @@
                 @endif
 
                 @if($document->files()->count() > 0)
-                    <hr>
-                    @foreach($document->files as $file)
-                        @if( isImage($file->path))
-                            <img src="{{ asset($file->path) }}">
-                        @endif
-                        <a href="{{  asset($file->path) }}">{{ $file->path }}</a>
-                    @endforeach
+                <hr>
+                @foreach($document->files as $file)
+                @if( isImage($file->path))
+                <img src="{{ asset($file->path) }}">
+                @endif
+                <a href="{{  asset($file->path) }}">{{ $file->path }}</a>
+                @endforeach
 
                 @endif
 
                 <hr>
                 <h3>Approval dan Tanda Tangan</h3>
-                <table class="table table-condensed">
-                    <thead>
-                    <th>Nama</th>
-                    <th>Aksi</th>
-                    <th>Selesai</th>
-                    </thead>
-                    <tbody>
+                <br>
+                <div class="col-12">
                     @foreach($docAct as $da)
-                    <tr>
-                        <td>{{ $da->user->name }} <br> {{ $da->user->jobPosition->department->name }}</td>
-                        <td>
-                            {{ $da->action_need }}
-                        </td>
-                        <td>
+
+                    <div class="card">
+                        <div class="card-header
+                        @if($da->is_done)
+                                 bg-green
+                            @else
+                                 bg-red
+                            @endif
+                       ">
+                            {{ $da->action_need }} -
                             @if($da->is_done)
-                            Ya
+                                Selesai
+                            @else
+                                Belum
+                            @endif
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-condensed table-borderless">
+                                <tr>
+                                    <td>Nama</td>
+                                    <td>{{ $da->user->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Jabatan</td>
+                                    <td>{{ $da->user->jobPosition->label }}</td>
+                                </tr>
+                                @if($da->note != "")
+                                <tr>
+                                    <td>Catatan</td>
+                                    <td> {{$da->note}}</td>
+                                </tr>
+                                @endif
+                            </table>
+
+                            @if($da->is_done)
+
                             @else
                             @if($document->type=="memo")
                             @if($da->user->id == Auth::user()->id)
@@ -191,19 +214,74 @@
                             @endif
                             @if($da->action_need=="Disposisi")
 
-                            <form method="post" action="{{ route('document.memo.disposisi', $document->id) }}" id="myForm"
+                            <form method="post" action="{{ route('document.memo.disposisi', $document->id) }}"
+                                  id="myForm"
                                   enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="name">Departemen Tujuan</label>
-                                    <x-adminlte-select2 name="dep_ids[]" class="form-control"
-                                                        data-placeholder="Dikirim ke...">
-                                        <option value="">Dikirim ke...</option>
-                                        @foreach ($department as $dep)
-                                        <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                                    <div class="form-group">
+                                        <label for="note">Catatan</label>
+                                        <textarea name="note" class="form-control" id="subject"
+                                                  aria-describedby="note"></textarea>
+                                    </div>
+                                </div>
 
-                                        @endforeach
-                                    </x-adminlte-select2>
+                                <div class="form-group">
+                                    <label for="name">Departemen Tujuan</label>
+                                    <div class="input-group hdtuto control-group lst increment">
+
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <x-adminlte-select2 name="dep_ids[]" class="form-control"
+                                                                    data-placeholder="Dikirim ke...">
+                                                    <option value="">Dikirim ke...</option>
+                                                    @foreach ($department as $dep)
+                                                    @if( $dep->id == Auth::user()->jobPosition->department->id)
+                                                        <?php continue; ?>
+                                                    @endif
+                                                    <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+
+                                                    @endforeach
+                                                </x-adminlte-select2>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-success add" type="button"><i
+                                                            class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="clone hide">
+                                        <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <x-adminlte-select2 name="dep_ids[]" class="form-control"
+                                                                        data-placeholder="Dikirim ke...">
+                                                        <option value="">Dikirim ke...</option>
+                                                        @foreach ($department as $dep)
+                                                        @if( $dep->id == Auth::user()->jobPosition->department->id)
+                                                        <?php continue; ?>
+                                                        @endif
+                                                        <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+
+                                                        @endforeach
+                                                    </x-adminlte-select2>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-danger" type="button"><i
+                                                                class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Kirim</button>
@@ -211,7 +289,7 @@
                             </form>
                             @endif
                             @else
-                            Belum
+
                             @endif
                             @endif
 
@@ -231,7 +309,7 @@
                             @endif
 
 
-<!--                            Surat Masuk -->
+                            <!--                            Surat Masuk -->
                             @if($document->type=="surat masuk")
                             @if($da->user->id == Auth::user()->id)
                             @if($da->action_need=="Baca")
@@ -240,7 +318,8 @@
                             @endif
                             @if($da->action_need=="Disposisi")
 
-                            <form method="post" action="{{ route('document.suratMasuk.disposisi', $document->id) }}" id="myForm"
+                            <form method="post" action="{{ route('document.suratMasuk.disposisi', $document->id) }}"
+                                  id="myForm"
                                   enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
@@ -266,14 +345,17 @@
 
 
                             @endif
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
+
                     @endforeach
-                    </tbody>
-                </table>
+                </div>
+
             </div>
+
         </div>
     </div>
+</div>
 </div>
 @stop
 
@@ -295,5 +377,16 @@
     //     selector: '#message',
     //     plugins: 'image',
     // });
+
+    $(document).ready(function () {
+        $(".add").click(function () {
+            var lsthmtl = $(".clone").html();
+            $(".increment").after(lsthmtl);
+        });
+        $("body").on("click", ".btn-danger", function () {
+            console.log($(this).parents(".hdtuto control-group lst "));
+            $(this).parents(".hdtuto").remove();
+        });
+    });
 </script>
 @stop

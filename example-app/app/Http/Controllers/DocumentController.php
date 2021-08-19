@@ -242,9 +242,10 @@ class DocumentController extends Controller
 
         try {
 
-            if ($me->jobPosition->id != 1) {
-                throw new Exception("Anda tidak memiliki akses");
-            }
+//            if ($me->jobPosition->id != 1) {
+//                throw new Exception("Anda tidak memiliki akses");
+//            }
+
 
             $docAct = DocumentAction::where("document_id", "=", $id)
                 ->where("user_id", "=", $me->id)
@@ -256,17 +257,29 @@ class DocumentController extends Controller
             $docAct->is_done = true;
             $docAct->save();
 
-            foreach ($request->dep_ids as $dep_id) {
-                $dep = Department::find($dep_id);
-                $act = new DocumentAction();
-                $act->user_id = $dep->kepala()->user->id;
-                $act->action_need = "Baca";
-                $act->document_id = $id;
-                $act->save();
 
-                Notif::dispatch($act);
+
+            if ($me->jobPosition->id == 1) {
+                foreach ($request->dep_ids as $dep_id) {
+                    if ($dep_id == "") {
+                        continue;
+                    }
+                    $dep = Department::find($dep_id);
+                    $act = new DocumentAction();
+                    $act->user_id = $dep->kepala()->user->id;
+                    if ($dep_id == "7" || $dep_id == 8){
+                        $act->action_need = "Baca";
+                    }else{
+                        $act->action_need = "Disposisi";
+                    }
+                    $act->note = $request->note;
+
+                    $act->document_id = $id;
+                    $act->save();
+
+                    Notif::dispatch($act);
+                }
             }
-
 
             $docHistory = new DocumentHistories();
             $docHistory->user_id = $me->id;
@@ -980,9 +993,13 @@ class DocumentController extends Controller
     public function show($id)
     {
         //
+
         $document = Document::find($id);
         $docAct = DocumentAction::where("document_id", "=", $id)->get();
         $department = Department::all();
+
+        $mydeptID=Auth::user()->jobPosition->department->id;
+//        $departmentUser=User::where()
 
         return view('document.detail', [
             "document" => $document,
