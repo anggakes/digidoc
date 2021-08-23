@@ -79,7 +79,7 @@
                     <tr>
                         <td>Tanggal</td>
                         <td>:</td>
-                        <td>{{ $document->created_at->format("d M Y") }}</td>
+                        <td>{{ indoDate($document->created_at->format("Y-m-d")) }}</td>
                     </tr>
                     <tr>
                         <td>Di Buat Oleh</td>

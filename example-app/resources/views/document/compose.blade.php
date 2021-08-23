@@ -55,7 +55,7 @@
             <!-- Apply any bg-* class to to the icon to color it -->
             <span class="info-box-icon bg-purple"><i class="fa fa-envelope-square"></i></span>
             <div class="info-box-content">
-                <span class="info-box-text info-box-title">Buat Surat Masuk</span>
+                <span class="info-box-text info-box-title">Buat Disposisi Kepala Unit</span>
                 <span>Surat masuk ke dari instansi luar</span>
             </div>
             <!-- /.info-box-content -->
