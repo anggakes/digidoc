@@ -842,14 +842,16 @@ class DocumentController extends Controller
             }
 
             // kirim ke kepala cabang
-            $kepalaDivisi = $me->jobPosition->jobParent->user;
-            $act = new DocumentAction();
-            $act->user_id = $kepalaDivisi->id;
-            $act->action_need = "Tanda Tangan";
-            $act->document_id = $document->id;
-            $act->save();
+            if ($me->jobPosition != 1 ){
+                $kepalaDivisi = $me->jobPosition->jobParent->user;
+                $act = new DocumentAction();
+                $act->user_id = $kepalaDivisi->id;
+                $act->action_need = "Tanda Tangan";
+                $act->document_id = $document->id;
+                $act->save();
 
-            Notif::dispatch($act);
+                Notif::dispatch($act);
+            }
 
             $docHistory = new DocumentHistories();
             $docHistory->user_id = $me->id;
