@@ -186,57 +186,5 @@
 
 </page>
 
-<page size="A4">
-
-    <div class="header">
-        <div class="title">
-            Catatan Disposisi
-        </div>
-
-    </div>
-    <div class="clear"></div>
-
-    <div class="body content">
-        <?php
-        $notes = [];
-        foreach ($docAct as $dc) {
-            if ($dc->note == "") continue;
-            $notes[$dc->note][] = $dc->user->name;
-        }
-
-        ?>
-
-
-        @foreach($notes as $note => $tos)
-        <table style="border:1px solid #000; width: 90%">
-            <tr>
-                <td style="font-weight: bold">
-                    Kepada
-                    <br>
-
-                </td>
-                <td>:</td>
-                <td>
-                    @foreach($tos as $idx => $to)
-                    {{ $to }}@if( count($tos)-1 > $idx),@endif
-                    @endforeach
-                </td>
-            </tr>
-            <tr>
-            <td style="font-weight: bold">
-                Catatan
-            </td>
-            <td>:</td>
-            <td>{{ $note }}</td>
-            </tr>
-        </table>
-
-        @endforeach
-
-
-    </div>
-</page>
-
-
 </body>
 </html>
