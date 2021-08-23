@@ -329,15 +329,68 @@
                                   enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="name">Departemen Tujuan</label>
-                                    <x-adminlte-select2 name="dep_ids[]" class="form-control"
-                                                        data-placeholder="Dikirim ke...">
-                                        <option value="">Dikirim ke...</option>
-                                        @foreach ($department as $dep)
-                                        <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                                    <div class="form-group">
+                                        <label for="note">Catatan</label>
+                                        <textarea name="note" class="form-control" id="subject"
+                                                  aria-describedby="note"></textarea>
+                                    </div>
+                                </div>
 
-                                        @endforeach
-                                    </x-adminlte-select2>
+                                <div class="form-group">
+                                    <label for="name">Departemen Tujuan</label>
+                                    <div class="input-group hdtuto control-group lst increment">
+
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <x-adminlte-select2 name="dep_ids[]" class="form-control"
+                                                                    data-placeholder="Dikirim ke...">
+                                                    <option value="">Dikirim ke...</option>
+                                                    @foreach ($department as $dep)
+                                                    @if( $dep->id == Auth::user()->jobPosition->department->id)
+                                                    @continue
+                                                    @endif
+                                                    <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+
+                                                    @endforeach
+                                                </x-adminlte-select2>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-success add" type="button"><i
+                                                            class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="clone hide">
+                                        <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <x-adminlte-select2 name="dep_ids[]" class="form-control"
+                                                                        data-placeholder="Dikirim ke...">
+                                                        <option value="">Dikirim ke...</option>
+                                                        @foreach ($department as $dep)
+                                                        @if( $dep->id == Auth::user()->jobPosition->department->id)
+                                                        @continue
+                                                        @endif
+                                                        <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+
+                                                        @endforeach
+                                                    </x-adminlte-select2>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-danger" type="button"><i
+                                                                class="fa fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Kirim</button>
@@ -345,7 +398,6 @@
                             </form>
                             @endif
                             @else
-                            Belum
                             @endif
                             @endif
 
