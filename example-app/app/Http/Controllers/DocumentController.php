@@ -971,7 +971,7 @@ class DocumentController extends Controller
             $document->save();
             $digSign->encrypt()->save();
 
-            if ($document->status == "sent") {
+            if ($document->status == "sent" && $me->job_position_id != 1) {
                 // kirim ke kepala
                 // create new docACT
                 $job = JobPosition::find(1);

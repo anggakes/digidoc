@@ -427,6 +427,18 @@
                             @endif
 
 
+                            <!--                            Surat Keluar -->
+                            @if($document->type=="surat keluar")
+                            @if($da->user->id == Auth::user()->id)
+                            @if($da->action_need=="Tanda Tangan")
+                            <a href="{{ route('document.suratKeluar.sign', $document->id) }}" class="btn btn-primary">Tandatangani</a>
+                            @endif
+
+
+                            @endif
+                            @endif
+
+
                             @endif
                         </div>
                     </div>
