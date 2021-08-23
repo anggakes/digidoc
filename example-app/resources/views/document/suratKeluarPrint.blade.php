@@ -131,12 +131,20 @@
                     <tr>
                         <td>Kepada</td>
                         <td>:</td>
-                        <td>{{ $document->memoDepartment->kepala()->label }}</td>
+                        <td>
+                            {{ $document->externalRecipient->name }}
+                            <br>
+                            {{ $document->externalRecipient->email }}
+                            <br>
+                            {{ $document->externalRecipient->phone }}
+                            <br>
+                            {{ $document->externalRecipient->address }}
+                        </td>
                     </tr>
                     <tr>
                         <td>Dari</td>
                         <td>:</td>
-                        <td>{{ $document->createdBy->jobPosition->department->name }}</td>
+                        <td>BPJS Ketenagakerjaan Cikokol</td>
                     </tr>
                     <tr>
                         <td>Perihal</td>
