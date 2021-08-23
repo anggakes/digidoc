@@ -842,7 +842,7 @@ class DocumentController extends Controller
             }
 
             // kirim ke kepala cabang
-            if ($me->jobPosition != 1 ){
+            if ($me->job_position_id != 1 ){
                 $kepalaDivisi = $me->jobPosition->jobParent->user;
                 $act = new DocumentAction();
                 $act->user_id = $kepalaDivisi->id;
