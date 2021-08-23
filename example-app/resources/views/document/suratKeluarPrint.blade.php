@@ -109,7 +109,7 @@
     <div class="">
         <div class="header">
             <div class="title">
-                Memo Internal
+                --- KOP Surat ---
             </div>
         </div>
         <div class="clear"></div>

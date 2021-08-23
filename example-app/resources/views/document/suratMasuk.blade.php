@@ -14,7 +14,7 @@
     <div class="row  ">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Buat Berita Acara
+                Buat Disposisi Kepala Cabang
             </div>
             <div class="card-body">
                 @if ($errors->any())
