@@ -81,7 +81,7 @@ class DocumentController extends Controller
 
         $seq = DocumentCodes::where('code', '=', 'MI')->first();
         $seq->seq = $seq->seq + 1;
-        $number = "MI/" . ($seq->seq) . "/" . date("dmy");
+        $number = "MI/" . ($seq->seq) . "/" . date("my");
         $document = new Document();
         $document->title = $request->title;
         $document->number = $number;
@@ -137,7 +137,7 @@ class DocumentController extends Controller
 
                 $users = User::all("id");
                 foreach ($users as $user) {
-                    
+
                     if ($user->id == 1 || $user->id == 2) continue;
 
                     $act = new DocumentAction();
@@ -409,7 +409,7 @@ class DocumentController extends Controller
 
             $seq = DocumentCodes::where('code', '=', 'BA')->first();
             $seq->seq = $seq->seq + 1;
-            $number = "BA/" . ($seq->seq) . "/" . date("dmy");
+            $number = "BA/" . ($seq->seq) . "/" . date("my");
             $document = new Document();
             $document->title = $request->title;
             $document->number = $number;
