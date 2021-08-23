@@ -242,13 +242,26 @@
                                                 <x-adminlte-select2 name="dep_ids[]" class="form-control"
                                                                     data-placeholder="Dikirim ke...">
                                                     <option value="">Dikirim ke...</option>
+
+                                                    @if(Auth::user()->jobPosition->department_id == 1)
                                                     @foreach ($department as $dep)
-                                                    @if( $dep->id == Auth::user()->jobPosition->department->id)
+
+                                                    @if( $dep->id == Auth::user()->jobPosition->department_id)
                                                     @continue
                                                     @endif
                                                     <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                                                    @endforeach
+                                                    @else
+
+                                                    @foreach ($userDept as $udept)
+                                                    @if($udept->id == Auth::user()->id)
+                                                    @continue
+                                                    @endif
+                                                    <option value="usr:{{ $udept->id }}:{{ $udept->department_id }}">{{ $udept->nip }} - {{ $udept->name }} </option>
 
                                                     @endforeach
+                                                    @endif
+
                                                 </x-adminlte-select2>
                                             </div>
                                             <div class="col-2">
@@ -269,13 +282,25 @@
                                                     <x-adminlte-select2 name="dep_ids[]" class="form-control"
                                                                         data-placeholder="Dikirim ke...">
                                                         <option value="">Dikirim ke...</option>
+                                                        @if(Auth::user()->jobPosition->department_id == 1)
                                                         @foreach ($department as $dep)
-                                                        @if( $dep->id == Auth::user()->jobPosition->department->id)
+
+                                                        @if( $dep->id == Auth::user()->jobPosition->department_id)
                                                         @continue
                                                         @endif
                                                         <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                                                        @endforeach
+                                                        @else
+
+                                                        @foreach ($userDept as $udept)
+                                                        @if($udept->id == Auth::user()->id)
+                                                        @continue
+                                                        @endif
+                                                        <option value="usr:{{ $udept->id }}:{{ $udept->department_id }}">{{ $udept->nip }} - {{ $udept->name }} </option>
 
                                                         @endforeach
+                                                        @endif
+
                                                     </x-adminlte-select2>
                                                 </div>
                                                 <div class="col-2">

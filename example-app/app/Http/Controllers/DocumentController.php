@@ -267,7 +267,10 @@ class DocumentController extends Controller
         //melakukan validasi data
         $validateRequest = [
             'dep_ids' => 'required',
+            'note' => 'required',
+
         ];
+        $request->validate($validateRequest);
 
         $me = Auth::user();
 //        $id = $request->document_id;
@@ -293,12 +296,15 @@ class DocumentController extends Controller
 
 
             if ($me->jobPosition->id == 1) {
+
                 foreach ($request->dep_ids as $dep_id) {
+                    $act = new DocumentAction();
+
                     if ($dep_id == "") {
                         continue;
                     }
+
                     $dep = Department::find($dep_id);
-                    $act = new DocumentAction();
                     $act->user_id = $dep->kepala()->user->id;
                     if ($dep_id == "7" || $dep_id == 8) {
                         $act->action_need = "Baca";
@@ -307,6 +313,25 @@ class DocumentController extends Controller
                     }
                     $act->note = $request->note;
 
+                    $act->document_id = $id;
+                    $act->save();
+
+
+                    Notif::dispatch($act);
+                }
+
+            } else {
+                foreach ($request->dep_ids as $dep_id) {
+                    $deptSplit = explode(":", $dep_id);
+                    $tujuan = "";
+                    if (count($deptSplit) == 3) {
+                        $dep_id = $deptSplit[2];
+                        $tujuan = $deptSplit[1];
+                    }
+                    $act = new DocumentAction();
+                    $act->user_id = $tujuan;
+                    $act->action_need = "Baca";
+                    $act->note = $request->note;
                     $act->document_id = $id;
                     $act->save();
 
@@ -853,7 +878,7 @@ class DocumentController extends Controller
             }
 
             // kirim ke kepala cabang
-            if ($me->job_position_id != 1 ){
+            if ($me->job_position_id != 1) {
                 $kepalaDivisi = $me->jobPosition->jobParent->user;
                 $act = new DocumentAction();
                 $act->user_id = $kepalaDivisi->id;
@@ -1044,13 +1069,17 @@ class DocumentController extends Controller
         $docAct = DocumentAction::where("document_id", "=", $id)->get();
         $department = Department::all();
 
-        $mydeptID = Auth::user()->jobPosition->department->id;
-//        $departmentUser=User::where()
+        $userDept = DB::table('users')
+            ->select("users.id", "name", "nip", "job_positions.department_id")
+            ->join("job_positions", "job_positions.id", "=", "users.job_position_id")
+            ->where('job_positions.department_id', '=', Auth::user()->jobPosition->department_id)
+            ->get();
 
         return view('document.detail', [
             "document" => $document,
             "docAct" => $docAct,
             "department" => $department,
+            "userDept" => $userDept,
         ]);
     }
 
