@@ -158,10 +158,21 @@
             </div>
 
             <br><br>
-            @foreach($digSign as $d)
             <?php
-            $prefixSign = strtoupper(substr($d->signed_by_name, 0, 2))
+            $prefixSign = "";
+
+            try{
+
+                $kepala = $document->createdBy->jobPosition->jobParent->user->name;
+
+                $prefixSign = strtoupper(substr($kepala, 0, 2));
+
+            }catch (Exception $e){
+
+            }
+
             ?>
+            @foreach($digSign as $d)
             <div class="ttd">
                 <span class="text-bold"> {{ $d->label }}</span>
                 <br><br>
