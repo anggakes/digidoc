@@ -126,7 +126,7 @@
                     <tr>
                         <td>Tanggal</td>
                         <td>:</td>
-                        <td>{{ $document->created_at->format('d M Y') }}</td>
+                        <td>{{ indoDate($document->created_at->format("Y-m-d")) }}</td>
                     </tr>
                     <tr>
                         <td>Kepada</td>
@@ -215,11 +215,11 @@
                 </td>
             </tr>
             <tr>
-            <td style="font-weight: bold">
-                Catatan
-            </td>
-            <td>:</td>
-            <td>{{ $note }}</td>
+                <td style="font-weight: bold">
+                    Catatan
+                </td>
+                <td>:</td>
+                <td>{{ $note }}</td>
             </tr>
         </table>
 
