@@ -90,6 +90,7 @@ class DocumentController extends Controller
         $document->type = 'memo';
         $document->memo_to_department_id = $depid;
         $document->created_by = $me->id;
+        // create
         $document->classification_code = $request->doc_class_code;
         $document->save();
 

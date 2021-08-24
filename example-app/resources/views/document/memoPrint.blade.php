@@ -5,6 +5,7 @@
     <style>
         body {
             background: rgb(204, 204, 204);
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         page {
@@ -108,8 +109,8 @@
 <page size="A4">
     <div class="">
         <div class="header">
-            <div class="title">
-                Memo Internal
+            <div class="title" style="font-size: 14pt">
+                MEMO INTERNAL
             </div>
         </div>
         <div class="clear"></div>
@@ -158,6 +159,9 @@
 
             <br><br>
             @foreach($digSign as $d)
+            <?php
+            $prefixSign = strtoupper(substr($d->signed_by_name, 0, 2))
+            ?>
             <div class="ttd">
                 <span class="text-bold"> {{ $d->label }}</span>
                 <br><br>
@@ -168,7 +172,14 @@
             </div>
             @endforeach
             <br>
-            {{ $document->classification_code}}
+            <?php
+            // create classification code format
+            $prefixCreator = strtoupper(substr($document->createdBy->name, 0, 2));
+
+            $cc = $prefixSign . "/" . $prefixCreator . "/" .$document->classification_code;
+
+            ?>
+            {{ $cc }}
 
 
         </div>
