@@ -198,6 +198,7 @@ class DocumentController extends Controller
             // update status
             $docAct = DocumentAction::where("document_id", "=", $id)
                 ->where("user_id", "=", $me->id)
+                ->where("action_need", "=", "Tanda Tangan")
                 ->first();
 
             if (!$docAct) {

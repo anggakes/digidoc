@@ -234,7 +234,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="name">Departemen Tujuan</label>
+                                    <label for="name">Tujuan</label>
                                     <div class="input-group hdtuto control-group lst increment">
 
                                         <div class="row">
@@ -300,6 +300,17 @@
 
                                                         @endforeach
                                                         @endif
+
+                                                        <?php
+                                                            // get secretaris
+                                                            $jp = \App\Models\JobPosition::where("department_id", "=", "7")->first();
+                                                            $jpuser = $jp->user
+                                                        ?>
+                                                        
+                                                        @if(Auth::user()->jobPosition->department_id == 2)
+                                                        <option value="usr:{{ $jpuser->id }}:{{ $jpuser->department_id }}">{{ $jpuser->nip }} - {{ $jpuser->name }} </option>
+                                                        @endif
+
 
                                                     </x-adminlte-select2>
                                                 </div>
