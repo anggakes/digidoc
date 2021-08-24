@@ -287,6 +287,7 @@ class DocumentController extends Controller
 
             $docAct = DocumentAction::where("document_id", "=", $id)
                 ->where("user_id", "=", $me->id)
+                ->where("action_need", "=", "Disposisi")
                 ->first();
 
             if (!$docAct) {
