@@ -323,6 +323,9 @@ class DocumentController extends Controller
 
             } else {
                 foreach ($request->dep_ids as $dep_id) {
+                    if ($dep_id == "") {
+                        continue;
+                    }
                     $deptSplit = explode(":", $dep_id);
                     $tujuan = "";
                     if (count($deptSplit) == 3) {

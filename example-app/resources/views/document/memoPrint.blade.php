@@ -173,7 +173,7 @@
 
             ?>
 
-           
+
             @foreach($digSign as $d)
             <div class="ttd">
                 <span class="text-bold"> {{ $d->label }}</span>
