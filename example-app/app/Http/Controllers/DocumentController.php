@@ -123,7 +123,9 @@ class DocumentController extends Controller
             $digSign->document_id = $document->id;
             $digSign->sign_uniqueness = Str::random(20);
             $digSign->signed_by_name = $me->name;
-            $digSign->departement = $me->jobPosition->department->name;
+            $label = $me->jobPosition->label;
+            if(str_contains($me->jobPosition->label, "Kepala")) $label = "Kepala";
+            $digSign->departement = $label;
             $digSign->encrypt()->save();
 
             // kakacab
@@ -213,7 +215,9 @@ class DocumentController extends Controller
             $digSign->document_id = $id;
             $digSign->sign_uniqueness = Str::random(20);
             $digSign->signed_by_name = $me->name;
-            $digSign->departement = $me->jobPosition->department->name;
+            $label = $me->jobPosition->label;
+            if(str_contains($me->jobPosition->label, "Kepala")) $label = "Kepala";
+            $digSign->departement = $label;
             $digSign->encrypt()->save();
 
             // update histories
