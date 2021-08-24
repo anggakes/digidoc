@@ -262,6 +262,16 @@
                                                     @endforeach
                                                     @endif
 
+                                                    <?php
+                                                    // get secretaris
+                                                    $jp = \App\Models\JobPosition::where("department_id", "=", "7")->first();
+                                                    $jpuser = $jp->user
+                                                    ?>
+
+                                                    @if(Auth::user()->jobPosition->department_id == 2)
+                                                    <option value="usr:{{ $jpuser->id }}:{{ $jpuser->department_id }}">{{ $jpuser->nip }} - {{ $jpuser->name }} </option>
+                                                    @endif
+
                                                 </x-adminlte-select2>
                                             </div>
                                             <div class="col-2">
