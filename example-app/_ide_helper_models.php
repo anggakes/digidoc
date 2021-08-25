@@ -139,11 +139,13 @@ namespace App\Models{
  * @property int $user_id
  * @property string $action_need
  * @property string $note
+ * @property string $action_from
  * @property-read \App\Models\Document $document
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction query()
+ * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereActionFrom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereActionNeed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction whereDocumentId($value)

@@ -19,6 +19,8 @@
 ./vendor/bin/sail php artisan make:migration create_document_file_table
 ./vendor/bin/sail php artisan make:migration create_document_number_table
 ./vendor/bin/sail php artisan make:migration add_note_to_document_action_table
+./vendor/bin/sail php artisan make:migration add_action_from_to_document_action_table
+
 
 
 ./vendor/bin/sail php artisan make:migration add_surat_masuk_column

@@ -13,6 +13,10 @@ class DocumentAction extends Model
         return $this->belongsTo(User::class, "user_id", "id");
     }
 
+    function from() {
+        return $this->belongsTo(User::class, "action_from", "id");
+    }
+
     function document() {
         return $this->belongsTo(Document::class, "document_id", "id");
     }

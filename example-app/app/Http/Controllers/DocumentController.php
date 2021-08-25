@@ -124,7 +124,7 @@ class DocumentController extends Controller
             $digSign->sign_uniqueness = Str::random(20);
             $digSign->signed_by_name = $me->name;
             $label = $me->jobPosition->label;
-            if(str_contains($me->jobPosition->label, "Kepala")) $label = "Kepala";
+            if (str_contains($me->jobPosition->label, "Kepala")) $label = "Kepala";
             $digSign->departement = $label;
             $digSign->encrypt()->save();
 
@@ -216,7 +216,7 @@ class DocumentController extends Controller
             $digSign->sign_uniqueness = Str::random(20);
             $digSign->signed_by_name = $me->name;
             $label = $me->jobPosition->label;
-            if(str_contains($me->jobPosition->label, "Kepala")) $label = "Kepala";
+            if (str_contains($me->jobPosition->label, "Kepala")) $label = "Kepala";
             $digSign->departement = $label;
             $digSign->encrypt()->save();
 
@@ -319,6 +319,7 @@ class DocumentController extends Controller
                         $act->action_need = "Disposisi";
                     }
                     $act->note = $request->note;
+                    $act->action_from = $me->id;
 
                     $act->document_id = $id;
                     $act->save();
@@ -342,6 +343,7 @@ class DocumentController extends Controller
                     $act->user_id = $tujuan;
                     $act->action_need = "Baca";
                     $act->note = $request->note;
+                    $act->action_from = $me->id;
                     $act->document_id = $id;
                     $act->save();
 
