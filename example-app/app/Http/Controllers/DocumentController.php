@@ -305,27 +305,57 @@ class DocumentController extends Controller
             if ($me->jobPosition->id == 1) {
 
                 foreach ($request->dep_ids as $dep_id) {
-                    $act = new DocumentAction();
 
-                    if ($dep_id == "") {
-                        continue;
-                    }
+                    if ($dep_id == 8) {
 
-                    $dep = Department::find($dep_id);
-                    $act->user_id = $dep->kepala()->user->id;
-                    if ($dep_id == "7" || $dep_id == 8) {
-                        $act->action_need = "Baca";
+                        foreach ([90, 91] as $uid) {
+                            $act = new DocumentAction();
+                            $act->user_id = $uid;
+                            $act->action_need = "Baca";
+                            $act->note = $request->note;
+                            $act->action_from = $me->id;
+                            $act->document_id = $id;
+                            $act->save();
+
+                            Notif::dispatch($act);
+                        }
+
                     } else {
-                        $act->action_need = "Disposisi";
+                        $act = new DocumentAction();
+
+                        if ($dep_id == "") {
+                            continue;
+                        }
+
+                        $dep = Department::find($dep_id);
+
+                        $tujuan = "";
+
+                        if ($dep->kepala()) {
+                            $tujuan = $dep->kepala()->user->id;
+                        } else if ($dep_id == 7) {
+                            $tujuan = 85;
+                        }
+
+
+                        $act->user_id = $tujuan;
+
+                        if ($dep_id == "7" || $dep_id == 8) {
+                            $act->action_need = "Baca";
+                        } else {
+                            $act->action_need = "Disposisi";
+                        }
+                        $act->note = $request->note;
+                        $act->action_from = $me->id;
+
+                        $act->document_id = $id;
+                        $act->save();
+
+
+                        Notif::dispatch($act);
                     }
-                    $act->note = $request->note;
-                    $act->action_from = $me->id;
-
-                    $act->document_id = $id;
-                    $act->save();
 
 
-                    Notif::dispatch($act);
                 }
 
             } else {
