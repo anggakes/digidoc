@@ -370,7 +370,7 @@
                                 Sudah Dibaca</a>
                             @endif
                             @else
-                            Belum
+
                             @endif
                             @endif
 

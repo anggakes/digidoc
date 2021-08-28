@@ -152,15 +152,20 @@
                 Tangerang, {{ indoDate($document->created_at->format("Y-m-d")) }}
             </div>
             @foreach($digSign as $d)
-            <div class="ttd">
+            <div class="ttd" style="width: 230px;float: left">
                 <span class="text-bold"> {{ $d->label }}</span>
                 <br><br>
                 {{ QrCode::size(100)->generate(URL::to('/sign/'.$d->data)) }}
                 <br><br>
                 {{ $d->signed_by_name }} <br>
+                @if($d->departement == "Kepala Kantor Cabang")
+                Kepala
+                @else
                 {{ $d->departement }}
+                @endif
             </div>
             @endforeach
+            <div style="clear: both"></div>
             <br>
             {{ $document->classification_code}}
         </div>

@@ -511,7 +511,7 @@ class DocumentController extends Controller
                 $digSign->document_id = $document->id;
                 $digSign->sign_uniqueness = Str::random(20);
                 $digSign->signed_by_name = $me->name;
-                $digSign->departement = $me->jobPosition->department->name;
+                $digSign->departement = $me->jobPosition->label;
                 $digSign->label = "Yang Membuat,";
                 $digSign->encrypt()->save();
 
@@ -528,7 +528,7 @@ class DocumentController extends Controller
                 $digSign->document_id = $document->id;
                 $digSign->sign_uniqueness = Str::random(20);
                 $digSign->signed_by_name = $me->name;
-                $digSign->departement = $me->jobPosition->department->name;
+                $digSign->departement = $me->jobPosition->name;
                 $digSign->label = "Yang Membuat,";
                 $digSign->encrypt()->save();
             }
@@ -583,7 +583,7 @@ class DocumentController extends Controller
             $digSign->document_id = $id;
             $digSign->sign_uniqueness = Str::random(20);
             $digSign->signed_by_name = $me->name;
-            $digSign->departement = $me->jobPosition->department->name;
+            $digSign->departement = $me->jobPosition->label;
 
             // update histories
             $docHistory = new DocumentHistories();
