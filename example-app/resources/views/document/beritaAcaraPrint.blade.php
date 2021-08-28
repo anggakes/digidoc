@@ -65,7 +65,7 @@
         .header {
             padding-top: 100px;
             /*height: 100px;*/
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
 
         .title {
@@ -133,13 +133,11 @@
             </div>
         </div>
 
-        <div class="clear"></div>
+<!--        <div class="clear"></div>-->
 
         <div class="body content">
 
             <div class="clear"></div>
-
-            <br><br>
 
 
             <div>
