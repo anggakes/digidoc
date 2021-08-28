@@ -477,7 +477,7 @@ class DocumentController extends Controller
 
             $seq = DocumentCodes::where('code', '=', 'BA')->first();
             $seq->seq = $seq->seq + 1;
-            $number = "BA/" . ($seq->seq) . "/" . date("my");
+            $number = "BA/" . ($seq->seq) . "/" . date("mY");
             $document = new Document();
             $document->title = $request->title;
             $document->number = $number;
@@ -512,7 +512,7 @@ class DocumentController extends Controller
                 $digSign->sign_uniqueness = Str::random(20);
                 $digSign->signed_by_name = $me->name;
                 $digSign->departement = $me->jobPosition->department->name;
-                $digSign->label = "Yang Membuat";
+                $digSign->label = "Yang Membuat,";
                 $digSign->encrypt()->save();
 
             } else {
@@ -529,7 +529,7 @@ class DocumentController extends Controller
                 $digSign->sign_uniqueness = Str::random(20);
                 $digSign->signed_by_name = $me->name;
                 $digSign->departement = $me->jobPosition->department->name;
-                $digSign->label = "Yang Membuat";
+                $digSign->label = "Yang Membuat,";
                 $digSign->encrypt()->save();
             }
 
@@ -598,10 +598,10 @@ class DocumentController extends Controller
             $document->editable = false;
             if ($document->status == "draft") {
                 $document->status = 'sent';
-                $digSign->label = "Menyetujui";
+                $digSign->label = "Menyetujui,";
             } elseif ($document->status == "sent") {
                 $document->status = 'archived';
-                $digSign->label = "Mengetahui";
+                $digSign->label = "Mengetahui,";
             }
 
             $document->save();

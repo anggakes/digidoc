@@ -5,6 +5,7 @@
     <style>
         body {
             background: rgb(204, 204, 204);
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         page {
@@ -121,12 +122,12 @@
 <page size="A4">
     <div class="">
         <div class="header">
-            <div class="title">
+            <div class="title" style="font-size: 18pt">
                 BERITA ACARA<br>
             </div>
             <div class="subtitle">
                 NOMOR: {{ $document->number }}
-                <br>
+                <br><br>
                 TENTANG <br>
                 {{ strtoupper($document->title) }}
             </div>
