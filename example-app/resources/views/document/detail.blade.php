@@ -103,7 +103,11 @@
                     <tr>
                         <td>Dari</td>
                         <td>:</td>
+                        @if( $document->createdBy->job_position_id != 7)
                         <td>{{ $document->createdBy->jobPosition->department->name }}</td>
+                        @else
+                        <td>Bidang Umum & SDM</td>
+                        @endif
                     </tr>
                     @endif
 
@@ -257,7 +261,9 @@
                                                     @if($udept->id == Auth::user()->id)
                                                     @continue
                                                     @endif
-                                                    <option value="usr:{{ $udept->id }}:{{ $udept->department_id }}">{{ $udept->nip }} - {{ $udept->name }} </option>
+                                                    <option value="usr:{{ $udept->id }}:{{ $udept->department_id }}">{{
+                                                        $udept->nip }} - {{ $udept->name }}
+                                                    </option>
 
                                                     @endforeach
                                                     @endif
@@ -269,7 +275,9 @@
                                                     ?>
 
                                                     @if(Auth::user()->jobPosition->department_id == 2)
-                                                    <option value="usr:{{ $jpuser->id }}:{{ $jpuser->department_id }}">{{ $jpuser->nip }} - {{ $jpuser->name }} </option>
+                                                    <option value="usr:{{ $jpuser->id }}:{{ $jpuser->department_id }}">
+                                                        {{ $jpuser->nip }} - {{ $jpuser->name }}
+                                                    </option>
                                                     @endif
 
                                                 </x-adminlte-select2>
@@ -306,19 +314,25 @@
                                                         @if($udept->id == Auth::user()->id)
                                                         @continue
                                                         @endif
-                                                        <option value="usr:{{ $udept->id }}:{{ $udept->department_id }}">{{ $udept->nip }} - {{ $udept->name }} </option>
+                                                        <option
+                                                            value="usr:{{ $udept->id }}:{{ $udept->department_id }}">{{
+                                                            $udept->nip }} - {{ $udept->name }}
+                                                        </option>
 
                                                         @endforeach
                                                         @endif
 
                                                         <?php
-                                                            // get secretaris
-                                                            $jp = \App\Models\JobPosition::where("department_id", "=", "7")->first();
-                                                            $jpuser = $jp->user
+                                                        // get secretaris
+                                                        $jp = \App\Models\JobPosition::where("department_id", "=", "7")->first();
+                                                        $jpuser = $jp->user
                                                         ?>
 
                                                         @if(Auth::user()->jobPosition->department_id == 2)
-                                                        <option value="usr:{{ $jpuser->id }}:{{ $jpuser->department_id }}">{{ $jpuser->nip }} - {{ $jpuser->name }} </option>
+                                                        <option
+                                                            value="usr:{{ $jpuser->id }}:{{ $jpuser->department_id }}">
+                                                            {{ $jpuser->nip }} - {{ $jpuser->name }}
+                                                        </option>
                                                         @endif
 
 

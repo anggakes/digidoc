@@ -137,7 +137,11 @@
                     <tr>
                         <td>Dari</td>
                         <td>:</td>
+                        @if( $document->createdBy->job_position_id != 7)
                         <td>{{ $document->createdBy->jobPosition->department->name }}</td>
+                        @else
+                        <td>Bidang Umum & SDM</td>
+                        @endif
                     </tr>
                     <tr>
                         <td>Perihal</td>
@@ -281,14 +285,14 @@
         <table style="border:1px solid #000; width: 92%">
             @if($tos["from"])
             <tr>
-            <td style="width:120px;font-weight: bold;border-right:1px solid #000;">
-                Dari
-                <br>
+                <td style="width:120px;font-weight: bold;border-right:1px solid #000;">
+                    Dari
+                    <br>
 
-            </td>
-            <td style="padding-left: 10px;">
-                {{ $tos["from"] }}
-            </td>
+                </td>
+                <td style="padding-left: 10px;">
+                    {{ $tos["from"] }}
+                </td>
             </tr>
             @endif
             <tr>
