@@ -149,7 +149,7 @@
             <div style=" margin-bottom: 20px">
                 Tangerang, {{ indoDate($document->created_at->format("Y-m-d")) }}
             </div>
-            @foreach($digSign as $d)
+            @foreach(array_reverse($digSign) as $d)
             <div class="ttd" style="width: 230px;float: left">
                 <span class="text-bold"> {{ $d->label }}</span>
                 <br><br>
