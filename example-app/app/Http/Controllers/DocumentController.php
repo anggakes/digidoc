@@ -935,6 +935,7 @@ class DocumentController extends Controller
             // add cc
             if (count($request->email_cc) > 1) {
                 foreach ($request->email_cc as $ccdata) {
+                    if ($ccdata == "") continue;
                     $ccModel = new Cc();
                     $ccModel->document_id = $document->id;
                     $ccModel->email = $ccdata;
@@ -967,7 +968,7 @@ class DocumentController extends Controller
                     Notif::dispatch($act);
                 }
 
-            }else {
+            } else {
 
                 // update histories
                 $docHistory = new DocumentHistories();
