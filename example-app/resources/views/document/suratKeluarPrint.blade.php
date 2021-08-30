@@ -106,82 +106,58 @@
 
 
 <page size="A4">
-    <div class="">
-        <div class="header">
-            <div class="title">
-                --- KOP Surat ---
-            </div>
-        </div>
-        <div class="clear"></div>
+    <div style="padding:3cm">
 
-        <div class="body content">
+        <?php
 
-            <div class="left">
-                <table class="meta">
-                    <tr>
-                        <td>Nomor</td>
-                        <td>:</td>
-                        <td>{{ $document->number }}</td>
-                    </tr>
-                    <tr>
-                        <td>Tanggal</td>
-                        <td>:</td>
-                        <td>{{ $document->created_at->format('d M Y') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Kepada</td>
-                        <td>:</td>
-                        <td>
-                            {{ $document->externalRecipient->name }}
-                            <br>
-                            {{ $document->externalRecipient->email }}
-                            <br>
-                            {{ $document->externalRecipient->phone }}
-                            <br>
-                            {{ $document->externalRecipient->address }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Dari</td>
-                        <td>:</td>
-                        <td>BPJS Ketenagakerjaan Cikokol</td>
-                    </tr>
-                    <tr>
-                        <td>Perihal</td>
-                        <td>:</td>
-                        <td>{{ $document->title }}</td>
-                    </tr>
+        $prefixSign = "";
 
-                </table>
-            </div>
+        try {
 
-            <div class="clear"></div>
+            $kepala = $document->createdBy->jobPosition->jobParent->user->name;
 
-            <br><br>
+            $prefixSign = strtoupper(substr($kepala, 0, 2));
 
+        } catch (Exception $e) {
 
-            <div>
-                {!! $document->content !!}
-            </div>
+        }
 
-            <br><br>
-            @foreach($digSign as $d)
-            <div class="ttd">
-                <span class="text-bold"> {{ $d->label }}</span>
+        $ttd = "";
+        foreach ($digSign as $d) {
+            $ttd .= '<div class="ttd">
+                <span class="text-bold">' . $d->label . '</span>
                 <br><br>
-                {{ QrCode::size(100)->generate(URL::to('/sign/'.$d->data)) }}
+                ' . QrCode::size(100)->generate(URL::to('/sign/' . $d->data)) . '
                 <br><br>
-                {{ $d->signed_by_name }} <br>
-                {{ $d->departement }}
-            </div>
-            @endforeach
-            <br>
-            {{ $document->classification_code}}
+                ' . $d->signed_by_name . '<br>
+                ' . $d->departement . '
+            </div>';
+        }
+
+        $prefixCreator = strtoupper(substr($document->createdBy->name, 0, 2));
+
+        $cc = "";
+        if ($prefixSign) {
+            $cc .= $prefixSign . "/";
+        }
+
+        $cc .= $prefixCreator . "/" . $document->classification_code;
 
 
-        </div>
+        if (count($digSign) > 0) {
+            $ttd .= "<br>" . $cc;
+        }
 
 
+        ?>
+
+        <?php echo renderBlade($document->content, [
+            "tanda_tangan" => $ttd,
+            "nomor_surat" => $document->number,
+            "tanggal_surat" => indoDate($document->created_at->format("Y-m-d")),
+            "jumlah_lampiran" => 0,
+            "perihal" => $document->title,
+        ]) ?>
     </div>
 
 </page>

@@ -57,6 +57,7 @@ Route::middleware("auth")->group(function (){
     Route::post('document/compose/suratKeluar', [\App\Http\Controllers\DocumentController::class, 'suratKeluarStore'])->name('document.suratKeluar.store');
     Route::get('document/print/suratKeluar/{id}', [\App\Http\Controllers\DocumentController::class, 'suratKeluarPrint'])->name('document.suratKeluar.print');
     Route::get('document/sign/suratKeluar/{id}', [\App\Http\Controllers\DocumentController::class, 'suratKeluarSign'])->name('document.suratKeluar.sign');
+    Route::get('document/menyetujui/suratKeluar/{id}', [\App\Http\Controllers\DocumentController::class, 'suratKeluarMenyetujui'])->name('document.suratKeluar.menyetujui');
 
     Route::resource('document', \App\Http\Controllers\DocumentController::class);
 

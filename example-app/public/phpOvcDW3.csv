@@ -1,0 +1,198 @@
+code,archive_type
+DL 00.01,Program Pengembangan Teknis
+DL 00.02 ,Development Program
+DL 00.03,Pogram Purna Tugas
+DL 01.00 ,Kursus
+DL 01.01,Studi Banding
+DL 01.02 ,"Seminar, Konferensi, Lokakakarya dan"
+DL 01.03 ,Training/Workshop
+DL 01.04,Program Diploma dan Strata
+HK 00.00 ,Undang-undang (UU)/ Peraturan Pemerintah Pengganti Undang-undang (PERPU)
+HK 00.01,Peraturan Pemerintah (PP)
+HK 00.02,Peraturan Presiden (PERPRES)
+HK 00.03 ,Keputusan Presiden (KEPPRES)
+HK 00.04 ,Instruksi Presiden (INPRES) 
+HK 00.05 ,Peraturan Menteri (PERMEN)
+HK 00.06 ,Peraturan Dewan Jaminan Sosial Nasional (DJSN)
+HK 00.07,Peraturan BPJS Ketenagakerjaan
+HK 00.08,Peraturan Direksi BPJS Ketenagakerjaan 
+HK 00.09,Keputusan Direksi BPJS Ketenagakerjaan
+HK 00.10,Surat Keputusan Bersama (SKB) dengan Kementerian /Instunsi Lain
+Hk 00.11,Surat Edaran
+HK 00.12,Surat Tugas
+HK 00.13 ,Surat Keputusan Gubernur/Bupati/Walikota
+HK 00.14 ,Peraturan Daerah (PERDA)
+HK 00.15 ,Peraturan Propinsi/Kotamadya/Kabupaten
+HK 01.00,Perjanjian Sewa/ Kontrak/ Beli
+HK 01.01,Kerjasama 
+HK 01.02,Surat Perintah Kerja (SPK)
+HK 01.03 ,Surat Kuasa
+HK 01.04,Nota Kesepahaman/Memorandum of Understanding (MoU)
+HK 02.00,Perdata
+HK 02.01,Pidana 
+HK 02.02,Masalah Ketenagakerjaan
+HK 02.03,Agraria
+HK 02.04,Good Govermance (GG)
+HL 00.00,Rapat Dengan Pendapat (RDP) DPR/DPRD
+HL 00.01,Kunjungan Kerja Anggota DPR/DPRD
+HL 01.00,Koordinasi Fungsional
+HL 01.01 ,Dewan Pengupahan Nasional (DPN)
+HL 01.02,Hubungan Industrial
+HL 01.03,Dewan Keselamatan dan Kesehatan Kerja Nasional (DK3N)
+HL 01.04,Dewan Produktivitas Nasional
+HL 02.00,Dewan Jaminan Sosial
+HL 03.00,Instansi Lain
+HL 04.00,Asosiasi Pengusaha Indonesia (APINDO)
+HL 04.01,Serikat Pekerja(SP)
+HL 04.02,Gabungan Pelaksana Konstruksi Nasional Indonesia (GAPENSI)
+HL 04.03,Dewan Asuransi Indonesia (DAI)
+HL 04.04,Asosiasi Asuransi Jaminan Sosial Indonesia (AAJSI)
+HL 04.05 ,Asosiasi Lainnya
+HL 05.00,International Social Security Association (ISSA)
+HL 05.01 ,International Labour Organization (ILO)
+HL 05.02,Asean Social Security Association (ASSA)
+HL 05.03 ,Lembaga Pendidikan Luar Negeri
+HL 05.04,Badan Internasional Lainnya
+HL 06.00,Kementrian Pemberdayaan Manusia dan Kebudayaan (PMK)
+HL 07.00,Kementrian Keuangan (KEMENKEU)
+HL 08.00 ,Otoritas Jasa Keuangan (OJK)
+HL 09.00,Badan Pemeriksa Keuangan
+HM 00.00,Badan Koordinasi Kehumasan (BAKOHUMAS)
+HM 01.00,Siaran Radio/Televisi
+HM 01.01,Pers
+HM 01.02,Media Cetak
+HM 01.03,Media Online
+HM 01.04,Sponsor
+HM 02.00,Liputan Kegiatan Dinas Pimpinan BPJS Ketenagakerjaan
+HM 03.00,"Penerbitan Majalah, Buletin, Koran, Kliping, Jurnal dan Company Profile/Annual Report"
+HM 04.00 ,Pemeran
+HM 05.00,"Penghargaan dan Ucapan Terima Kasih, Ucapan Selamat, Belasungkawa dan Ucapan Selamat, Belasungkawa dan "
+IF 00.00 ,"Statistik, Pengolahan dan Pemutakhiran Data"
+IF 01.00 ,"Penyususan Blueprint Information Ucapan Selamat, Belasungkawa dan "
+IF 01.01,Aanalisa Pengembangan Sistem Information Technology (IT)
+IF 02.00,Rencana Strategis/Master Plan Pembangunan Sistem Informasi (PSI)
+IF 03.00,Migrasi Sistem Aplikasi dan data
+JM 00.00,Jaminan Hari Tua (JHT)
+JM 00.01,Jaminan Kecelakaan Kerja (JKK)
+JM 00.02 ,Jaminan Kematian (JKM)
+JM 00.03,Jaminan Pensiun (JPN)
+JM 00.04 ,Jasa Kontruksi (JAKON)
+KP 00.00 ,Penyuluhan Calon Peserta/Peserta/Perusahaan
+KP 00.01 ,Kunjungan Perusahaan
+KP 00.02,Informasi BPJS Ketenagakerjaan
+KP 01.00 ,Perusahaan Wajib Belum Daftar (PWBD)
+KP 01.01,Perusahaan Daftar Sebagian (PDS)
+KP 01.02,Perusahaan Menunggak Iuran
+KP 02.00,Pendaftaran Perusahaan Penerima Upah (PU)/ Bukan Penerima Upah (BPU)/Jasa Konstruksi (JAKON)
+KP 02.01 ,Sertifikat Kepesertaan 
+KP 02.02,Perusahaan Selesai Kepesertaan
+KP 02.03 ,Perubahan Alamat
+KP 02.04,Penerbitan Kartu Peserta dan Rincian Iuran Individu
+KP 02.05,Fee Pengelolaan Kepesertaan
+KP 02.06 ,Data Kepesertaan
+KP 03.00,Penerimaan Iuran
+KP 03.01,Rekonsiliasi Iuran
+KP 03.02,Piutang Iuran dan Denda
+KP 04.00,Target Kepesertaan
+KP 04.01,Konsultasi Operasional
+KP 05.00,Hubungan Antar Lembaga
+KP 05.01,Kemitraan
+KP 05.02,Manfaat Layanan Tambahan
+KS 00.00,Tata Naskah
+KS 00.01,Kearsipan
+KS 00.02,Pengiriman Surat/Dokumen/Paket
+KS 01.00,Rapat dan Pertemuan
+KS 01.01,Perjalanan Dinas 
+KS 01.02,Keamanan dan Ketertiban
+KS 01.03,Travel Management
+KS 02.00,Upacara dan Acara
+KS 02.01,Kunjungan 
+KU 00.00,"Penyusunan, Pengajuan dan Revisi Anggaran BPJS Ketenagakerjaan"
+KU 00.01,Persetujuan dan pengesahan anggaran
+KU 00.02,Alokasi Anggaran
+KU 00.03,Realisasi Anggaran
+KU 00.04,Pergeseran Anggaran
+KU 00.05,Otorisasi Pembayaran
+KU 01.00,Penerimaan Iuran
+KU 01.01,Pembayaran Jaminan
+KU 02.00,Perpajakan
+KU 03.00,Laporan Keuangan 
+KU 03.01,Administrasi Akuntansi
+KU 04.00,Penempatan Investasi 
+KU 04.01,Aktiva
+OT 00.00,Pembentukan 
+OT 00.01,Perubahan Alamat
+OT 01.00,Sistem dan Prosedur Kerja
+OT 01.01,Standarisasi
+OT 01.02,Tata Ruang/ Lay Out
+OT 02.00,Laporan Bulanan
+OT 02.01,Laporan Triwulan
+OT 02.02,Laporan Semester
+OT 02.03,Laporan Tahunan
+OT 02.04 ,Laporan Kegiatan Khusus
+OT 02.05,Laporan Penugasan Perjalanan Dinas
+OT 03.00,Evaluasi Kelembagaan dan Sistem Manajemen Mutu
+PG 00.00,Formasi Karyawan
+PG 00.01,Formasi Jabtan
+PG 00.02,Seleksi Karyawan
+PG 00.03,Pengangkatan Karyawan
+PG 00.04,Tenaga Bantuan/Ahli
+PG 01.00,Kartu Identitas/Tanda pengenal
+PG 01.01,Data Karyawan dan Keluarga
+PG 01.02,Ijazah
+PG 01.03,Masa Kerja
+PG 02.00,Pembinaan Rohani
+PG 02.01,Pembinaan Jasmani
+PG 03.00,Disiplin
+PG 03.01,Prestasi Kerja
+PG 03.02,Izin dan Dispensasi
+PG 04.00,Penghargaan Karyawan
+PG 04.01,Sanksi Karyawan
+PG 04.02,Rehabilitasi Karyawan 
+PG 05.00,Grade/Golongan
+PG 05.01,Jabatan
+PG 05.02,Mutasi
+PG 06.00,Cuti
+PG 07.00,Gaji
+PG 07.01,Tunjangan
+PG 07.02,Lembur
+PG 07.03,Gaji Berkala
+PG 07.04,Penghasilan Lainnya
+PG 08.00,Perumahan
+PG 08.01,Transportasi
+PG 08.02,Jaminan Sosial Karyawan
+PG 08.03,Pinjaman 
+PG 09.00,Pensiun
+PG 09.01,Non Pensiun
+PG 10.00,Penunjukan dan Penugasan Karyawan
+PP 00.00,Rencana Pengawasan
+PP 00.01,Audit Operasional dan Pelaksanaan Pengawasan 
+PP 00.02,Auit Khusus dan Laporan Hasil Penmeriksaan Pihak 
+,Esternal
+RP  00.00,Rencana Kerja Strategis Lima Tahunan
+RP 00.01 ,Rencana Kerja Anggaran Tahunan (RKAT)
+RP 00.02,Rencana Kegiatan Khusus
+RP 01.00,Program Jaminan sosial
+RP 01.01,Sumber Daya Manusia
+RP 01.02,Sistem dan Prosedur 
+RP 01.03,Forum Komunikasi Penelitian dan Pengembangan
+SP 00.00,Sarana
+SP 00.01,Prasarana
+SP 01.00,Tanah 
+SP 01.01,Bangunan
+SP 01.02,Perabot/Meubelair/Furniture
+SP 01.03,Kendaraan
+SP 01.04,Mesin Kantor
+SP 01.05,Komputer 
+SP 01.06,Peralatan Lain
+SP 01.07,Alat Tulis Kantor (ATK)
+SP 02.00,Aset dan Piutang
+SP 03.00,Tanah 
+SP 03.01,Bangunan
+SP 03.02,Perabot
+SP 03.03,Kendaraan Dinas
+SP 03.04,Mesin Kantor
+SP 03.05,Komputer 
+SP 03.06,Peralatan Lain
+SP 04.00,Barang Bergerak
+SP 04.01,Barang Tidak Bergerak

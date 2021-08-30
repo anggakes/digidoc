@@ -68,16 +68,7 @@
                         <label for="title">Email Penerima</label>
                         <input type="text" name="surat_keluar_email" class="form-control" id="title" aria-describedby="title">
                     </div>
-
-                    <div class="form-group">
-                        <label for="title">Nomor Telepon Penerima</label>
-                        <input type="text" name="surat_keluar_phone" class="form-control" id="title" aria-describedby="title">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="title">Alamat Penerima</label>
-                        <input type="text" name="surat_keluar_address" class="form-control" id="title" aria-describedby="title">
-                    </div>
+<!---->
 
                     <div class="form-group">
                         <label for="title">CC Email</label>
@@ -144,11 +135,23 @@
 </div>
 
 <div style="display:none">
-    @foreach ($documentTemplate as $dt)
-    <div id="doctemplate-{{ $dt->id }}">
-        {!! $dt->stub !!}
+    <div id="doctemplate">
+        <p style="text-align: right;"><span style="font-weight: 400;"> <?php echo '{!! $tanggal_surat !!}' ?></span></p>
+        <p style="text-align: left;"><span style="font-weight: 400;">Nomor</span><span style="font-weight: 400;"> </span><span style="font-weight: 400;">: <?php echo '{!! $nomor_surat !!}'  ?></span></p>
+        <p><span style="font-weight: 400;">Lampiran</span><span style="font-weight: 400;"> </span><span style="font-weight: 400;">: <?php echo '{!! $jumlah_lampiran !!}' ?></span></p>
+        <p><br /><br /></p>
+        <p><span style="font-weight: 400;">Yth.</span></p>
+        <p>&nbsp;</p>
+        <p><span style="font-weight: 400;">Perihal</span><span style="font-weight: 400;"> </span><span style="font-weight: 400;">: <?php echo '{!! $perihal !!}' ?></span><span style="font-weight: 400;"><br /></span></p>
+        <p>&nbsp;</p>
+        <p><span style="font-weight: 400;">Dengan hormat,</span></p>
+        <p>&nbsp;</p>
+
+        <p>&nbsp;</p>
+        <p><span style="font-weight: 400;">Demikan disampaikan, atas perhatian dan kerjasama yang baik disampaikan terima kasih.</span></p>
+        <p><br /><br /><br /><br /></p>
+        <p><?php echo '{!! $tanda_tangan !!}'?></p>
     </div>
-    @endforeach
 </div>
 @stop
 
@@ -156,7 +159,7 @@
 <link rel="stylesheet" href="/css/admin_custom.css">
 <style>
     .select2 {
-        hdtuto_cc control-group lst_cc input-group
+        border: 1px solid #c0c0c0;
     }
 </style>
 @stop
@@ -166,21 +169,24 @@
         referrerpolicy="origin"></script>
 
 <script>
-    tinymce.init({
-        selector: '#message',
-        plugins: 'image lists paste',
-        width: "90%",
-        height: "800",
-        fix_list_elements: true
-        // toolbar: 'numlist bullist'
-    });
+
 
     $(document).ready(function () {
-        $('#template').on('select2:select', function (e) {
-            var data = e.params.data;
-            var doctemplate = "doctemplate-" + data.id;
-            tinymce.get("message").setContent($("#" + doctemplate).html(), {format: 'html'});
+        tinymce.init({
+            selector: '#message',
+            plugins: 'image lists paste',
+            width: "90%",
+            height: "800",
+            fix_list_elements: true,
+            // toolbar: 'numlist bullist'
+            setup: function (editor) {
+                editor.on('init', function (e) {
+                    editor.setContent($("#doctemplate").html());
+                });
+            },
         });
+
+
 
         $(".add").click(function () {
             var lsthmtl = $(".clone").html();

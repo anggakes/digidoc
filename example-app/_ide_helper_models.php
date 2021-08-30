@@ -12,6 +12,27 @@
 
 namespace App\Models{
 /**
+ * App\Models\Cc
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $document_id
+ * @property string $email
+ * @method static \Illuminate\Database\Eloquent\Builder|Cc newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Cc newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Cc query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Cc whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cc whereDocumentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cc whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cc whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cc whereUpdatedAt($value)
+ */
+	class Cc extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Department
  *
  * @property int $id
@@ -93,6 +114,10 @@ namespace App\Models{
  * @property string|null $surat_keluar_type
  * @property string|null $surat_keluar_template
  * @property string|null $surat_address
+ * @property string $surat_keluar_name
+ * @property string $surat_keluar_email
+ * @property string $surat_keluar_phone
+ * @property string $surat_keluar_address
  * @property-read \App\Models\Department|null $beritaAcaraDepartment
  * @property-read \App\Models\User $createdBy
  * @property-read \App\Models\ExternalRecipient|null $externalRecipient
@@ -115,6 +140,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereOutRecipientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarTemplate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarTo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Document whereSuratKeluarType($value)
@@ -141,6 +170,7 @@ namespace App\Models{
  * @property string $note
  * @property string $action_from
  * @property-read \App\Models\Document $document
+ * @property-read \App\Models\User $from
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DocumentAction newQuery()

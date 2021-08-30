@@ -196,8 +196,9 @@
             $cc = $prefixSign . "/" . $prefixCreator . "/" . $document->classification_code;
 
             ?>
+            @if($prefixSign != "")
             {{ $cc }}
-
+            @endif
 
         </div>
 

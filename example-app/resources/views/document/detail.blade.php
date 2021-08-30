@@ -139,16 +139,11 @@
                         <td>{{ $document->surat_keluar_type }}</td>
                     </tr>
                     <tr>
-                        <?php
-                        $exRecipient = $document->externalRecipient;
-                        ?>
                         <td>Tujuan</td>
                         <td>:</td>
                         <td>
-                            <span style="font-weight: bold">{{ $exRecipient->name}}</span> <br>
-                            {{ $exRecipient->email}} <br>
-                            {{ $exRecipient->phone}} <br>
-                            {{ $exRecipient->address}} <br>
+                            <span style="font-weight: bold">{{ $document->surat_keluar_name}}</span> <br>
+                            {{ $document->surat_keluar_email}} <br>
                         </td>
                     </tr>
                     @endif
@@ -158,7 +153,9 @@
                 <hr>
                 <br>
                 @if($document->content)
+                @if($document->type!="surat keluar")
                 {!! $document->content !!}
+                @endif
                 @endif
 
                 @if($document->files()->count() > 0)
@@ -467,6 +464,9 @@
                             @if($da->user->id == Auth::user()->id)
                             @if($da->action_need=="Tanda Tangan")
                             <a href="{{ route('document.suratKeluar.sign', $document->id) }}" class="btn btn-primary">Tandatangani</a>
+                            @endif
+                            @if($da->action_need=="Menyetujui")
+                            <a href="{{ route('document.suratKeluar.menyetujui', $document->id) }}" class="btn btn-primary">Setujui</a>
                             @endif
 
 

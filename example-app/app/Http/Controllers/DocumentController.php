@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Notif;
+use App\Models\Cc;
 use App\Models\Department;
 use App\Models\DigSign;
 use App\Models\Document;
@@ -855,19 +856,20 @@ class DocumentController extends Controller
 
     // Surat Keluar
 
-    public function suratKeluar()
+    public function suratKeluar(Request $request)
     {
         //
         $department = Department::all();
         $docClass = DocumentClassification::all();
         $externalRecipient = ExternalRecipient::all();
         $documentTemplate = DocumentTemplate::all();
-
-        return view('document.suratKeluar', [
+        $suratKeluarType = $request->query("suratKeluarType");
+        return view('document.suratKeluar' . $suratKeluarType, [
             "department" => $department,
             "docClass" => $docClass,
             "externalRecipient" => $externalRecipient,
             "documentTemplate" => $documentTemplate,
+            "suratKeluarType" => $suratKeluarType,
         ]);
     }
 
@@ -877,11 +879,11 @@ class DocumentController extends Controller
 
         $validateRequest = [
             'title' => 'required',
-            'number' => 'required',
             'doc_class_code' => 'required',
-            'surat_keluar_to' => 'required',
             'surat_keluar_type' => 'required',
             'message' => 'required',
+            'surat_keluar_name' => 'required',
+            'surat_keluar_email' => 'required',
         ];
 
         $request->validate($validateRequest);
@@ -893,18 +895,28 @@ class DocumentController extends Controller
         try {
 
 
-            $number = $request->number;
+            $seq = DocumentCodes::where('label', '=', $request->surat_keluar_type)->first();
+            $seq->seq = $seq->seq + 1;
+            $number = $seq->code . "/" . ($seq->seq) . "/" . date("mY");
 
             $document = new Document();
             $document->title = $request->title;
             $document->number = $number;
-            $document->content = "";
             $document->status = 'draft';
             $document->type = 'surat keluar';
-            $document->surat_keluar_to = $request->surat_keluar_to;
+            $document->surat_keluar_name = $request->surat_keluar_name;
+            $document->surat_keluar_email = $request->surat_keluar_email;
+            $document->surat_keluar_phone = "";
+            $document->surat_keluar_address = "";
+
+
             $document->created_by = $me->id;
             $document->classification_code = $request->doc_class_code;
+
+
             $document->content = $request->message;
+
+
             $document->surat_keluar_type = $request->surat_keluar_type;
             $document->save();
 
@@ -919,6 +931,17 @@ class DocumentController extends Controller
                     $df->save();
                 }
             }
+
+            // add cc
+            if (count($request->email_cc) > 1) {
+                foreach ($request->email_cc as $ccdata) {
+                    $ccModel = new Cc();
+                    $ccModel->document_id = $document->id;
+                    $ccModel->email = $ccdata;
+                    $ccModel->save();
+                }
+            }
+
 
             // kirim ke kepala cabang
             if ($me->job_position_id != 1) {
@@ -937,13 +960,31 @@ class DocumentController extends Controller
                     $kepalaDivisi = $me->jobPosition->jobParent->user;
                     $act = new DocumentAction();
                     $act->user_id = $kepalaDivisi->id;
-                    $act->action_need = "Tanda Tangan";
+                    $act->action_need = "Menyetujui";
                     $act->document_id = $document->id;
                     $act->save();
 
                     Notif::dispatch($act);
                 }
 
+            }else {
+
+                // update histories
+                $docHistory = new DocumentHistories();
+                $docHistory->user_id = $me->id;
+                $docHistory->document_id = $document->id;
+                $docHistory->action = "SIGNED";
+                $docHistory->description = "dokumen di tandatangani oleh " . $me->name;
+                $docHistory->save();
+
+                $digSign = new DigSign();
+                $digSign->sign_by_id = $me->id;
+                $digSign->document_id = $document->id;
+                $digSign->sign_uniqueness = Str::random(20);
+                $digSign->signed_by_name = $me->name;
+                $digSign->departement = "Kepala";
+                $digSign->label = "Menyetujui";
+                $digSign->encrypt()->save();
             }
 
             $docHistory = new DocumentHistories();
@@ -962,10 +1003,73 @@ class DocumentController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             // something went wrong
-            return redirect()->route('document.suratKeluar')
+            return redirect()->route('document.suratKeluar', ["suratKeluarType" => $request->surat_keluar_type])
                 ->with('error', $e->getMessage());
         }
 
+    }
+
+    public function suratKeluarMenyetujui($id)
+    {
+
+
+        $me = Auth::user();
+
+        DB::beginTransaction();
+
+        try {
+
+            // update status
+            $docAct = DocumentAction::where("document_id", "=", $id)
+                ->where("user_id", "=", $me->id)
+                ->where("action_need", "=", "Menyetujui")
+                ->first();
+
+            if (!$docAct) {
+                throw new \Exception("Anda Tidak mendapatkan akses untuk melakukan itu.");
+            }
+            $docAct->is_done = true;
+            $docAct->save();
+
+            // update histories
+            $docHistory = new DocumentHistories();
+            $docHistory->user_id = $me->id;
+            $docHistory->document_id = $id;
+            $docHistory->action = "SIGNED";
+            $docHistory->description = "dokumen di tandatangani oleh " . $me->name;
+            $docHistory->save();
+
+
+            $document = Document::find($id);
+            $document->editable = false;
+            $document->status = 'sent';
+            $document->save();
+
+            if ($document->status == "sent" && $me->job_position_id != 1) {
+                // kirim ke kepala
+                // create new docACT
+                $job = JobPosition::find(1);
+                $act = new DocumentAction();
+                $act->user_id = $job->user->id;
+                $act->action_need = "Tanda Tangan";
+                $act->document_id = $document->id;
+                $act->save();
+
+                Notif::dispatch($act);
+            }
+
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            return redirect()->route('document.show', $id)
+                ->with('error', $e->getMessage());
+        }
+
+
+        return redirect()->route('document.show', $id)
+            ->with('success', 'Document berhasil disetujui');
     }
 
 
@@ -994,7 +1098,7 @@ class DocumentController extends Controller
             $digSign->document_id = $id;
             $digSign->sign_uniqueness = Str::random(20);
             $digSign->signed_by_name = $me->name;
-            $digSign->departement = $me->jobPosition->department->name;
+            $digSign->departement = "Kepala";
 
             // update histories
             $docHistory = new DocumentHistories();
