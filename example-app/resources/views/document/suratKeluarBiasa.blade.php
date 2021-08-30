@@ -61,14 +61,16 @@
 
                     <div class="form-group">
                         <label for="title">Nama Penerima</label>
-                        <input type="text" name="surat_keluar_name" class="form-control" id="title" aria-describedby="title">
+                        <input type="text" name="surat_keluar_name" class="form-control" id="title"
+                               aria-describedby="title">
                     </div>
 
                     <div class="form-group">
                         <label for="title">Email Penerima</label>
-                        <input type="text" name="surat_keluar_email" class="form-control" id="title" aria-describedby="title">
+                        <input type="text" name="surat_keluar_email" class="form-control" id="title"
+                               aria-describedby="title">
                     </div>
-<!---->
+                    <!---->
 
                     <div class="form-group">
                         <label for="title">CC Email</label>
@@ -137,20 +139,28 @@
 <div style="display:none">
     <div id="doctemplate">
         <p style="text-align: right;"><span style="font-weight: 400;"> <?php echo '{!! $tanggal_surat !!}' ?></span></p>
-        <p style="text-align: left;"><span style="font-weight: 400;">Nomor</span><span style="font-weight: 400;"> </span><span style="font-weight: 400;">: <?php echo '{!! $nomor_surat !!}'  ?></span></p>
-        <p><span style="font-weight: 400;">Lampiran</span><span style="font-weight: 400;"> </span><span style="font-weight: 400;">: <?php echo '{!! $jumlah_lampiran !!}' ?></span></p>
-        <p><br /><br /></p>
+        <p style="text-align: left;"><span style="font-weight: bold;">Nomor</span><span
+                style="font-weight: 400;"> </span><span
+                style="font-weight: 400;">: <?php echo '{!! $nomor_surat !!}' ?></span></p>
+        <?php echo '{!! $jumlah_lampiran !!}' ?>
+        <p><br/></p>
         <p><span style="font-weight: 400;">Yth.</span></p>
-        <p>&nbsp;</p>
-        <p><span style="font-weight: 400;">Perihal</span><span style="font-weight: 400;"> </span><span style="font-weight: 400;">: <?php echo '{!! $perihal !!}' ?></span><span style="font-weight: 400;"><br /></span></p>
+        <p style="font-weight: 400;"> <?php echo '{!! $nama_penerima !!}' ?></p>
+        <p style="font-weight: 400;">xxxxxxx</p>
+        <p style="font-weight: 400;">di</p>
+        <p style="font-weight: 400;">xxxxx</p>
+        <p><span style="font-weight: bold;">Perihal</span><span style="font-weight: 400;"> </span><span
+                style="font-weight: 400;">: <?php echo '{!! $perihal !!}' ?></span><span style="font-weight: 400;"><br/></span>
+        </p>
         <p>&nbsp;</p>
         <p><span style="font-weight: 400;">Dengan hormat,</span></p>
         <p>&nbsp;</p>
 
         <p>&nbsp;</p>
-        <p><span style="font-weight: 400;">Demikan disampaikan, atas perhatian dan kerjasama yang baik disampaikan terima kasih.</span></p>
-        <p><br /><br /><br /><br /></p>
-        <p><?php echo '{!! $tanda_tangan !!}'?></p>
+        <p><span style="font-weight: 400;">Demikan disampaikan, atas perhatian dan kerjasama yang baik disampaikan terima kasih.</span>
+        </p>
+        <p><br/><br/><br/><br/></p>
+        <p><?php echo '{!! $tanda_tangan !!}' ?></p>
     </div>
 </div>
 @stop
@@ -185,7 +195,6 @@
                 });
             },
         });
-
 
 
         $(".add").click(function () {

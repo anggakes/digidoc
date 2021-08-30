@@ -148,6 +148,10 @@
             $ttd .= "<br>" . $cc;
         }
 
+        $jumlahLampiran = "";
+        if ($document->files()->count() > 0) {
+            $jumlahLampiran = $document->files()->count();
+        }
 
         ?>
 
@@ -155,8 +159,9 @@
             "tanda_tangan" => $ttd,
             "nomor_surat" => $document->number,
             "tanggal_surat" => indoDate($document->created_at->format("Y-m-d")),
-            "jumlah_lampiran" => 0,
+            "jumlah_lampiran" => $jumlahLampiran,
             "perihal" => $document->title,
+            "nama_penerima" => $document->surat_keluar_name,
         ]) ?>
     </div>
 

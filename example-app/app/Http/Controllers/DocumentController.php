@@ -984,7 +984,7 @@ class DocumentController extends Controller
                 $digSign->sign_uniqueness = Str::random(20);
                 $digSign->signed_by_name = $me->name;
                 $digSign->departement = "Kepala";
-                $digSign->label = "Menyetujui";
+                $digSign->label = "";
                 $digSign->encrypt()->save();
             }
 
@@ -1113,7 +1113,7 @@ class DocumentController extends Controller
             $document = Document::find($id);
             $document->editable = false;
             $document->status = 'sent';
-            $digSign->label = "Menyetujui";
+            $digSign->label = "";
 
 
             $document->save();
