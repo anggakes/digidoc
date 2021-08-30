@@ -138,19 +138,23 @@
 
 <div style="display:none">
     <div id="doctemplate">
-        <p style="text-align: right;"><span style="font-weight: 400;"> <?php echo '{!! $tanggal_surat !!}' ?></span></p>
-        <p style="text-align: left;"><span style="font-weight: bold;">Nomor</span><span
+        <p style="text-align: right; float:right;width:200px"><span style="font-weight: 400;"> <?php echo '{!! $tanggal_surat !!}' ?></span></p>
+        <p style="text-align: left;"><span style="font-weight: 400;">Nomor</span><span
                 style="font-weight: 400;"> </span><span
-                style="font-weight: 400;">: <?php echo '{!! $nomor_surat !!}' ?></span></p>
+                style="font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo '{!! $nomor_surat !!}' ?></span></p>
         <?php echo '{!! $jumlah_lampiran !!}' ?>
         <p><br/></p>
-        <p><span style="font-weight: 400;">Yth.</span></p>
-        <p style="font-weight: 400;"> <?php echo '{!! $nama_penerima !!}' ?></p>
-        <p style="font-weight: 400;">xxxxxxx</p>
-        <p style="font-weight: 400;">di</p>
-        <p style="font-weight: 400;">xxxxx</p>
-        <p><span style="font-weight: bold;">Perihal</span><span style="font-weight: 400;"> </span><span
-                style="font-weight: 400;">: <?php echo '{!! $perihal !!}' ?></span><span style="font-weight: 400;"><br/></span>
+        <p>
+            <span style="font-weight: 400;">Yth.</span>
+            <br>
+            <?php echo '{!! $nama_penerima !!}' ?>
+            <br>
+            xxxxxxx <br> di
+            <br>
+            xxxxx
+        </p>
+        <p><span style="font-weight: 400;">Perihal</span><span style="font-weight: 400;"> </span><span
+                style="font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo '{!! $perihal !!}' ?></span><span style="font-weight: 400;"><br/></span>
         </p>
         <p>&nbsp;</p>
         <p><span style="font-weight: 400;">Dengan hormat,</span></p>

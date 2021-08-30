@@ -150,7 +150,8 @@
 
         $jumlahLampiran = "";
         if ($document->files()->count() > 0) {
-            $jumlahLampiran = $document->files()->count();
+            $jumlahLampiran = '<p><span style="font-weight: 400;">Lampiran</span><span style="font-weight: 400;"> </span><span
+                style="font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;: ' . $document->files()->count() . ' </span></p>';
         }
 
         ?>
