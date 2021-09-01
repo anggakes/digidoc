@@ -48,6 +48,18 @@
             <!-- /.info-box-content -->
         </a>
     </div>
+    <div class="col-sm-4 col-xs-12">
+        <a href='{{ route("document.suratKeluar", ["suratKeluarType" => "Keterangan"]) }}' class="info-box">
+
+            <!-- Apply any bg-* class to to the icon to color it -->
+            <span class="info-box-icon bg-purple"><i class="fa fa-envelope-square"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text info-box-title">Buat Surat Keterangan</span>
+                <span>Surat keluar yang digunakan sebagai keterangan</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+    </div>
 
 
     <div class="col-sm-4 col-xs-12">
