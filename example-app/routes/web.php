@@ -51,6 +51,7 @@ Route::middleware("auth")->group(function (){
     Route::post('document/compose/suratMasuk', [\App\Http\Controllers\DocumentController::class, 'suratMasukStore'])->name('document.suratMasuk.store');
     Route::post('document/disposisi/suratMasuk/{id}', [\App\Http\Controllers\DocumentController::class, 'suratMasukDisposisi'])->name('document.suratMasuk.disposisi');
     Route::get('document/view/suratMasuk/{id}', [\App\Http\Controllers\DocumentController::class, 'suratMasukViewed'])->name('document.suratMasuk.view');
+    Route::get('document/print/suratMasuk/{id}', [\App\Http\Controllers\DocumentController::class, 'suratMasukPrint'])->name('document.suratMasuk.print');
 
 
     Route::get('document/compose/suratKeluar', [\App\Http\Controllers\DocumentController::class, 'suratKeluar'])->name('document.suratKeluar');

@@ -805,6 +805,7 @@ class DocumentController extends Controller
 
             $docAct = DocumentAction::where("document_id", "=", $id)
                 ->where("user_id", "=", $me->id)
+                ->where("action_need", "=", "Disposisi")
                 ->first();
 
             if (!$docAct) {
@@ -815,19 +816,73 @@ class DocumentController extends Controller
 
             if ($me->jobPosition->id == 1) {
                 foreach ($request->dep_ids as $dep_id) {
+
                     if ($dep_id == "") {
                         continue;
                     }
-                    $dep = Department::find($dep_id);
-                    $act = new DocumentAction();
-                    $act->user_id = $dep->kepala()->user->id;
-                    if ($dep_id == "7" || $dep_id == 8) {
-                        $act->action_need = "Baca";
-                    } else {
-                        $act->action_need = "Disposisi";
-                    }
-                    $act->note = $request->note;
 
+                    // petugas wasrik
+                    if ($dep_id == 8) {
+
+                        foreach ([90, 91] as $uid) {
+                            $act = new DocumentAction();
+                            $act->user_id = $uid;
+                            $act->action_need = "Baca";
+                            $act->note = $request->note;
+                            $act->action_from = $me->id;
+                            $act->document_id = $id;
+                            $act->save();
+
+                            Notif::dispatch($act);
+                        }
+
+                    }else{
+
+                        $dep = Department::find($dep_id);
+                        $act = new DocumentAction();
+                        $tujuan = "";
+
+                        if ($dep->kepala()) {
+                            $tujuan = $dep->kepala()->user->id;
+                        } else if ($dep_id == 7) {
+                            $tujuan = 85;
+                        }
+
+                        $act->user_id = $tujuan;
+
+
+                        if ($dep_id == "7" || $dep_id == 8) {
+                            $act->action_need = "Baca";
+                        } else {
+                            $act->action_need = "Disposisi";
+                        }
+
+                        $act->note = $request->note;
+                        $act->action_from = $me->id;
+
+                        $act->document_id = $id;
+                        $act->save();
+
+
+                        Notif::dispatch($act);
+                    }
+                }
+            }else{
+                foreach ($request->dep_ids as $dep_id) {
+                    if ($dep_id == "") {
+                        continue;
+                    }
+                    $deptSplit = explode(":", $dep_id);
+                    $tujuan = "";
+                    if (count($deptSplit) == 3) {
+                        $dep_id = $deptSplit[2];
+                        $tujuan = $deptSplit[1];
+                    }
+                    $act = new DocumentAction();
+                    $act->user_id = $tujuan;
+                    $act->action_need = "Baca";
+                    $act->note = $request->note;
+                    $act->action_from = $me->id;
                     $act->document_id = $id;
                     $act->save();
 
@@ -854,6 +909,18 @@ class DocumentController extends Controller
 
         return redirect()->route('document.show', $id)
             ->with('success', 'Document berhasil di disposisi');
+    }
+
+    public function suratMasukPrint($id)
+    {
+        $document = Document::find($id);
+        $docAct = DocumentAction::where("document_id", "=", $id)->get();
+        $digSign = DigSign::where("document_id", "=", $id)->get();
+        return view('document.suratMasukPrint', [
+            "document" => $document,
+            "docAct" => $docAct,
+            "digSign" => $digSign,
+        ]);
     }
 
 

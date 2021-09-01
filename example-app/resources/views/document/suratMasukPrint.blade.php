@@ -105,108 +105,6 @@
 </head>
 <body>
 
-
-<page size="A4">
-    <div class="">
-        <div class="header">
-            <div class="title" style="font-size: 14pt">
-                MEMO INTERNAL
-            </div>
-        </div>
-        <div class="clear"></div>
-
-        <div class="body content">
-
-            <div class="left">
-                <table class="meta">
-                    <tr>
-                        <td>Nomor</td>
-                        <td>:</td>
-                        <td>{{ $document->number }}</td>
-                    </tr>
-                    <tr>
-                        <td>Tanggal</td>
-                        <td>:</td>
-                        <td>{{ indoDate($document->created_at->format("Y-m-d")) }}</td>
-                    </tr>
-                    <tr>
-                        <td>Kepada</td>
-                        <td>:</td>
-                        <td>{{ $document->memoDepartment->kepala()->label }}</td>
-                    </tr>
-                    <tr>
-                        <td>Dari</td>
-                        <td>:</td>
-                        @if( $document->createdBy->job_position_id != 7)
-                        <td>{{ $document->createdBy->jobPosition->department->name }}</td>
-                        @else
-                        <td>Bidang Umum & SDM</td>
-                        @endif
-                    </tr>
-                    <tr>
-                        <td>Perihal</td>
-                        <td>:</td>
-                        <td>{{ $document->title }}</td>
-                    </tr>
-
-                </table>
-            </div>
-
-            <div class="clear"></div>
-
-            <br><br>
-
-
-            <div>
-                {!! $document->content !!}
-            </div>
-
-            <br><br>
-            <?php
-            $prefixSign = "";
-
-            try {
-
-                $kepala = $document->createdBy->jobPosition->jobParent->user->name;
-
-                $prefixSign = strtoupper(substr($kepala, 0, 2));
-
-            } catch (Exception $e) {
-
-            }
-
-            ?>
-
-
-            @foreach($digSign as $d)
-            <div class="ttd">
-                <span class="text-bold"> {{ $d->label }}</span>
-                <br><br>
-                {{ QrCode::size(100)->generate(URL::to('/sign/'.$d->data)) }}
-                <br><br>
-                {{ $d->signed_by_name }} <br>
-                {{ $d->departement }}
-            </div>
-            @endforeach
-            <br>
-            <?php
-            // create classification code format
-            $prefixCreator = strtoupper(substr($document->createdBy->name, 0, 2));
-
-            $cc = $prefixSign . "/" . $prefixCreator . "/" . $document->classification_code;
-
-            ?>
-            @if($prefixSign != "")
-            {{ $cc }}
-            @endif
-
-        </div>
-
-
-    </div>
-
-</page>
-
 <page size="A4">
 
     <div class="header">
@@ -223,10 +121,17 @@
                 <td>
                     <table>
                         <tr>
-                            <td>Tanggal</td>
+                            <td>Dari</td>
                             <td>:</td>
-                            <td>{{ indoDate($document->created_at->format("Y-m-d")) }}</td>
+                            <td>{{ $document->surat_masuk_from }}</td>
                         </tr>
+                        <tr>
+                            <td>Tanggal Surat</td>
+                            <td>:</td>
+                            <td>{{ indoDate($document->surat_masuk_date) }}</td>
+
+                        </tr>
+
                         <tr>
                             <td>Nomor K.K</td>
                             <td>:</td>
@@ -242,14 +147,15 @@
                 <td style="vertical-align: top">
                     <table>
                         <tr>
-                            <td>Kepada</td>
+                            <td>Tanggal Dibuat</td>
                             <td>:</td>
-                            <td>{{ $document->memoDepartment->kepala()->label }}</td>
+                            <td>{{ indoDate($document->created_at->format("Y-m-d")) }}</td>
                         </tr>
+
                         <tr>
-                            <td>Dari</td>
+                            <td>Jumlah File</td>
                             <td>:</td>
-                            <td>{{ $document->createdBy->jobPosition->department->name }}</td>
+                            <td>{{ $document->files()->count() }}</td>
                         </tr>
                         <tr>
                             <td>Perihal</td>

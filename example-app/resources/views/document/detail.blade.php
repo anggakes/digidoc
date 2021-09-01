@@ -58,6 +58,12 @@
                     Dokumen Cetak</a>
                 @endif
 
+                @if($document->type=="surat masuk")
+                <a href="{{ route('document.suratMasuk.print', $document->id) }}" target="_blank"
+                   class="btn btn-primary">Lihat
+                    Dokumen Cetak</a>
+                @endif
+
                 <br>
 
                 <table class="table table-borderless">
@@ -120,6 +126,16 @@
                     @endif
 
                     @if($document->type=="surat masuk")
+                    <tr>
+                        <td>Dari</td>
+                        <td>:</td>
+                        <td>{{ $document->surat_masuk_from }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Surat</td>
+                        <td>:</td>
+                        <td>{{ $document->surat_masuk_date }}</td>
+                    </tr>
                     <tr>
                         <td>Jumlah File</td>
                         <td>:</td>
@@ -211,6 +227,8 @@
                             @if($da->is_done)
 
                             @else
+
+<!--                            MEMO INTERNAL -->
                             @if($document->type=="memo")
                             @if($da->user->id == Auth::user()->id)
                             @if($da->action_need=="Tanda Tangan")
@@ -402,13 +420,39 @@
                                                 <x-adminlte-select2 name="dep_ids[]" class="form-control"
                                                                     data-placeholder="Dikirim ke...">
                                                     <option value="">Dikirim ke...</option>
+
+                                                    @if(Auth::user()->jobPosition->department_id == 1)
                                                     @foreach ($department as $dep)
-                                                    @if( $dep->id == Auth::user()->jobPosition->department->id)
+
+                                                    @if( $dep->id == Auth::user()->jobPosition->department_id)
                                                     @continue
                                                     @endif
                                                     <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                                                    @endforeach
+                                                    @else
+
+                                                    @foreach ($userDept as $udept)
+                                                    @if($udept->id == Auth::user()->id)
+                                                    @continue
+                                                    @endif
+                                                    <option value="usr:{{ $udept->id }}:{{ $udept->department_id }}">{{
+                                                        $udept->nip }} - {{ $udept->name }}
+                                                    </option>
 
                                                     @endforeach
+                                                    @endif
+                                                    <?php
+                                                    // get secretaris
+                                                    $jp = \App\Models\JobPosition::where("department_id", "=", "7")->first();
+                                                    $jpuser = $jp->user
+                                                    ?>
+
+                                                    @if(Auth::user()->jobPosition->department_id == 2)
+                                                    <option value="usr:{{ $jpuser->id }}:{{ $jpuser->department_id }}">
+                                                        {{ $jpuser->nip }} - {{ $jpuser->name }}
+                                                    </option>
+                                                    @endif
+
                                                 </x-adminlte-select2>
                                             </div>
                                             <div class="col-2">
@@ -429,13 +473,40 @@
                                                     <x-adminlte-select2 name="dep_ids[]" class="form-control"
                                                                         data-placeholder="Dikirim ke...">
                                                         <option value="">Dikirim ke...</option>
+                                                        @if(Auth::user()->jobPosition->department_id == 1)
                                                         @foreach ($department as $dep)
-                                                        @if( $dep->id == Auth::user()->jobPosition->department->id)
+
+                                                        @if( $dep->id == Auth::user()->jobPosition->department_id)
                                                         @continue
                                                         @endif
                                                         <option value="{{ $dep->id }}">{{ $dep->name }}</option>
+                                                        @endforeach
+                                                        @else
+
+                                                        @foreach ($userDept as $udept)
+                                                        @if($udept->id == Auth::user()->id)
+                                                        @continue
+                                                        @endif
+                                                        <option
+                                                            value="usr:{{ $udept->id }}:{{ $udept->department_id }}">{{
+                                                            $udept->nip }} - {{ $udept->name }}
+                                                        </option>
 
                                                         @endforeach
+                                                        @endif
+
+                                                        <?php
+                                                        // get secretaris
+                                                        $jp = \App\Models\JobPosition::where("department_id", "=", "7")->first();
+                                                        $jpuser = $jp->user
+                                                        ?>
+
+                                                        @if(Auth::user()->jobPosition->department_id == 2)
+                                                        <option
+                                                            value="usr:{{ $jpuser->id }}:{{ $jpuser->department_id }}">
+                                                            {{ $jpuser->nip }} - {{ $jpuser->name }}
+                                                        </option>
+                                                        @endif
                                                     </x-adminlte-select2>
                                                 </div>
                                                 <div class="col-2">
