@@ -25,6 +25,9 @@ use PhpOffice\PhpWord\TemplateProcessor;
 use Storage;
 use Str;
 use URL;
+use Mail;
+use File;
+use PDF;
 
 class DocumentController extends Controller
 {
@@ -875,6 +878,8 @@ class DocumentController extends Controller
 
     public function suratKeluarStore(Request $request)
     {
+
+
         //
 
         $validateRequest = [
@@ -921,6 +926,7 @@ class DocumentController extends Controller
             $document->save();
 
             // upload file.
+
             if ($request->has("filenames")) {
                 foreach ($request->file('filenames') as $file) {
                     $name = $file->getFilename() . '.' . $file->extension();
@@ -933,9 +939,11 @@ class DocumentController extends Controller
             }
 
             // add cc
+            $ccs = [];
             if (count($request->email_cc) > 1) {
                 foreach ($request->email_cc as $ccdata) {
                     if ($ccdata == "") continue;
+                    $ccs[] = $ccdata;
                     $ccModel = new Cc();
                     $ccModel->document_id = $document->id;
                     $ccModel->email = $ccdata;
@@ -986,6 +994,37 @@ class DocumentController extends Controller
                 $digSign->departement = "Kepala";
                 $digSign->label = "";
                 $digSign->encrypt()->save();
+
+                // send email
+
+
+                // export file
+                $docAct = DocumentAction::where("document_id", "=", $document->id)->get();
+                $digSigns = DigSign::where("document_id", "=", $document->id)->get();
+
+                PDF::loadHTML(view('document.suratKeluarEmail', [
+                    "document" => $document,
+                    "docAct" => $docAct,
+                    "digSign" => $digSigns,
+                ])->render())->setPaper('a4')->save(storage_path($document->title . ".pdf"));
+
+                $data = [
+                    "email" => $request->surat_keluar_email,
+                    "cc" => $ccs,
+                    "perihal" => $document->title,
+                    "nomor_surat" => $document->number,
+                    "penerima" => $request->surat_keluar_name,
+                ];
+
+                Mail::send('emails.suratKeluar', $data, function ($m) use ($data) {
+                    $m->from('eletcobpjstk@gmail.com', 'e-Letco');
+                    $m->to($data['email'])->subject($data['perihal']);
+                    if (count($data['cc']) > 0) {
+                        $m->cc($data['cc']);
+                    }
+                    $m->attach(storage_path($data['perihal'] . ".pdf"));
+                });
+
             }
 
             $docHistory = new DocumentHistories();
@@ -1130,6 +1169,38 @@ class DocumentController extends Controller
                 $act->save();
 
                 Notif::dispatch($act);
+            } else {
+                // send email
+
+                $ccs = Cc::select("email")->where("document_id", "=", $document->id)->pluck('email')->toArray();
+
+                // export file
+                $docAct = DocumentAction::where("document_id", "=", $document->id)->get();
+                $digSigns = DigSign::where("document_id", "=", $document->id)->get();
+
+                PDF::loadHTML(view('document.suratKeluarEmail', [
+                    "document" => $document,
+                    "docAct" => $docAct,
+                    "digSign" => $digSigns,
+                ])->render())->setPaper('a4')->save(storage_path($document->title . ".pdf"));
+
+                $data = [
+                    "email" => $document->surat_keluar_email,
+                    "cc" => $ccs,
+                    "perihal" => $document->title,
+                    "nomor_surat" => $document->number,
+                    "penerima" => $document->surat_keluar_name,
+                ];
+
+                Mail::send('emails.suratKeluar', $data, function ($m) use ($data) {
+                    $m->from('eletcobpjstk@gmail.com', 'e-Letco');
+                    $m->to($data['email'])->subject($data['perihal']);
+                    if (count($data['cc']) > 0) {
+                        $m->cc($data['cc']);
+                    }
+                    $m->attach(storage_path($data['perihal'] . ".pdf"));
+                });
+
             }
 
             DB::commit();

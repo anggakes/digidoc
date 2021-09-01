@@ -1,0 +1,41 @@
+{
+    "name": "yoelpc4/laravel-sail-preset",
+    "description": "Laravel Sail runtimes & docker-compose.yml preset.",
+    "keywords": [
+        "laravel",
+        "sail",
+        "preset",
+        "docker"
+    ],
+    "homepage": "https://github.com/yoelpc4/laravel-sail-preset",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yoel Peter Chandra",
+            "email": "yoelpc4@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "illuminate/contracts": "8.*",
+        "illuminate/support": "8.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yoelpc4\\LaravelSailPreset\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yoelpc4\\LaravelSailPreset\\SailPresetServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -156,7 +156,6 @@
         <p><span style="font-weight: 400;">Perihal</span><span style="font-weight: 400;"> </span><span
                 style="font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;: <?php echo '{!! $perihal !!}' ?></span><span style="font-weight: 400;"><br/></span>
         </p>
-        <p>&nbsp;</p>
         <p><span style="font-weight: 400;">Dengan hormat,</span></p>
         <p>&nbsp;</p>
 
