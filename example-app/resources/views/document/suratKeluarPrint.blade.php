@@ -156,7 +156,8 @@
 
         ?>
 
-        <?php echo renderBlade($document->content, [
+        <?php
+        echo renderBlade($document->content, [
             "tanda_tangan" => $ttd,
             "nomor_surat" => $document->number,
             "tanggal_surat" => indoDate($document->created_at->format("Y-m-d")),

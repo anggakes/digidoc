@@ -61,6 +61,32 @@
         </a>
     </div>
 
+    <div class="col-sm-4 col-xs-12">
+        <a href='{{ route("document.suratKeluar", ["suratKeluarType" => "Perintah"]) }}' class="info-box">
+
+            <!-- Apply any bg-* class to to the icon to color it -->
+            <span class="info-box-icon bg-purple"><i class="fa fa-envelope-square"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text info-box-title">Buat Surat Perintah</span>
+                <span>Surat keluar yang digunakan sebagai perintah</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+    </div>
+
+    <div class="col-sm-4 col-xs-12">
+        <a href='{{ route("document.suratKeluar", ["suratKeluarType" => "Tugas"]) }}' class="info-box">
+
+            <!-- Apply any bg-* class to to the icon to color it -->
+            <span class="info-box-icon bg-purple"><i class="fa fa-envelope-square"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text info-box-title">Buat Surat Tugas</span>
+                <span>Surat keluar yang digunakan sebagai penugasan</span>
+            </div>
+            <!-- /.info-box-content -->
+        </a>
+    </div>
+
 
     <div class="col-sm-4 col-xs-12">
         <a href='{{ route("document.suratMasuk") }}' class="info-box">

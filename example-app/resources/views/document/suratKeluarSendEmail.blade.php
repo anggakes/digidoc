@@ -120,6 +120,8 @@
                 style="font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;: ' . $document->files()->count() . ' </span></p>';
         }
 
+        $penerima = $document->surat_keluar_name ?? "";
+
         ?>
 
         <?php
@@ -129,7 +131,7 @@
             "tanggal_surat" => indoDate($document->created_at->format("Y-m-d")),
             "jumlah_lampiran" => $jumlahLampiran,
             "perihal" => $document->title,
-            "nama_penerima" => $document->surat_keluar_name,
+            "nama_penerima" => $penerima,
         ])
         ?>
 

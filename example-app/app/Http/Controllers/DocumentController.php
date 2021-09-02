@@ -28,6 +28,8 @@ use URL;
 use Mail;
 use File;
 use PDF;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
+
 
 class DocumentController extends Controller
 {
@@ -836,7 +838,7 @@ class DocumentController extends Controller
                             Notif::dispatch($act);
                         }
 
-                    }else{
+                    } else {
 
                         $dep = Department::find($dep_id);
                         $act = new DocumentAction();
@@ -867,7 +869,7 @@ class DocumentController extends Controller
                         Notif::dispatch($act);
                     }
                 }
-            }else{
+            } else {
                 foreach ($request->dep_ids as $dep_id) {
                     if ($dep_id == "") {
                         continue;
@@ -992,6 +994,9 @@ class DocumentController extends Controller
             $document->surat_keluar_type = $request->surat_keluar_type;
             $document->save();
 
+            // save sequence baru
+            $seq->save();
+
             // upload file.
 
             if ($request->has("filenames")) {
@@ -1064,16 +1069,16 @@ class DocumentController extends Controller
 
                 // send email
 
-
                 // export file
                 $docAct = DocumentAction::where("document_id", "=", $document->id)->get();
                 $digSigns = DigSign::where("document_id", "=", $document->id)->get();
-
-                PDF::loadHTML(view('document.suratKeluarEmail', [
+                $datapdf = [
                     "document" => $document,
                     "docAct" => $docAct,
                     "digSign" => $digSigns,
-                ])->render())->setPaper('a4')->save(storage_path($document->title . ".pdf"));
+                ];
+
+                PDF::loadHTML(view('document.suratKeluarSendEmail', $datapdf)->render())->setPaper('a4')->save(storage_path($document->title . ".pdf"));
 
                 $data = [
                     "email" => $request->surat_keluar_email,
@@ -1101,6 +1106,7 @@ class DocumentController extends Controller
             $docHistory->description = "dokumen di buat oleh " . $me->name;
             $docHistory->save();
 
+
             DB::commit();
             // all good
 
@@ -1112,6 +1118,9 @@ class DocumentController extends Controller
             // something went wrong
             return redirect()->route('document.suratKeluar', ["suratKeluarType" => $request->surat_keluar_type])
                 ->with('error', $e->getMessage());
+        } catch (FatalThrowableError $e) {
+            return redirect()->route('document.suratKeluar', ["suratKeluarType" => $request->surat_keluar_type])
+                ->with('error', "Terdapat error pada isi pesan");
         }
 
     }

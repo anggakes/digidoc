@@ -138,81 +138,41 @@
 
 <div style="display:none">
     <div id="doctemplate">
-        <p style="text-align: center; line-height: 1;" data-mce-style="text-align: center; line-height: 1;"><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;">SURAT KETERANGAN</span></p>
-        <p style="text-align: center; line-height: 1;" data-mce-style="text-align: center; line-height: 1;"><span
-                style="font-weight: 400;"
-                data-mce-style="font-weight: 400;">Nomor : <?php echo '{!! $nomor_surat !!}' ?></span></p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><br></p>
-        <p style="line-height: 2;" data-mce-style="line-height: 2;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Yang bertanda tangan dibawah ini :</span>
+        <p style="text-align: center;" data-mce-style="text-align: center;"><span style="font-weight: 400;"
+                                                                                  data-mce-style="font-weight: 400;">SURAT PERINTAH&nbsp;</span>
         </p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Nama</span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;">: Ady Hendratta</span></p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">NPK</span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;">: 133050177</span></p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Jabatan</span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;">: Kepala Kantor Cabang&nbsp;</span>
+        <p style="text-align: center;" data-mce-style="text-align: center;"><span style="font-weight: 400;"
+                                                                                  data-mce-style="font-weight: 400;">NOMOR : <?php echo '{!! $nomor_surat !!}' ?></span>
         </p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Unit kerja</span><span
+        <p style="text-align: center; line-height: 1;" data-mce-style="text-align: center; line-height: 1;"><br></p>
+        <p><span style="font-weight: 400;" data-mce-style="font-weight: 400;">Dasar</span><span
                 style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
+                                                                                           data-mce-style="font-weight: 400;">:</span><span
+                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span></p>
+        <p style="line-height: 1; text-align: left;" data-mce-style="line-height: 1; text-align: left;"><br></p>
+        <p><span style="font-weight: 400;" data-mce-style="font-weight: 400;">MEMERINTAHKAN</span></p>
+        <p style="line-height: 1; text-align: left;" data-mce-style="line-height: 1; text-align: left;"><br></p>
+        <p><span style="font-weight: 400;" data-mce-style="font-weight: 400;">Kepada</span><span
                 style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;">: Kantor Cabang Tangerang Cikokol</span>
+                                                                                           data-mce-style="font-weight: 400;">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </p>
-        <p style="line-height: 2;" data-mce-style="line-height: 2;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Menerangkan bahwa:</span>
+        <p style="line-height: 1; text-align: left;" data-mce-style="line-height: 1; text-align: left;"><br></p>
+        <p><span style="font-weight: 400;" data-mce-style="font-weight: 400;">Untuk</span><span
+                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
+                                                                                           data-mce-style="font-weight: 400;">:&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Nama</span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;">:&nbsp;</span></p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">NPK</span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;">:&nbsp;</span></p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Jabatan</span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;">:&nbsp;</span></p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Unit Kerja </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;"> </span><span
-                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
-                                                                                           data-mce-style="font-weight: 400;">:&nbsp;</span>
+        <p style="line-height: 1; text-align: left;" data-mce-style="line-height: 1; text-align: left;"><br><br></p>
+        <p><span style="font-weight: 400;" data-mce-style="font-weight: 400;">Jangka Waktu&nbsp; :&nbsp;&nbsp;</span>
         </p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Adalah benar karyawan yang masih aktif BPJS Ketenagakerjaan&nbsp;</span>
+        <p style="line-height: 1; text-align: left;" data-mce-style="line-height: 1; text-align: left;"><br><br></p>
+        <p><span style="font-weight: 400;" data-mce-style="font-weight: 400;">Keterangan</span><span
+                style="font-weight: 400;" data-mce-style="font-weight: 400;"> </span><span style="font-weight: 400;"
+                                                                                           data-mce-style="font-weight: 400;">:&nbsp;&nbsp;</span>
         </p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><br></p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;">Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.</span>
+        <p style="line-height: 1; text-align: left;" data-mce-style="line-height: 1; text-align: left;"><br><br></p>
+        <p><span style="font-weight: 400;" data-mce-style="font-weight: 400;">Demikian Surat Perintah ini dikeluarkan untuk dilaksanakan dengan penuh tanggung jawab.</span>
         </p>
-        <p style="line-height: 1;" data-mce-style="line-height: 1;"><span style="font-weight: 400;"
-                                                                          data-mce-style="font-weight: 400;"></span></p>
+        <p style="line-height: 1; text-align: left;" data-mce-style="line-height: 1; text-align: left;"><br></p>
         <p>Dikeluarkan di Tangerang <br>
 
             Pada tanggal <?php echo '{!! $tanggal_surat !!}' ?></p>
@@ -240,7 +200,7 @@
     $(document).ready(function () {
         tinymce.init({
             selector: '#message',
-            plugins: 'image lists paste',
+            plugins: 'image lists paste pagebreak',
             width: "90%",
             height: "800",
             fix_list_elements: true,
